@@ -21,14 +21,14 @@ Common labels
 {{- define "labels.common" -}}
 {{ include "labels.selector" . }}
 app-operator.giantswarm.io/version: 5.5.1
-app.kubernetes.io/name: {{ .Values.name }}
-app.kubernetes.io/instance: {{ .Release.Name | quote }}
 app.giantswarm.io/branch: {{ .Chart.Annotations.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}
 app.giantswarm.io/commit: {{ .Chart.Annotations.commit | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 helm.sh/chart: {{ include "chart" . | quote }}
 giantswarm.io/service-type: {{ .Values.serviceType }}
+giantswarm.io/cluster: {{ .Values.clusterName | quote }}
+giantswarm.io/organization: {{ .Values.organization | quote }}
 {{- end -}}
 
 {{/*

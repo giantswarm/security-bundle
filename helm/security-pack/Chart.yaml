@@ -1,5 +1,4 @@
 apiVersion: v2
-appVersion: 0.0.1
 name: security-pack
 description: A Helm chart for Giant Swarm's collection of open-source security tools.
 engine: gotpl
