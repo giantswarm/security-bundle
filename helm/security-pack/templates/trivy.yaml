@@ -5,7 +5,7 @@ metadata:
     chart-operator.giantswarm.io/force-helm-upgrade: "true"
   labels:
     {{- include "labels.common" . | nindent 4 }}
-  name: {{ .Values.cluster.name }}-security-pack
+  name: {{ .Values.clusterName }}-security-pack
   namespace: {{ .Release.Namespace }}
 spec:
   catalog: giantswarm
