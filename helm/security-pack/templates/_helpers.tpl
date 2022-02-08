@@ -20,7 +20,7 @@ Common labels
 */}}
 {{- define "labels.common" -}}
 {{ include "labels.selector" . }}
-app-operator.giantswarm.io/version: 5.5.1
+app-operator.giantswarm.io/version: 0.0.0
 app.giantswarm.io/branch: {{ .Chart.Annotations.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}
 app.giantswarm.io/commit: {{ .Chart.Annotations.commit | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
