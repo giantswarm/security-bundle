@@ -6,7 +6,7 @@ Giant Swarm offers a security-pack App which can be installed in workload cluste
 
 ## Installing
 
-This "App of Apps" method is rather new and our UX tooling is still catching up, so the methods described below may or may not work for you depending on your cluster version.
+This "App of Apps" method is rather new and our UX tooling is still catching up, so our normal App installation methods may or may not work for you depending on your management cluster and component versions.
 
 The currently recommended way to install the security pack is:
 

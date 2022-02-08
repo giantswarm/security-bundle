@@ -14,39 +14,3 @@ spec:
   name: trivy-app
   namespace: security-pack
   version: 0.1.0
-
-# apiVersion: application.giantswarm.io/v1alpha1
-# kind: App
-# metadata:
-#   creationTimestamp: "2022-02-07T14:08:29Z"
-#   finalizers:
-#   - operatorkit.giantswarm.io/app-operator-app
-#   generation: 1
-#   labels:
-#     app-operator.giantswarm.io/version: 5.4.0
-#     app.kubernetes.io/name: trivy-app
-#   name: trivy-app
-#   namespace: it66d
-# spec:
-#   catalog: giantswarm
-#   config:
-#     configMap:
-#       name: it66d-cluster-values
-#       namespace: it66d
-#   kubeConfig:
-#     context:
-#       name: it66d
-#     inCluster: false
-#     secret:
-#       name: it66d-kubeconfig
-#       namespace: it66d
-#   name: trivy-app
-#   namespace: security
-#   userConfig: {}
-#   version: 0.1.0
-# status:
-#   appVersion: 0.0.1
-#   release:
-#     lastDeployed: "2022-02-07T14:08:29Z"
-#     status: deployed
-#   version: 0.1.0
