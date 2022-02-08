@@ -2,63 +2,100 @@
 
 # security-pack chart
 
-Giant Swarm offers a security-pack App which can be installed in workload clusters.
-Here we define the security-pack chart with its templates and default configuration.
-
-**What is this app?**
-**Why did we add it?**
-**Who can use it?**
+Giant Swarm offers a security-pack App which can be installed in workload clusters. This App is a convenient wrapper containing multiple other Apps composing our security pack.
 
 ## Installing
 
-There are 3 ways to install this app onto a workload cluster.
+This "App of Apps" method is rather new and our UX tooling is still catching up, so our normal App installation methods may or may not work for you depending on your management cluster and component versions.
+
+The currently recommended way to install the security pack is:
+
+1. Create `user-values.yaml` containing the name of the cluster where the Apps should be installed, and the organization where that cluster is running:
+
+    ```yaml
+    clusterName: demo1
+    organization: demo-team
+    ```
+
+2. Use `kubectl gs` to template the "outer" App CR:
+
+    ```shell
+    $ kgs template app 
+    --catalog giantswarm 
+    --name security-pack 
+    --in-cluster 
+    --namespace demo1 
+    --version 0.0.1
+    --user-configmap user-values.yaml > outerApp.yaml
+    ```
+
+3. Apply the generated App CR and ConfigMap to the management cluster:
+
+    ```shell
+    $ kubectl --context=<your-mc> apply -f outerApp.yaml
+    configmap/security-pack-userconfig created
+    app.application.giantswarm.io/security-pack created
+    ```
+
+Support for these methods are not yet officially supported, but may still work:
 
 1. [Using our web interface](https://docs.giantswarm.io/ui-api/web/app-platform/#installing-an-app)
 2. [Using our API](https://docs.giantswarm.io/api/#operation/createClusterAppV5)
-3. Directly creating the [App custom resource](https://docs.giantswarm.io/ui-api/management-api/crd/apps.application.giantswarm.io/) on the management cluster.
 
 ## Configuring
 
 ### values.yaml
-**This is an example of a values file you could upload using our web interface.**
-```
-# values.yaml
 
+**This is an example of a values file you could upload using our web interface.**
+
+```yaml
+# values.yaml
+clusterName: demo1
+organization: demo-team
 ```
 
 ### Sample App CR and ConfigMap for the management cluster
+
 If you have access to the Kubernetes API on the management cluster, you could create
 the App CR and ConfigMap directly.
 
 Here is an example that would install the app to
 workload cluster `abc12`:
 
-```
+```yaml
 # appCR.yaml
-
+apiVersion: application.giantswarm.io/v1alpha1
+kind: App
+metadata:
+  labels:
+    app-operator.giantswarm.io/version: 0.0.0
+  name: security-pack
+  namespace: demo1
+spec:
+  catalog: giantswarm
+  kubeConfig:
+    inCluster: true
+  name: security-pack
+  namespace: demo1
+  userConfig:
+    configMap:
+      name: security-pack-userconfig
+      namespace: demo1
+  version: 0.0.1
 ```
 
-```
+```yaml
 # user-values-configmap.yaml
-
-
+apiVersion: v1
+data:
+  values: |
+    clusterName: demo1
+    organization: giantswarm
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: security-pack-userconfig
+  namespace: demo1
 ```
 
 See our [full reference page on how to configure applications](https://docs.giantswarm.io/app-platform/app-configuration/) for more details.
-
-## Compatibility
-
-This app has been tested to work with the following workload cluster release versions:
-
-*
-
-## Limitations
-
-Some apps have restrictions on how they can be deployed.
-Not following these limitations will most likely result in a broken deployment.
-
-*
-
-## Credit
-
-* {APP HELM REPOSITORY}

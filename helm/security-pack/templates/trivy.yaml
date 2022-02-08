@@ -1,0 +1,16 @@
+apiVersion: application.giantswarm.io/v1alpha1
+kind: App
+metadata:
+  annotations:
+    chart-operator.giantswarm.io/force-helm-upgrade: "true"
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+  name: {{ .Values.clusterName }}-trivy
+  namespace: {{ .Release.Namespace }}
+spec:
+  catalog: giantswarm
+  {{- include "kubeconfig" . | nindent 2 }}
+  {{- include "config" . | nindent 2 }}
+  name: trivy-app
+  namespace: security-pack
+  version: 0.1.0
