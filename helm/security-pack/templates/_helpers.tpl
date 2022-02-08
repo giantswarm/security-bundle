@@ -43,7 +43,7 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 kubeConfig:
   context:
     name: {{ .Values.clusterName }}-admin@{{ .Values.clusterName }}
-  inCluster: true
+  inCluster: false
   secret:
     name: {{ .Values.clusterName }}-kubeconfig
     namespace: {{ .Release.Namespace }}
