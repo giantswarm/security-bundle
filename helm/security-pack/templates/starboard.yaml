@@ -10,7 +10,23 @@ metadata:
 spec:
   catalog: giantswarm
   {{- include "kubeconfig" . | nindent 2 }}
-  {{- include "config" . | nindent 2 }}
+  # {{- include "config" . | nindent 2 }}
+  config:
+    configMap:
+      name: {{ .Values.clusterName }}-starboard-userconfig
+      namespace: {{ .Release.Namespace }}
   name: starboard-app
   namespace: security-pack
   version: 0.5.2
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  creationTimestamp: null
+  name: {{ .Values.clusterName }}-starboard-userconfig
+  namespace: {{ .Release.Namespace }}
+data:
+  values: |
+    starboard-app:
+      trivy:
+        serverURL: "http://{{ .Values.clusterName }}-trivy:4954"
