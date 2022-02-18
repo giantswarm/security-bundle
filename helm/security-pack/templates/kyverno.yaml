@@ -1,3 +1,4 @@
+{{- if .Values.kyverno.enabled }}
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
 metadata:
@@ -14,3 +15,4 @@ spec:
   name: kyverno
   namespace: security-pack
   version: 0.8.0
+{{ end }}

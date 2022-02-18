@@ -1,3 +1,4 @@
+{{- if .Values.starboard.enabled }}
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
 metadata:
@@ -30,3 +31,4 @@ data:
     starboard-app:
       trivy:
         serverURL: "http://{{ .Values.clusterName }}-trivy:4954"
+{{ end }}

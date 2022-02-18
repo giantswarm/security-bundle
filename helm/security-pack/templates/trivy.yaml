@@ -1,3 +1,4 @@
+{{- if .Values.trivy.enabled }}
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
 metadata:
@@ -14,3 +15,4 @@ spec:
   name: trivy-app
   namespace: security-pack
   version: 0.1.0
+{{ end }}

@@ -4,6 +4,8 @@
 
 Giant Swarm offers a security-pack App which can be installed in workload clusters. This App is a convenient wrapper containing multiple other Apps composing our security pack.
 
+**Note:** There is a [known issue](https://github.com/kyverno/kyverno/issues/3111) when uninstalling `kyverno` which is pending upstream release. If installing `kyverno` through this App, you may need to manually Kyverno's `validatingwebhookconfigurations` and `mutatingwebhookconfigurations` if you subsequently uninstall the App prior to the 1.7.0 release.
+
 ## Installing
 
 This "App of Apps" method is rather new and our UX tooling is still catching up, so our normal App installation methods may or may not work for you depending on your management cluster and component versions.

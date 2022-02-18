@@ -1,2 +1,14 @@
 clusterName: ""
 organization: ""
+
+kyverno:
+  enabled: false
+
+trivy:
+  enabled: true
+
+starboard:
+  enabled: true
+
+starboard-exporter:
+  enabled: true
