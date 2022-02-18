@@ -1,4 +1,4 @@
-{{- if .Values.trivy.enabled }}
+{{- if .Values.starboardExporter.enabled }}
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
 metadata:
@@ -6,13 +6,13 @@ metadata:
     chart-operator.giantswarm.io/force-helm-upgrade: "true"
   labels:
     {{- include "labels.common" . | nindent 4 }}
-  name: {{ .Values.clusterName }}-trivy
+  name: {{ .Values.clusterName }}-starboard-exporter
   namespace: {{ .Release.Namespace }}
 spec:
   catalog: giantswarm
   {{- include "kubeconfig" . | nindent 2 }}
   {{- include "config" . | nindent 2 }}
-  name: trivy-app
+  name: starboard-exporter
   namespace: security-pack
-  version: 0.1.0
+  version: 0.3.0
 {{ end }}
