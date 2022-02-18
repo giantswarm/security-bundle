@@ -1,6 +1,9 @@
 clusterName: ""
 organization: ""
 
+falco:
+  enabled: false
+
 kyverno:
   enabled: false
 

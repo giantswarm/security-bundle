@@ -1,0 +1,18 @@
+{{- if .Values.falco.enabled }}
+apiVersion: application.giantswarm.io/v1alpha1
+kind: App
+metadata:
+  annotations:
+    chart-operator.giantswarm.io/force-helm-upgrade: "true"
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+  name: {{ .Values.clusterName }}-falco
+  namespace: {{ .Release.Namespace }}
+spec:
+  catalog: giantswarm
+  {{- include "kubeconfig" . | nindent 2 }}
+  {{- include "config" . | nindent 2 }}
+  name: falco-app
+  namespace: security-pack
+  version: 0.2.0
+{{ end }}
