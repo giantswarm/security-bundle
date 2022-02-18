@@ -1,0 +1,18 @@
+{{- if .Values.starboard-exporter.enabled }}
+apiVersion: application.giantswarm.io/v1alpha1
+kind: App
+metadata:
+  annotations:
+    chart-operator.giantswarm.io/force-helm-upgrade: "true"
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+  name: {{ .Values.clusterName }}-starboard-exporter
+  namespace: {{ .Release.Namespace }}
+spec:
+  catalog: giantswarm
+  {{- include "kubeconfig" . | nindent 2 }}
+  {{- include "config" . | nindent 2 }}
+  name: starboard-exporter
+  namespace: security-pack
+  version: 0.3.0
+{{ end }}
