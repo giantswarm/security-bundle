@@ -1,4 +1,4 @@
-{{- if .Values.starboard-exporter.enabled }}
+{{- if .Values.starboardExporter.enabled }}
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
 metadata:

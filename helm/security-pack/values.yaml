@@ -10,5 +10,5 @@ trivy:
 starboard:
   enabled: true
 
-starboard-exporter:
+starboardExporter:
   enabled: true
