@@ -17,7 +17,7 @@ spec:
       name: {{ .Values.clusterName }}-starboard-userconfig
       namespace: {{ .Release.Namespace }}
   name: starboard-app
-  namespace: security-pack
+  namespace: {{ default "security-pack" .Values.installNamespace }}
   version: 0.5.2
 ---
 kind: ConfigMap
