@@ -6,7 +6,7 @@ kind: App
 metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
-  name: {{ include "app.name" (dict "app" .appName "cluster" $.Values.clusterName "ns" $.Release.Namespace ) }}
+  name: {{ include "app.name" (dict "app" .appName "cluster" $.Values.clusterName "ns" $.Release.Namespace) }}
   namespace: {{ $.Release.Namespace }}
 spec:
   catalog: {{ .catalog }}
