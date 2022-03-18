@@ -5,7 +5,7 @@ apps:
   falco:
     appName: falco
     chartName: falco
-    catalog: giantswarm 
+    catalog: giantswarm
     enabled: false
     namespace: security-pack
     version: 0.2.0
@@ -13,7 +13,7 @@ apps:
   kyverno:
     appName: kyverno
     chartName: kyverno
-    catalog: giantswarm 
+    catalog: giantswarm
     enabled: false
     namespace: security-pack
     version: 0.8.0
@@ -21,7 +21,7 @@ apps:
   starboard:
     appName: starboard
     chartName: starboard-app
-    catalog: giantswarm 
+    catalog: giantswarm
     enabled: true
     namespace: security-pack
     version: 0.5.2
@@ -29,7 +29,7 @@ apps:
   starboardExporter:
     appName: starboard-exporter
     chartName: starboard-exporter
-    catalog: giantswarm 
+    catalog: giantswarm
     enabled: true
     namespace: security-pack
     version: 0.3.0
@@ -37,7 +37,7 @@ apps:
   trivy:
     appName: trivy
     chartName: trivy-app
-    catalog: giantswarm 
+    catalog: giantswarm
     enabled: true
     namespace: security-pack
     version: 0.1.0
