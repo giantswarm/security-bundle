@@ -1,0 +1,28 @@
+{{- range $key, $value := .Values.apps }}
+{{- if .enabled }}
+---
+apiVersion: application.giantswarm.io/v1alpha1
+kind: App
+metadata:
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  name: {{ include "app.name" (dict "app" .appName "cluster" $.Values.clusterName "ns" $.Release.Namespace) }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  catalog: {{ .catalog }}
+  config:
+    configMap:
+      name: {{ $.Values.clusterName }}-cluster-values
+      namespace: {{ $.Release.Namespace }}
+  kubeConfig:
+    context:
+      name: {{ $.Values.clusterName }}-admin@{{ $.Values.clusterName }}
+    inCluster: false
+    secret:
+      name: {{ $.Values.clusterName }}-kubeconfig
+      namespace: {{ $.Release.Namespace}}
+  name: {{ .chartName }}
+  namespace: {{ .namespace }}
+  version: {{ .version }}
+{{- end }}
+{{- end -}}

@@ -22,12 +22,12 @@ The currently recommended way to install the security pack is:
 2. Use `kubectl gs` to template the "outer" App CR:
 
     ```shell
-    $ kgs template app 
-    --catalog giantswarm 
-    --name security-pack 
-    --in-cluster 
-    --namespace demo1 
-    --version 0.0.1
+    $ kubectl gs template app \
+    --catalog giantswarm \
+    --name security-pack \
+    --in-cluster \
+    --namespace demo1 \ 
+    --version 0.0.1 \
     --user-configmap user-values.yaml > outerApp.yaml
     ```
 

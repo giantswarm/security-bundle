@@ -1,17 +1,43 @@
 clusterName: ""
 organization: ""
 
-falco:
-  enabled: false
+apps:
+  falco:
+    appName: falco
+    chartName: falco
+    catalog: giantswarm
+    enabled: false
+    namespace: security-pack
+    version: 0.2.0
 
-kyverno:
-  enabled: false
+  kyverno:
+    appName: kyverno
+    chartName: kyverno
+    catalog: giantswarm
+    enabled: false
+    namespace: security-pack
+    version: 0.8.0
 
-trivy:
-  enabled: true
+  starboard:
+    appName: starboard
+    chartName: starboard-app
+    catalog: giantswarm
+    enabled: true
+    namespace: security-pack
+    version: 0.5.2
 
-starboard:
-  enabled: true
+  starboardExporter:
+    appName: starboard-exporter
+    chartName: starboard-exporter
+    catalog: giantswarm
+    enabled: true
+    namespace: security-pack
+    version: 0.3.0
 
-starboardExporter:
-  enabled: true
+  trivy:
+    appName: trivy
+    chartName: trivy-app
+    catalog: giantswarm
+    enabled: true
+    namespace: security-pack
+    version: 0.1.0
