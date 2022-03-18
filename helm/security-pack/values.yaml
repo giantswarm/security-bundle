@@ -1,13 +1,16 @@
 clusterName: ""
 organization: ""
 
-userConfig:
-  trivy:
-    configMap:
-      values: |
-        trivy:
-          networkPolicy:
-            enabled: true
+# User values can be provided via a config map or secret for each individual app
+# using the structure shown below.
+
+# userConfig:
+#   trivy:
+#     configMap:
+#       values: |
+#         trivy:
+#           networkPolicy:
+#             enabled: true
 
 apps:
   falco:
