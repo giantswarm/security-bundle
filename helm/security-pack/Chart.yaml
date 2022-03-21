@@ -7,5 +7,5 @@ sources:
 - https://github.com/giantswarm/security-pack
 version: 0.1.0
 annotations:
+  application.giantswarm.io/in-cluster-app: "true"
   application.giantswarm.io/team: "security"
-  config.giantswarm.io/version: 1.x.x

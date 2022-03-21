@@ -30,10 +30,9 @@ When apps are created in the org namespace add a cluster prefix.
 Common labels
 */}}
 {{- define "labels.common" -}}
-app-operator.giantswarm.io/version: 0.0.0
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-helm.sh/chart: {{ include "chart" . | quote }}
 giantswarm.io/managed-by: {{ .Release.Name | quote }}
 giantswarm.io/cluster: {{ .Values.clusterName | quote }}
 giantswarm.io/organization: {{ .Values.organization | quote }}
+helm.sh/chart: {{ include "chart" . | quote }}
 {{- end -}}

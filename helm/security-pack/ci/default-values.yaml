@@ -1,0 +1,7 @@
+userConfig:
+  trivy:
+    configMap:
+      values: |
+        trivy:
+          networkPolicy:
+            enabled: true

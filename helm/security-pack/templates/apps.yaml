@@ -1,4 +1,5 @@
 {{- range $key, $value := .Values.apps }}
+{{- $appName := include "app.name" (dict "app" .appName "cluster" $.Values.clusterName "ns" $.Release.Namespace) }}
 {{- if .enabled }}
 ---
 apiVersion: application.giantswarm.io/v1alpha1
@@ -6,7 +7,7 @@ kind: App
 metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
-  name: {{ include "app.name" (dict "app" .appName "cluster" $.Values.clusterName "ns" $.Release.Namespace) }}
+  name: {{ $appName }}
   namespace: {{ $.Release.Namespace }}
 spec:
   catalog: {{ .catalog }}
@@ -24,5 +25,46 @@ spec:
   name: {{ .chartName }}
   namespace: {{ .namespace }}
   version: {{ .version }}
+  {{- with (get $.Values.userConfig $key) }}
+  {{- if or .configMap .secret }}
+  userConfig:
+  {{- if .configMap }}
+    configMap:
+      name: {{ $appName }}-user-values
+      namespace: {{ $.Release.Namespace }}
+  {{- end }}
+  {{- if .secret }}
+    secret:
+      name: {{ $appName }}-user-secrets
+      namespace: {{ $.Release.Namespace }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+{{- with (get $.Values.userConfig $key) }}
+{{- if .configMap }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  name: {{ $appName }}-user-values
+  namespace: {{ $.Release.Namespace }}
+data:
+  {{- (tpl (.configMap | toYaml | toString) $) | nindent 2 }}
+{{- end }}
+{{- if .secret }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  name: {{ $appName }}-user-secrets
+  namespace: {{ $.Release.Namespace }}
+stringData:
+  {{- (tpl (.secret | toYaml | toString) $) | nindent 2 }}
+{{- end }}
 {{- end }}
 {{- end -}}
