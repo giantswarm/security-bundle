@@ -25,6 +25,7 @@ spec:
   name: {{ .chartName }}
   namespace: {{ .namespace }}
   version: {{ .version }}
+  {{- if $.Values.userConfig }}
   {{- with (get $.Values.userConfig $key) }}
   {{- if or .configMap .secret }}
   userConfig:
@@ -40,7 +41,9 @@ spec:
   {{- end }}
   {{- end }}
   {{- end }}
+  {{- end }}
 {{- end }}
+{{- if $.Values.userConfig }}
 {{- with (get $.Values.userConfig $key) }}
 {{- if .configMap }}
 ---
@@ -65,6 +68,7 @@ metadata:
   namespace: {{ $.Release.Namespace }}
 stringData:
   {{- (tpl (.secret | toYaml | toString) $) | nindent 2 }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end -}}
