@@ -19,7 +19,7 @@ apps:
     catalog: giantswarm
     enabled: false
     namespace: security-pack
-    version: 0.2.0
+    version: 0.3.1
 
   kyverno:
     appName: kyverno
@@ -27,7 +27,7 @@ apps:
     catalog: giantswarm
     enabled: false
     namespace: security-pack
-    version: 0.8.0
+    version: 0.9.1
 
   starboard:
     appName: starboard
@@ -35,7 +35,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.5.2
+    version: 0.6.0
 
   starboardExporter:
     appName: starboard-exporter
@@ -43,7 +43,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.3.0
+    version: 0.3.1
 
   trivy:
     appName: trivy
@@ -51,4 +51,4 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.1.0
+    version: 0.2.0
