@@ -15,7 +15,7 @@ organization: ""
 apps:
   falco:
     appName: falco
-    chartName: falco
+    chartName: falco-app
     catalog: giantswarm
     enabled: true
     namespace: security-pack
