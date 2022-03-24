@@ -7,4 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/giantswarm/security-pack/tree/master
+## [0.0.1] - 2022-03-24
+
+[Unreleased]: https://github.com/giantswarm/security-pack/compare/v0.0.1...HEAD
+[0.0.1]: https://github.com/giantswarm/security-pack/releases/tag/v0.0.1
