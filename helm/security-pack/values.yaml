@@ -25,7 +25,7 @@ apps:
     appName: kyverno
     chartName: kyverno
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-pack
     version: 0.9.1
 
