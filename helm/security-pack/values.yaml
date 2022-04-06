@@ -25,9 +25,19 @@ apps:
     appName: kyverno
     chartName: kyverno
     catalog: giantswarm
-    enabled: false
+    enabled: true
     namespace: security-pack
-    version: 0.9.1
+    version: 0.10.0
+
+  # Kyverno policies for Kubernetes Pod Security Standards (PSS)
+  # From: https://github.com/giantswarm/kyverno-policies/
+  kyverno-policies:
+    appName: kyverno-policies
+    chartName: kyverno-policies
+    catalog: giantswarm
+    enabled: true
+    namespace: security-pack
+    version: 0.17.0
 
   starboard:
     appName: starboard
