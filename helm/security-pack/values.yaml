@@ -29,7 +29,7 @@ apps:
     namespace: security-pack
     version: 0.10.0
 
-  # Kyverno policies for Kubernetes Pod Security Standards (PSS)
+  # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
   kyverno-policies:
     appName: kyverno-policies
