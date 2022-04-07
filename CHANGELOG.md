@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Enable `kyverno` installation by default.
 - Update to Kyverno (app) version 0.10.0 containing upstream version 1.6.2.
-- Add `kyverno-policies` to the security pack for enforcing Kubernetes Pod Security Standards (PSS).
+- Add `kyverno-policies` 0.17.1 to the security pack for enforcing Kubernetes Pod Security Standards (PSS).
 
 ### Changed
 
