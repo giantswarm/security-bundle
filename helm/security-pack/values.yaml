@@ -5,6 +5,11 @@ organization: ""
 # using the structure shown below.
 
 # userConfig:
+#   kyverno-policies:
+#     configMap:
+#       values: |
+#         kyverno-policies:
+#           podSecurityStandard: restricted
 #   trivy:
 #     configMap:
 #       values: |
