@@ -1,10 +1,23 @@
 [![CircleCI](https://circleci.com/gh/giantswarm/security-pack.svg?style=shield)](https://circleci.com/gh/giantswarm/security-pack)
 
-# security-pack chart
+# Giant Swarm Security Pack
 
-Giant Swarm offers a security-pack App which can be installed in workload clusters. This App is a convenient wrapper containing multiple other Apps composing our security pack.
+Giant Swarm offers a [managed security pack][security-pack] which provides an unintrusive baseline for security observability and enforcement in Kubernetes clusters. This App is a convenient wrapper containing multiple other Apps which make up the security pack.
 
-**Note:** There is a [known issue](https://github.com/kyverno/kyverno/issues/3111) when uninstalling `kyverno` which is pending upstream release. If installing `kyverno` through this App, you may need to manually Kyverno's `validatingwebhookconfigurations` and `mutatingwebhookconfigurations` if you subsequently uninstall the App prior to the 1.7.0 release.
+By default, installing the security pack in a cluster includes:
+
+- Falco, from our [`falco-app`][falco-app]
+- Kyverno, from our [`kyverno-app`][kyverno-app]
+  - our [`kyverno-policies`][kyverno-policies] app for Kubernetes Pod Security Standards (PSS)
+- Starboard, from our [`starboard-app`][starboard-app]
+  - our [`starboard-exporter`][starboard-exporter] for exposing metrics
+- Trivy, from our [`trivy-app`][trivy-app]
+
+Apps can be selectively enabled or disabled using the `enabled` setting for that app in the `security-pack` Helm values.
+
+More information and configuration options can be found in each app repository.
+
+**Note:** There is a known issue when uninstalling Kyverno where some resources may not be removed properly. The cause is still under investigation, but a [recent update](https://github.com/kyverno/kyverno/issues/3111) has improved the situation so that Kyverno's webhooks are properly removed, meaning the remnants are unnecessary but should otherwise have no negative effect on the cluster. If installing Kyverno through this App, you may need to manually remove some lingering Kyverno resources if you subsequently choose to remove Kyverno.
 
 ## Installing
 
@@ -101,3 +114,11 @@ metadata:
 ```
 
 See our [full reference page on how to configure applications](https://docs.giantswarm.io/app-platform/app-configuration/) for more details.
+
+[falco-app]: https://github.com/giantswarm/falco-app
+[kyverno-app]: https://github.com/giantswarm/kyverno-app
+[kyverno-policies]: https://github.com/giantswarm/kyverno-policies/
+[security-pack]: https://docs.giantswarm.io/app-platform/apps/security/
+[starboard-app]: https://github.com/giantswarm/starboard-app
+[starboard-exporter]: https://github.com/giantswarm/starboard-exporter/
+[trivy-app]: https://github.com/giantswarm/trivy-app/
