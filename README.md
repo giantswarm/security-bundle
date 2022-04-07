@@ -8,9 +8,9 @@ By default, installing the security pack in a cluster includes:
 
 - Falco, from our [`falco-app`][falco-app]
 - Kyverno, from our [`kyverno-app`][kyverno-app]
-  + our [`kyverno-policies`][kyverno-policies] app for Kubernetes Pod Security Standards (PSS)
+  - our [`kyverno-policies`][kyverno-policies] app for Kubernetes Pod Security Standards (PSS)
 - Starboard, from our [`starboard-app`][starboard-app]
-  + our [`starboard-exporter`][starboard-exporter] for exposing metrics
+  - our [`starboard-exporter`][starboard-exporter] for exposing metrics
 - Trivy, from our [`trivy-app`][trivy-app]
 
 Apps can be selectively enabled or disabled using the `enabled` setting for that app in the `security-pack` Helm values.
