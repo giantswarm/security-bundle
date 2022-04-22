@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Update to Starboard (app) version 0.7.1 containing upstream version 0.15.3. This release introduces support for `ClusterComplianceReport` generation and includes a benchmark for NSA + CISA Kubernetes Hardening Guide.
+- Update to Starboard (app) version 0.7.1 containing upstream version 0.15.3. This release introduces support for `ClusterComplianceReport` generation and includes a benchmark for the NSA + CISA Kubernetes Hardening Guide.
 - Update to `starboard-exporter` version 0.4.0, adding support for exporting Starboard `ConfigAuditReport` resources.
 - Update to Trivy (app) version 0.3.0 containing upstream version 0.25.0.
 
