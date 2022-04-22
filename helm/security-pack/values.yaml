@@ -1,7 +1,7 @@
 clusterName: ""
 organization: ""
 
-# User values can be provided via a config map or secret for each individual app
+# User values can be provided via a ConfigMap or Secret for each individual app
 # using the structure shown below.
 
 # userConfig:
