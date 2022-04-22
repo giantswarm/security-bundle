@@ -50,7 +50,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.6.0
+    version: 0.7.1
 
   starboardExporter:
     appName: starboard-exporter
@@ -58,7 +58,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.3.1
+    version: 0.4.0
 
   trivy:
     appName: trivy
@@ -66,4 +66,4 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.2.0
+    version: 0.3.0
