@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2022-04-25
+
 ### Changed
 
 - Update to Starboard (app) version 0.7.1 containing upstream version 0.15.3. This release introduces support for `ClusterComplianceReport` generation and includes a benchmark for the NSA + CISA Kubernetes Hardening Guide.
@@ -29,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-pack/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/giantswarm/security-pack/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/giantswarm/security-pack/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/giantswarm/security-pack/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/giantswarm/security-pack/releases/tag/v0.0.1
