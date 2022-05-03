@@ -26,6 +26,14 @@ apps:
     namespace: security-pack
     version: 0.3.2
 
+  jiralert:
+    appName: jiralert
+    chartName: jiralert
+    catalog: giantswarm
+    enabled: false
+    namespace: security-pack
+    version: 0.0.1
+
   kyverno:
     appName: kyverno
     chartName: kyverno
