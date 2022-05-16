@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add `jiralert-app` 0.0.1 to the security pack for creating Jira tickets.
+- Add `jiralert-app` 0.0.2 to the security pack for creating Jira tickets.
 
 ### Changed
 
