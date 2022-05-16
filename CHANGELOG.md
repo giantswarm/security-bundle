@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `jiralert-app` 0.0.2 to the security pack for creating Jira tickets.
+
+### Changed
+
+- Update to `starboard-exporter` version 0.4.1, adding spread re-queueing of reports by +/- 10% by default to help smooth resource utilization.
+
 ## [0.2.0] - 2022-04-25
 
 ### Changed

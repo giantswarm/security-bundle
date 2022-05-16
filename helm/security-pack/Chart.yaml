@@ -8,4 +8,4 @@ sources:
 version: 0.1.0
 annotations:
   application.giantswarm.io/in-cluster-app: "true"
-  application.giantswarm.io/team: "security"
+  application.giantswarm.io/team: "shield"
