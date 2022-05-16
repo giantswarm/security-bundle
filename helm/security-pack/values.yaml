@@ -29,10 +29,10 @@ apps:
   jiralert:
     appName: jiralert
     chartName: jiralert
-    catalog: giantswarm
+    catalog: playground
     enabled: false
     namespace: security-pack
-    version: 0.0.1
+    version: 0.0.2
 
   kyverno:
     appName: kyverno
