@@ -57,6 +57,8 @@ Support for these methods are not yet officially supported, but may still work:
 1. [Using our web interface](https://docs.giantswarm.io/ui-api/web/app-platform/#installing-an-app)
 2. [Using our API](https://docs.giantswarm.io/api/#operation/createClusterAppV5)
 
+**Impoortant Note:** If you are not using `kubectl gs` plugin, plese remember to ensure the correct label: `app-operator.giantswarm.io/version: 0.0.0` is set on the App CR. Missing this configuration will result with stuck deployment of an app. 
+
 ## Configuring
 
 ### values.yaml
