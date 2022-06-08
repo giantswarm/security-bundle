@@ -87,6 +87,7 @@ kind: App
 metadata:
   labels:
     app-operator.giantswarm.io/version: 0.0.0
+    giantswarm.io/cluster: demo1
   name: security-pack
   namespace: demo1
 spec:
