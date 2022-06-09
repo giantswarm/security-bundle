@@ -39,7 +39,8 @@ The currently recommended way to install the security pack is:
     --catalog giantswarm \
     --name security-pack \
     --in-cluster \
-    --namespace demo1 \ 
+    --cluster demo1 \
+    --namespace demo1 \
     --version 0.0.1 \
     --user-configmap user-values.yaml > outerApp.yaml
     ```
@@ -57,7 +58,7 @@ Support for these methods are not yet officially supported, but may still work:
 1. [Using our web interface](https://docs.giantswarm.io/ui-api/web/app-platform/#installing-an-app)
 2. [Using our API](https://docs.giantswarm.io/api/#operation/createClusterAppV5)
 
-**Impoortant Note:** If you are not using `kubectl gs` plugin, plese remember to ensure the correct label: `app-operator.giantswarm.io/version: 0.0.0` is set on the App CR. Missing this configuration will result with stuck deployment of an app. 
+**Impoortant Note:** If you are not using `kubectl gs` plugin, plese remember to ensure the correct label: `app-operator.giantswarm.io/version: 0.0.0` is set on the App CR. Missing this configuration will result with stuck deployment of an app.
 
 ## Configuring
 
@@ -86,6 +87,7 @@ kind: App
 metadata:
   labels:
     app-operator.giantswarm.io/version: 0.0.0
+    giantswarm.io/cluster: demo1
   name: security-pack
   namespace: demo1
 spec:
