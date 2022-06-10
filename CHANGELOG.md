@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Adding `cluster` flag to the `kgs` command generating App CR.
 
+### Changed
+
+- Update to Kyverno (app) version 0.10.1 which fixes the CRDs deployed to match upstream version 1.6.2.
+
 ## [0.3.0] - 2022-05-17
 
 ### Added
