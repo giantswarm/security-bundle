@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update to `starboard-exporter` version 0.5.0, adding support for exporting Starboard `CISKubeBenchReport` resources.
+- Fix `Jiralert` catalog.
 
 ## [0.3.1] - 2022-06-10
 
