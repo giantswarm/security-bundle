@@ -29,7 +29,7 @@ apps:
   jiralert:
     appName: jiralert
     chartName: jiralert
-    catalog: playground
+    catalog: giantswarm-playground
     enabled: false
     namespace: security-pack
     version: 0.0.2
