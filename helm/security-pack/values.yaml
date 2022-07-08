@@ -32,7 +32,7 @@ apps:
     catalog: giantswarm-playground
     enabled: false
     namespace: security-pack
-    version: 0.0.2
+    version: 0.0.3
 
   kyverno:
     appName: kyverno
