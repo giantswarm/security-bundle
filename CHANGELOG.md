@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2022-07-08
+
 ### Changed
 
 - Update to `starboard-exporter` version 0.5.0, adding support for exporting Starboard `CISKubeBenchReport` resources.
@@ -57,7 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-pack/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/giantswarm/security-pack/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/giantswarm/security-pack/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/giantswarm/security-pack/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/giantswarm/security-pack/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/giantswarm/security-pack/compare/v0.1.0...v0.2.0
