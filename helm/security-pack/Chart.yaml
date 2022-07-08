@@ -4,8 +4,8 @@ description: A Helm chart for Giant Swarm's collection of open-source security t
 engine: gotpl
 home: https://github.com/giantswarm/security-pack
 sources:
-- https://github.com/giantswarm/security-pack
-version: 0.1.0
+  - https://github.com/giantswarm/security-pack
+version: 0.4.0
 annotations:
   application.giantswarm.io/in-cluster-app: "true"
   application.giantswarm.io/team: "shield"
