@@ -58,7 +58,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.7.1
+    version: 0.8.0
 
   starboardExporter:
     appName: starboard-exporter
