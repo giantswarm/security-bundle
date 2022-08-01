@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `starboard-app` version 0.8.0, adding a `PriorityLevelConfig` and `FlowSchema` for starboard's API requests.
+
 ## [0.4.0] - 2022-07-08
 
 ### Changed
