@@ -36,8 +36,8 @@ The currently recommended way to install the security pack is:
 
     ```shell
     $ kubectl gs template app \
-    --catalog giantswarm \
-    --name security-pack \
+    --catalog giantswarm-playground \
+    --name demo01-security-pack \
     --in-cluster \
     --cluster demo1 \
     --namespace demo1 \
@@ -58,7 +58,13 @@ Support for these methods are not yet officially supported, but may still work:
 1. [Using our web interface](https://docs.giantswarm.io/ui-api/web/app-platform/#installing-an-app)
 2. [Using our API](https://docs.giantswarm.io/api/#operation/createClusterAppV5)
 
-**Impoortant Note:** If you are not using `kubectl gs` plugin, plese remember to ensure the correct label: `app-operator.giantswarm.io/version: 0.0.0` is set on the App CR. Missing this configuration will result with stuck deployment of an app.
+### **Important**
+
+If you are not using `kubectl gs` plugin, plese remember to ensure the correct label: `app-operator.giantswarm.io/version: 0.0.0` is set on the App CR. Missing this configuration will result with stuck deployment of an app.
+
+When naming the App CR, please make sure the name is unique within the Management Cluster, using just `security-pack`
+name for two or more App CRs may lead to unexpected behavior. It is recommended to use cluster name as a prefix or suffix,
+for example `demo01-security-pack` or `security-pack-demo1`.
 
 ## Configuring
 
