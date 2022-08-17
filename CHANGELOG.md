@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to Kyverno (app) version 0.11.0 containing upstream version 1.7.2 and resilience improvements.
+- Update to `starboard-exporter` version 0.5.1, adding support for selectively enabling/disabling metrics for each report type.
+- Update to Trivy (app) version 0.4.0 containing upstream version 0.28.1.
+
 ## [0.5.0] - 2022-08-01
 
 ### Changed
