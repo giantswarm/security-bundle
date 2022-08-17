@@ -62,7 +62,7 @@ Support for these methods are not yet officially supported, but may still work:
 
 If you are not using `kubectl gs` plugin, plese remember to ensure the correct label: `app-operator.giantswarm.io/version: 0.0.0` is set on the App CR. Missing this configuration will result with stuck deployment of an app.
 
-When naming the App CR, please make sure the name is original within the Management Cluster, using the sole `security-pack`
+When naming the App CR, please make sure the name is unique within the Management Cluster, using just `security-pack`
 name for two or more App CRs may lead to unexpected behavior. It is recommended to use cluster name as a prefix or suffix,
 for example `demo01-security-pack` or `security-pack-demo1`.
 
