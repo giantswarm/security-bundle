@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update to `Trivy` (app) version 0.6.0, containing upstream version 0.30.4.
+- Update to `starboard-exporter` version 0.6.0.
 
 ## [0.7.0] - 2022-09-06
 
