@@ -64,7 +64,7 @@ apps:
     appName: starboard
     chartName: starboard-app
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-pack
     version: 0.8.0
 
@@ -88,6 +88,6 @@ apps:
     appName: trivy-operator
     chartName: trivy-operator
     catalog: giantswarm
-    enabled: false
+    enabled: true
     namespace: security-pack
     version: 0.1.0
