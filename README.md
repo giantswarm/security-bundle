@@ -43,7 +43,7 @@ The currently recommended way to install the security pack is:
 
     ```shell
     $ kubectl gs template app \
-    --catalog giantswarm-playground \
+    --catalog giantswarm \
     --name demo01-security-pack \
     --in-cluster \
     --cluster demo1 \
