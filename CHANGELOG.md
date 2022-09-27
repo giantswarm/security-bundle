@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Update to `Kyverno` (app) version 0.11.2, containing upstream version 1.7.3.
 - Update to `Trivy` (app) version 0.6.0, containing upstream version 0.30.4.
 - Update to `starboard-exporter` version 0.6.0.
 - Update to `trivy-operator` (app) version 0.2.0, containing upstream version 0.2.1.
