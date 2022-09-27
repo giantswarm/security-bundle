@@ -9,9 +9,16 @@ By default, installing the security pack in a cluster includes:
 - Falco, from our [`falco-app`][falco-app]
 - Kyverno, from our [`kyverno-app`][kyverno-app]
   - our [`kyverno-policies`][kyverno-policies] app for Kubernetes Pod Security Standards (PSS)
-- Starboard, from our [`starboard-app`][starboard-app]
-  - our [`starboard-exporter`][starboard-exporter] for exposing metrics
 - Trivy, from our [`trivy-app`][trivy-app]
+- Trivy Operator, from our [`trivy-operator`][trivy-operator-app] app
+  - our [`starboard-exporter`][starboard-exporter] for exposing metrics
+
+Some optional components are also installable from this bundle, including:
+
+- Jiralert, from our [`jiralert-app`][jiralert-app], for automatically creating Jira issues from security findings
+- Our [`security-pack-helper`][security-pack-helper], where we include some extra Giant Swarm logic for managing this combination of apps
+
+Previous versions of the pack included Starboard, from our [`starboard-app`][starboard-app]. Starboard has been deprecated in favor of Trivy Operator, and we will eventually drop support for Starboard from this app bundle.
 
 Apps can be selectively enabled or disabled using the `enabled` setting for that app in the `security-pack` Helm values.
 
@@ -36,7 +43,7 @@ The currently recommended way to install the security pack is:
 
     ```shell
     $ kubectl gs template app \
-    --catalog giantswarm-playground \
+    --catalog giantswarm \
     --name demo01-security-pack \
     --in-cluster \
     --cluster demo1 \
@@ -126,9 +133,12 @@ metadata:
 See our [full reference page on how to configure applications](https://docs.giantswarm.io/app-platform/app-configuration/) for more details.
 
 [falco-app]: https://github.com/giantswarm/falco-app
+[jiralert-app]: https://github.com/giantswarm/jiralert-app
 [kyverno-app]: https://github.com/giantswarm/kyverno-app
 [kyverno-policies]: https://github.com/giantswarm/kyverno-policies/
 [security-pack]: https://docs.giantswarm.io/app-platform/apps/security/
+[security-pack-helper]: https://github.com/giantswarm/security-pack-helper
 [starboard-app]: https://github.com/giantswarm/starboard-app
 [starboard-exporter]: https://github.com/giantswarm/starboard-exporter/
 [trivy-app]: https://github.com/giantswarm/trivy-app/
+[trivy-operator-app]: https://github.com/giantswarm/trivy-operator-app
