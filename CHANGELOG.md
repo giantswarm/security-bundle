@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to `starboard-exporter` version 0.6.0.
 - Update to `trivy-operator` (app) version 0.2.0, containing upstream version 0.2.1.
 
+### Removed
+
+- Disable `starboard-app` by default. Starboard has been replaced with Trivy Operator. Starboard can still be enabled in the pack configuration values.
+
 ## [0.7.0] - 2022-09-06
 
 ## Added
