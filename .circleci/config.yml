@@ -38,5 +38,5 @@ workflows:
               ignore:
                 - main
           requires:
-            - push-security-pack-to-giantswarm-playground-catalog
+            - push-security-pack-to-giantswarm-catalog
 
