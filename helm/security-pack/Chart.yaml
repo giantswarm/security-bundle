@@ -9,4 +9,4 @@ version: 0.8.0
 annotations:
   application.giantswarm.io/in-cluster-app: "true"
   application.giantswarm.io/team: "shield"
-  application.giantswarm.io/app-type: bundle
+  application.giantswarm.io/app-type: "bundle"
