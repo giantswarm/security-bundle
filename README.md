@@ -47,8 +47,8 @@ The currently recommended way to install the security pack is:
     --name security-pack \
     --app-name demo01-security-pack \
     --in-cluster \
-    --cluster-name demo1 \
-    --target-namespace demo1 \
+    --cluster-name demo01 \
+    --target-namespace demo01 \
     --version 0.0.1 \
     --user-configmap user-values.yaml > outerApp.yaml
     ```
