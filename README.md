@@ -44,10 +44,11 @@ The currently recommended way to install the security pack is:
     ```shell
     $ kubectl gs template app \
     --catalog giantswarm \
-    --name demo01-security-pack \
+    --name security-pack \
+    --app-name demo01-security-pack \
     --in-cluster \
-    --cluster demo1 \
-    --namespace demo1 \
+    --cluster-name demo01 \
+    --target-namespace demo01 \
     --version 0.0.1 \
     --user-configmap user-values.yaml > outerApp.yaml
     ```
