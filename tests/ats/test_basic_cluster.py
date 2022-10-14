@@ -45,6 +45,8 @@ def test_cluster_info(
 # if you want to assert this multiple times
 @pytest.fixture(scope="module")
 def app_deployment(kube_cluster: Cluster) -> List[pykube.Deployment]:
+    app_deployment = List[pykube.Deployment]
+    logger.debug(f"Deployments: {app_deployment}")
     deployments = wait_for_deployments_to_run(
         kube_cluster.kube_client,
         ["trivy-operator"],
