@@ -11,6 +11,7 @@ workflows:
           name: push-security-pack-to-playground-catalog
           app_catalog: "giantswarm-playground-catalog"
           app_catalog_test: "giantswarm-playground-test-catalog"
+          explicit_allow_chart_name_mismatch: true
           chart: "security-pack"
           # Trigger job on git tag.
           filters:
@@ -24,7 +25,7 @@ workflows:
           app_catalog: "giantswarm-playground-catalog"
           app_catalog_test: "giantswarm-playground-test-catalog"
           explicit_allow_chart_name_mismatch: true
-          chart: "security-bundle"
+          chart: "security-pack"
           # Trigger job on git tag.
           filters:
             tags:
