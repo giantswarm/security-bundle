@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to `Kyverno` (app) version 0.11.6, containing upstream policy-reporter version 2.10.1.
+- Update to `starboard-exporter` version 0.6.2, enabling custom metric logic via `ServiceMonitor` relabeling configuration.
+
 ## [0.8.0] - 2022-09-27
 
 ### Added
