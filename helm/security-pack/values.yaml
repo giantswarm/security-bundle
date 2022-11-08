@@ -1,5 +1,5 @@
-clusterName: "test"
-organization: "test"
+clusterName: ""
+organization: ""
 
 # User values can be provided via a ConfigMap or Secret for each individual app
 # using the structure shown below.
