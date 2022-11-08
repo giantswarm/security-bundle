@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to `Trivy` (app) version 0.7.0, this version changes the `trivy-app` chart name to `trivy`.
+- Update to `trivy-operator` (app) version 0.2.0, this version changes the `serverUrl` value from `trivy-app` to `trivy`.
+
 ## [0.8.0] - 2022-09-27
 
 ### Added

@@ -1,5 +1,5 @@
-clusterName: ""
-organization: ""
+clusterName: "test"
+organization: "test"
 
 # User values can be provided via a ConfigMap or Secret for each individual app
 # using the structure shown below.
@@ -78,11 +78,11 @@ apps:
 
   trivy:
     appName: trivy
-    chartName: trivy-app
+    chartName: trivy
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.6.0
+    version: 0.7.0
 
   trivyOperator:
     appName: trivy-operator
@@ -90,4 +90,4 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.2.0
+    version: 0.2.1
