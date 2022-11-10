@@ -5,7 +5,7 @@ engine: gotpl
 home: https://github.com/giantswarm/security-pack
 sources:
   - https://github.com/giantswarm/security-pack
-version: 0.8.1
+version: 0.9.0
 annotations:
   application.giantswarm.io/in-cluster-app: "true"
   application.giantswarm.io/team: "shield"
