@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update to `Trivy` (app) version 0.7.0, this version changes the `trivy-app` chart name to `trivy`.
 - Update to `trivy-operator` (app) version 0.2.0, this version changes the `serverUrl` value from `trivy-app` to `trivy`.
+- Update to `Kyverno` (app) version 0.11.8, this version includes a `CiliumNetworkPolicy` for the `kyverno-crd-install` job.
+- Update to `Falco` (app) version 0.4.0, containing upstream `falco` version 0.33.0 as well as `falco-exporter` upstream version 0.8.0 and `falcosidekick` upstream version 2.26.0.
 
 ## [0.8.1] - 2022-10-25
 
