@@ -1,6 +1,7 @@
 apiVersion: v2
 name: security-pack
 description: A Helm chart for Giant Swarm's collection of open-source security tools.
+icon: https://s.giantswarm.io/app-icons/giantswarm/1/dark.svg
 engine: gotpl
 home: https://github.com/giantswarm/security-pack
 sources:
