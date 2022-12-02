@@ -24,7 +24,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.4.0
+    version: 0.4.2
 
   jiralert:
     appName: jiralert
@@ -82,7 +82,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.7.0
+    version: 0.7.1
 
   trivyOperator:
     appName: trivy-operator
@@ -90,4 +90,4 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.2.1
+    version: 0.3.1
