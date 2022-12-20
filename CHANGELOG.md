@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add icon url to `Chart.yaml`
 
+### Changed
+
+- Update to `Falco` (app) version 0.4.2, this version adds support for `VerticalPodAutoscaler`.
+- Update to `Trivy` (app) version 0.7.1, this version adds support for `VerticalPodAutoscaler`.
+- Update to `trivy-operator` (app) version 0.3.1, containing upstream `trivy-operator` version 0.7.1.
+
 ## [0.9.0] - 2022-11-10
 
 ### Changed
