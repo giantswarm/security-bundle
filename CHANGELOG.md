@@ -14,7 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update to `Falco` (app) version 0.4.3, this version adds support for `VerticalPodAutoscaler` (0.4.2), and makes use of the `falco-driverless` image.
 - Update to `Trivy` (app) version 0.7.1, this version adds support for `VerticalPodAutoscaler`.
-- Update to `trivy-operator` (app) version 0.3.1, containing upstream `trivy-operator` version 0.7.1.
+- Update to `trivy-operator` (app) version 0.3.2, containing upstream `trivy-operator` version 0.7.1.
+- Update to `Kyverno` (app) version 0.13.1, containing upstream `Kyverno` version 1.8.4.
 
 ## [0.9.0] - 2022-11-10
 
