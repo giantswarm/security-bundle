@@ -39,7 +39,7 @@ apps:
     chartName: kyverno
     catalog: giantswarm
     enabled: true
-    namespace: security-pack
+    namespace: kyverno
     version: 0.13.1
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
@@ -49,7 +49,7 @@ apps:
     chartName: kyverno-policies
     catalog: giantswarm
     enabled: true
-    namespace: security-pack
+    namespace: kyverno
     version: 0.17.1
 
   securityPackHelper:
