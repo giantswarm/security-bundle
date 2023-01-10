@@ -52,14 +52,6 @@ apps:
     namespace: kyverno
     version: 0.17.1
 
-  securityPackHelper:
-    appName: security-pack-helper
-    chartName: security-pack-helper
-    catalog: giantswarm-playground
-    enabled: false
-    namespace: security-pack
-    version: 0.0.2
-
   starboard:
     appName: starboard
     chartName: starboard-app

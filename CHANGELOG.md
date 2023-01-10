@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Moved `kyverno` (app) to its own namespace.
+- Move `kyverno` (app) to its own namespace.
+- Update to `starboard-exporter` version 0.7.0.
+- Remove `security-pack-helper`. Its current logic is no longer needed with Kyverno 1.8.0 and above.
 
 ## [0.10.0] - 2022-12-21
 
