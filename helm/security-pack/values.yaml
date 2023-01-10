@@ -74,7 +74,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.6.2
+    version: 0.7.0
 
   trivy:
     appName: trivy
