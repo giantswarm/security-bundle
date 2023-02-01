@@ -20,11 +20,11 @@ organization: ""
 apps:
   falco:
     appName: falco
-    chartName: falco-app
+    chartName: falco
     catalog: giantswarm
     enabled: true
     namespace: security-pack
-    version: 0.4.3
+    version: 0.5.0
 
   jiralert:
     appName: jiralert
