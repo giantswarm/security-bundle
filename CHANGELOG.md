@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Renames `falco` app `chartName` & bumps version to `0.5.0`.
+- Promotes `jiralert` app to the Giant Swarm catalog.
 
 ## [0.11.0] - 2023-01-11
 
