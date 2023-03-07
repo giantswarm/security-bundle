@@ -74,7 +74,7 @@
                         }
                     }
                 },
-                "kyverno-policies": {
+                "kyvernoPolicies": {
                     "type": "object",
                     "properties": {
                         "appName": {
