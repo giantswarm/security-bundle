@@ -44,7 +44,7 @@ apps:
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
-  kyverno-policies:
+  kyvernoPolicies:
     appName: kyverno-policies
     chartName: kyverno-policies
     catalog: giantswarm
