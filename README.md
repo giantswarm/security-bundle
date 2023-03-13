@@ -2,7 +2,7 @@
 
 # Giant Swarm Security Pack
 
-Giant Swarm offers a [managed security pack][security-pack] which provides an unintrusive baseline for security observability and enforcement in Kubernetes clusters. This App is a convenient wrapper containing multiple other Apps which make up the security pack.
+Giant Swarm offers a [managed security bundle][security-bundle] which provides an unintrusive baseline for security observability and enforcement in Kubernetes clusters. This App is a convenient wrapper containing multiple other Apps which make up the security pack.
 
 By default, installing the security pack in a cluster includes:
 
@@ -16,11 +16,10 @@ By default, installing the security pack in a cluster includes:
 Some optional components are also installable from this bundle, including:
 
 - Jiralert, from our [`jiralert-app`][jiralert-app], for automatically creating Jira issues from security findings
-- Our [`security-pack-helper`][security-pack-helper], where we include some extra Giant Swarm logic for managing this combination of apps
 
 Previous versions of the pack included Starboard, from our [`starboard-app`][starboard-app]. Starboard has been deprecated in favor of Trivy Operator, and we will eventually drop support for Starboard from this app bundle.
 
-Apps can be selectively enabled or disabled using the `enabled` setting for that app in the `security-pack` Helm values.
+Apps can be selectively enabled or disabled using the `enabled` setting for that app in the `security-bundle` Helm values.
 
 More information and configuration options can be found in each app repository.
 
@@ -44,8 +43,8 @@ The currently recommended way to install the security pack is:
     ```shell
     $ kubectl gs template app \
     --catalog giantswarm \
-    --name security-pack \
-    --app-name demo01-security-pack \
+    --name security-bundle \
+    --app-name demo01-security-bundle \
     --in-cluster \
     --cluster-name demo01 \
     --target-namespace demo01 \
@@ -57,8 +56,8 @@ The currently recommended way to install the security pack is:
 
     ```shell
     $ kubectl --context=<your-mc> apply -f outerApp.yaml
-    configmap/security-pack-userconfig created
-    app.application.giantswarm.io/security-pack created
+    configmap/security-bundle-userconfig created
+    app.application.giantswarm.io/security-bundle created
     ```
 
 Support for these methods are not yet officially supported, but may still work:
@@ -70,9 +69,9 @@ Support for these methods are not yet officially supported, but may still work:
 
 If you are not using `kubectl gs` plugin, plese remember to ensure the correct label: `app-operator.giantswarm.io/version: 0.0.0` is set on the App CR. Missing this configuration will result with stuck deployment of an app.
 
-When naming the App CR, please make sure the name is unique within the Management Cluster, using just `security-pack`
+When naming the App CR, please make sure the name is unique within the Management Cluster, using just `security-bundle`
 name for two or more App CRs may lead to unexpected behavior. It is recommended to use cluster name as a prefix or suffix,
-for example `demo01-security-pack` or `security-pack-demo1`.
+for example `demo01-security-bundle` or `security-bundle-demo1`.
 
 ## Configuring
 
@@ -102,17 +101,17 @@ metadata:
   labels:
     app-operator.giantswarm.io/version: 0.0.0
     giantswarm.io/cluster: demo1
-  name: security-pack
+  name: security-bundle
   namespace: demo1
 spec:
   catalog: giantswarm
   kubeConfig:
     inCluster: true
-  name: security-pack
+  name: security-bundle
   namespace: demo1
   userConfig:
     configMap:
-      name: security-pack-userconfig
+      name: security-bundle-userconfig
       namespace: demo1
   version: 0.0.1
 ```
@@ -127,7 +126,7 @@ data:
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: security-pack-userconfig
+  name: security-bundle-userconfig
   namespace: demo1
 ```
 
@@ -137,8 +136,7 @@ See our [full reference page on how to configure applications](https://docs.gian
 [jiralert-app]: https://github.com/giantswarm/jiralert-app
 [kyverno-app]: https://github.com/giantswarm/kyverno-app
 [kyverno-policies]: https://github.com/giantswarm/kyverno-policies/
-[security-pack]: https://docs.giantswarm.io/app-platform/apps/security/
-[security-pack-helper]: https://github.com/giantswarm/security-pack-helper
+[security-bundle]: https://docs.giantswarm.io/app-platform/apps/security/
 [starboard-app]: https://github.com/giantswarm/starboard-app
 [starboard-exporter]: https://github.com/giantswarm/starboard-exporter/
 [trivy-app]: https://github.com/giantswarm/trivy-app/
