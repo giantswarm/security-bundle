@@ -5,7 +5,7 @@ organization: ""
 # using the structure shown below.
 
 # userConfig:
-#   kyverno-policies:
+#   kyvernoPolicies:
 #     configMap:
 #       values: |
 #         kyverno-policies:
