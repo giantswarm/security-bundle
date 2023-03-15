@@ -8,18 +8,6 @@ workflows:
       - architect/push-to-app-catalog:
           context: "architect"
           executor: "app-build-suite"
-          name: push-security-bundle-to-playground-catalog
-          app_catalog: "giantswarm-playground-catalog"
-          app_catalog_test: "giantswarm-playground-test-catalog"
-          chart: "security-bundle"
-          # Trigger job on git tag.
-          filters:
-            tags:
-              only: /^v.*/
-
-      - architect/push-to-app-catalog:
-          context: "architect"
-          executor: "app-build-suite"
           name: push-security-bundle-to-giantswarm-catalog
           app_catalog: "giantswarm-catalog"
           app_catalog_test: "giantswarm-test-catalog"

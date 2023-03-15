@@ -9,8 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Rename `security-pack` to `security-bundle`.
+- Renamed `security-pack` to `security-bundle`.
 - Renamed `kyverno-policies` value to `kyvernoPolicies`.
+- Removed `security-bundle` from the `playground` catalog. Users need to make sure they are using the `giantswarm` catalog.
 - Update to `kyverno` (app) version 0.14.0, containing upstream `kyverno` version 1.9.0.
 
 ## [0.12.0] - 2023-02-08
