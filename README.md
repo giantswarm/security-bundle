@@ -1,10 +1,10 @@
 [![CircleCI](https://circleci.com/gh/giantswarm/security-pack.svg?style=shield)](https://circleci.com/gh/giantswarm/security-pack)
 
-# Giant Swarm Security Pack
+# Giant Swarm Security Bundle
 
-Giant Swarm offers a [managed security bundle][security-bundle] which provides an unintrusive baseline for security observability and enforcement in Kubernetes clusters. This App is a convenient wrapper containing multiple other Apps which make up the security pack.
+Giant Swarm offers a [managed security bundle][security-bundle] which provides an unintrusive baseline for security observability and enforcement in Kubernetes clusters. This App is a convenient wrapper containing multiple other Apps which make up the security bundle. See our full [App Bundle reference][app-bundle] to learn more.
 
-By default, installing the security pack in a cluster includes:
+By default, installing the security bundle in a cluster includes:
 
 - Falco, from our [`falco-app`][falco-app]
 - Kyverno, from our [`kyverno-app`][kyverno-app]
@@ -27,9 +27,11 @@ More information and configuration options can be found in each app repository.
 
 ## Installing
 
+:warning: **Previous `security-pack` users must delete the old `security-pack` CR first before installing the bundle.**
+
 This "App of Apps" method is rather new and our UX tooling is still catching up, so our normal App installation methods may or may not work for you depending on your management cluster and component versions.
 
-The currently recommended way to install the security pack is:
+The currently recommended way to install the security bundle is:
 
 1. Create `user-values.yaml` containing the name of the cluster where the Apps should be installed, and the organization where that cluster is running:
 
@@ -132,6 +134,7 @@ metadata:
 
 See our [full reference page on how to configure applications](https://docs.giantswarm.io/app-platform/app-configuration/) for more details.
 
+[app-bundle]: https://docs.giantswarm.io/getting-started/app-platform/app-bundle/
 [falco-app]: https://github.com/giantswarm/falco-app
 [jiralert-app]: https://github.com/giantswarm/jiralert-app
 [kyverno-app]: https://github.com/giantswarm/kyverno-app
