@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/giantswarm/security-pack.svg?style=shield)](https://circleci.com/gh/giantswarm/security-pack)
+[![CircleCI](https://circleci.com/gh/giantswarm/security-bundle.svg?style=shield)](https://circleci.com/gh/giantswarm/security-bundle)
 
 # Giant Swarm Security Bundle
 
