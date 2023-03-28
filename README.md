@@ -27,7 +27,16 @@ More information and configuration options can be found in each app repository.
 
 ## Installing
 
-:warning: **Previous `security-pack` users must delete the old `security-pack` CR first before installing the bundle.**
+:warning: **Existing `security-pack` users must delete the old `security-pack` CR first before installing the bundle.** It is not possible to update directly from a `security-pack` to a `security-bundle` App CR by renaming it.
+
+### Updating from `security-pack`
+
+To change an existing `security-pack` install to a `security-bundle`, the following changes must be made:
+- any overrides to the `kyverno-policies` App in the `security-bundle` App values configuration must be replaced with equivalent overrides under the `kyvernoPolicies` key. The key `kyverno-policies` has been renamed to `kyvernoPolicies` only to simplify its usage in Helm. The name of the `kyverno-policies` App itself is unchanged.
+- if using the default installation namespace (`security-pack`), any logic which depends on that namespace must be updated to reference the new default namespaces (`security-bundle`). If setting a custom installation namespace, no change is required.
+- if the existing `security-pack` App CR is installing from the `playground` catalog, the catalog must be changed to `giantswarm`. The `security-bundle` will not be pushed to the `playground` catalog.
+- after the above changes have been made, the old `security-pack` CR must be deleted before the new `security-bundle` CR can then be created.
+
 
 This "App of Apps" method is rather new and our UX tooling is still catching up, so our normal App installation methods may or may not work for you depending on your management cluster and component versions.
 
