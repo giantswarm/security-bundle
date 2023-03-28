@@ -1,10 +1,10 @@
-[![CircleCI](https://circleci.com/gh/giantswarm/security-pack.svg?style=shield)](https://circleci.com/gh/giantswarm/security-pack)
+[![CircleCI](https://circleci.com/gh/giantswarm/security-bundle.svg?style=shield)](https://circleci.com/gh/giantswarm/security-bundle)
 
-# Giant Swarm Security Pack
+# Giant Swarm Security Bundle
 
-Giant Swarm offers a [managed security pack][security-pack] which provides an unintrusive baseline for security observability and enforcement in Kubernetes clusters. This App is a convenient wrapper containing multiple other Apps which make up the security pack.
+Giant Swarm offers a [managed security bundle][security-bundle] which provides an unintrusive baseline for security observability and enforcement in Kubernetes clusters. This App is a convenient wrapper containing multiple other Apps which make up the security bundle. See our full [App Bundle reference][app-bundle] to learn more.
 
-By default, installing the security pack in a cluster includes:
+By default, installing the security bundle in a cluster includes:
 
 - Falco, from our [`falco-app`][falco-app]
 - Kyverno, from our [`kyverno-app`][kyverno-app]
@@ -16,11 +16,10 @@ By default, installing the security pack in a cluster includes:
 Some optional components are also installable from this bundle, including:
 
 - Jiralert, from our [`jiralert-app`][jiralert-app], for automatically creating Jira issues from security findings
-- Our [`security-pack-helper`][security-pack-helper], where we include some extra Giant Swarm logic for managing this combination of apps
 
 Previous versions of the pack included Starboard, from our [`starboard-app`][starboard-app]. Starboard has been deprecated in favor of Trivy Operator, and we will eventually drop support for Starboard from this app bundle.
 
-Apps can be selectively enabled or disabled using the `enabled` setting for that app in the `security-pack` Helm values.
+Apps can be selectively enabled or disabled using the `enabled` setting for that app in the `security-bundle` Helm values.
 
 More information and configuration options can be found in each app repository.
 
@@ -28,9 +27,20 @@ More information and configuration options can be found in each app repository.
 
 ## Installing
 
+:warning: **Existing `security-pack` users must delete the old `security-pack` CR first before installing the bundle.** It is not possible to update directly from a `security-pack` to a `security-bundle` App CR by renaming it.
+
+### Updating from `security-pack`
+
+To change an existing `security-pack` install to a `security-bundle`, the following changes must be made:
+- any overrides to the `kyverno-policies` App in the `security-bundle` App values configuration must be replaced with equivalent overrides under the `kyvernoPolicies` key. The key `kyverno-policies` has been renamed to `kyvernoPolicies` only to simplify its usage in Helm. The name of the `kyverno-policies` App itself is unchanged.
+- if using the default installation namespace (`security-pack`), any logic which depends on that namespace must be updated to reference the new default namespaces (`security-bundle`). If setting a custom installation namespace, no change is required.
+- if the existing `security-pack` App CR is installing from the `playground` catalog, the catalog must be changed to `giantswarm`. The `security-bundle` will not be pushed to the `playground` catalog.
+- after the above changes have been made, the old `security-pack` CR must be deleted before the new `security-bundle` CR can then be created.
+
+
 This "App of Apps" method is rather new and our UX tooling is still catching up, so our normal App installation methods may or may not work for you depending on your management cluster and component versions.
 
-The currently recommended way to install the security pack is:
+The currently recommended way to install the security bundle is:
 
 1. Create `user-values.yaml` containing the name of the cluster where the Apps should be installed, and the organization where that cluster is running:
 
@@ -44,8 +54,8 @@ The currently recommended way to install the security pack is:
     ```shell
     $ kubectl gs template app \
     --catalog giantswarm \
-    --name security-pack \
-    --app-name demo01-security-pack \
+    --name security-bundle \
+    --app-name demo01-security-bundle \
     --in-cluster \
     --cluster-name demo01 \
     --target-namespace demo01 \
@@ -57,8 +67,8 @@ The currently recommended way to install the security pack is:
 
     ```shell
     $ kubectl --context=<your-mc> apply -f outerApp.yaml
-    configmap/security-pack-userconfig created
-    app.application.giantswarm.io/security-pack created
+    configmap/security-bundle-userconfig created
+    app.application.giantswarm.io/security-bundle created
     ```
 
 Support for these methods are not yet officially supported, but may still work:
@@ -70,9 +80,9 @@ Support for these methods are not yet officially supported, but may still work:
 
 If you are not using `kubectl gs` plugin, plese remember to ensure the correct label: `app-operator.giantswarm.io/version: 0.0.0` is set on the App CR. Missing this configuration will result with stuck deployment of an app.
 
-When naming the App CR, please make sure the name is unique within the Management Cluster, using just `security-pack`
+When naming the App CR, please make sure the name is unique within the Management Cluster, using just `security-bundle`
 name for two or more App CRs may lead to unexpected behavior. It is recommended to use cluster name as a prefix or suffix,
-for example `demo01-security-pack` or `security-pack-demo1`.
+for example `demo01-security-bundle` or `security-bundle-demo1`.
 
 ## Configuring
 
@@ -102,17 +112,17 @@ metadata:
   labels:
     app-operator.giantswarm.io/version: 0.0.0
     giantswarm.io/cluster: demo1
-  name: security-pack
+  name: security-bundle
   namespace: demo1
 spec:
   catalog: giantswarm
   kubeConfig:
     inCluster: true
-  name: security-pack
+  name: security-bundle
   namespace: demo1
   userConfig:
     configMap:
-      name: security-pack-userconfig
+      name: security-bundle-userconfig
       namespace: demo1
   version: 0.0.1
 ```
@@ -127,18 +137,18 @@ data:
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: security-pack-userconfig
+  name: security-bundle-userconfig
   namespace: demo1
 ```
 
 See our [full reference page on how to configure applications](https://docs.giantswarm.io/app-platform/app-configuration/) for more details.
 
+[app-bundle]: https://docs.giantswarm.io/getting-started/app-platform/app-bundle/
 [falco-app]: https://github.com/giantswarm/falco-app
 [jiralert-app]: https://github.com/giantswarm/jiralert-app
 [kyverno-app]: https://github.com/giantswarm/kyverno-app
 [kyverno-policies]: https://github.com/giantswarm/kyverno-policies/
-[security-pack]: https://docs.giantswarm.io/app-platform/apps/security/
-[security-pack-helper]: https://github.com/giantswarm/security-pack-helper
+[security-bundle]: https://docs.giantswarm.io/app-platform/apps/security/
 [starboard-app]: https://github.com/giantswarm/starboard-app
 [starboard-exporter]: https://github.com/giantswarm/starboard-exporter/
 [trivy-app]: https://github.com/giantswarm/trivy-app/
