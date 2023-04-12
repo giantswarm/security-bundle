@@ -17,7 +17,7 @@ Some optional components are also installable from this bundle, including:
 
 - Jiralert, from our [`jiralert-app`][jiralert-app], for automatically creating Jira issues from security findings
 
-Previous versions of the pack included Starboard, from our [`starboard-app`][starboard-app]. Starboard has been deprecated in favor of Trivy Operator, and we will eventually drop support for Starboard from this app bundle.
+Previous versions of the pack included Starboard, from our [`starboard-app`][starboard-app]. Starboard has been deprecated in favor of Trivy Operator, and we have removed the Starboard app from this app bundle as of v0.13.0.
 
 Apps can be selectively enabled or disabled using the `enabled` setting for that app in the `security-bundle` Helm values.
 
