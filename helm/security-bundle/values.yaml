@@ -24,7 +24,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-bundle
-    version: 0.5.0
+    version: 0.5.1
 
   jiralert:
     appName: jiralert
@@ -40,7 +40,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: kyverno
-    version: 0.14.0
+    version: 0.14.3
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
@@ -50,15 +50,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: kyverno
-    version: 0.17.1
-
-  starboard:
-    appName: starboard
-    chartName: starboard-app
-    catalog: giantswarm
-    enabled: false
-    namespace: security-bundle
-    version: 0.8.0
+    version: 0.18.1
 
   starboardExporter:
     appName: starboard-exporter
@@ -66,7 +58,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-bundle
-    version: 0.7.0
+    version: 0.7.3
 
   trivy:
     appName: trivy
@@ -74,7 +66,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-bundle
-    version: 0.7.1
+    version: 0.8.0
 
   trivyOperator:
     appName: trivy-operator
@@ -82,4 +74,4 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-bundle
-    version: 0.3.2
+    version: 0.3.7
