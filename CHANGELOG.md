@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed `kyverno-policies` value to `kyvernoPolicies`.
 - Renamed `falco-app` chart name to `falco`.
 - Removed `security-bundle` from the `playground` catalog. **Users must now install `security-bundle` from the `giantswarm` catalog**.
+- Removed `starboard` (app). **Users must now install `trivy-operator` as a replacement**.
 - Update to `kyverno` (app) version 0.14.3, containing upstream `kyverno` version 1.9.2.
 - Update to `kyverno-policies` (app) version 0.18.1, containing upstream `kyverno-policies` version 1.7.5.
 - Update to `trivy-operator` (app) version 0.3.7, containing upstream `trivy-operator` version 0.12.0.

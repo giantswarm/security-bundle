@@ -52,14 +52,6 @@ apps:
     namespace: kyverno
     version: 0.18.1
 
-  starboard:
-    appName: starboard
-    chartName: starboard-app
-    catalog: giantswarm
-    enabled: false
-    namespace: security-bundle
-    version: 0.8.0
-
   starboardExporter:
     appName: starboard-exporter
     chartName: starboard-exporter
