@@ -12,8 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed `security-pack` to `security-bundle`.
 - Changed default installation namespace from `security-pack` to `security-bundle`.
 - Renamed `kyverno-policies` value to `kyvernoPolicies`.
+- Renamed `falco-app` chart name to `falco`.
 - Removed `security-bundle` from the `playground` catalog. **Users must now install `security-bundle` from the `giantswarm` catalog**.
-- Update to `kyverno` (app) version 0.14.0, containing upstream `kyverno` version 1.9.0.
+- Update to `kyverno` (app) version 0.14.3, containing upstream `kyverno` version 1.9.2.
+- Update to `kyverno-policies` (app) version 0.18.1, containing upstream `kyverno-policies` version 1.7.5.
+- Update to `trivy-operator` (app) version 0.3.7, containing upstream `trivy-operator` version 0.12.0.
+- Update to `trivy` (app) version 0.8.0, containing upstream `trivy` version 0.37.2.
 
 ## [0.12.0] - 2023-02-08
 
