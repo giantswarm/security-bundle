@@ -45,7 +45,7 @@ spec:
 {{- end }}
 {{- if $.Values.userConfig }}
 {{- with (get $.Values.userConfig $key) }}
-{{- if .configMap }}
+{{- if ((.configMap).values) }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -55,9 +55,10 @@ metadata:
   name: {{ $appName }}-user-values
   namespace: {{ $.Release.Namespace }}
 data:
-  {{- (tpl (.configMap | toYaml | toString) $) | nindent 2 }}
+  values: |
+  {{- (tpl (.configMap.values | toYaml | toString) $) | nindent 4 }}
 {{- end }}
-{{- if .secret }}
+{{- if ((.secret).values) }}
 ---
 apiVersion: v1
 kind: Secret
@@ -67,7 +68,8 @@ metadata:
   name: {{ $appName }}-user-secrets
   namespace: {{ $.Release.Namespace }}
 stringData:
-  {{- (tpl (.secret | toYaml | toString) $) | nindent 2 }}
+  values: |
+  {{- (tpl (.secret.values | toYaml | toString) $) | nindent 4 }}
 {{- end }}
 {{- end }}
 {{- end }}
