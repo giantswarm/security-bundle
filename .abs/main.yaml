@@ -1,4 +1,4 @@
 replace-chart-version-with-git: true
 generate-metadata: true
-chart-dir: ./helm/security-pack
+chart-dir: ./helm/security-bundle
 destination: ./build
