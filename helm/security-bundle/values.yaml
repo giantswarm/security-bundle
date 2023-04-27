@@ -7,12 +7,12 @@ organization: ""
 # userConfig:
 #   kyvernoPolicies:
 #     configMap:
-#       values: |
+#       values:
 #         kyverno-policies:
 #           podSecurityStandard: restricted
 #   trivy:
 #     configMap:
-#       values: |
+#       values:
 #         trivy:
 #           networkPolicy:
 #             enabled: true
