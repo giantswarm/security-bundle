@@ -32,7 +32,7 @@ More information and configuration options can be found in each app repository.
 ### Updating from `security-pack`
 
 To change an existing `security-pack` install to a `security-bundle`, the following changes must be made:
-- any overrides to the Apps values inside the `userConfig` key must be switched from string to object.
+- any overrides to the Apps `configMap` or `secret` inside the `userConfig` key must be switched from string to object.
 - any overrides to the `kyverno-policies` App in the `security-bundle` App values configuration must be replaced with equivalent overrides under the `kyvernoPolicies` key. The key `kyverno-policies` has been renamed to `kyvernoPolicies` only to simplify its usage in Helm. The name of the `kyverno-policies` App itself is unchanged.
 - if using the default installation namespace (`security-pack`), any logic which depends on that namespace must be updated to reference the new default namespaces (`security-bundle`). If setting a custom installation namespace, no change is required.
 - if the existing `security-pack` App CR is installing from the `playground` catalog, the catalog must be changed to `giantswarm`. The `security-bundle` will not be pushed to the `playground` catalog.
