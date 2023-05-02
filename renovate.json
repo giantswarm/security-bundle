@@ -6,18 +6,23 @@
   "labels": ["dependencies", "renovate"],
   "dependencyDashboard": true,
   "ignorePaths": [
-    ".github/workflows/zz_generated.*",
-    ".github/workflows/codeql-analysis.yml"
+    ".github/workflows/zz_generated.*"
   ],
   "ignoreDeps": [
     "architect",
     "zricethezav/gitleaks-action",
     "actions/setup-go"
   ],
+  "packageRules": [
+    {
+      "matchSourceUrlPrefixes": ["https://github.com/giantswarm/"],
+      "groupName": "All GiantSwarm packages"
+    }
+  ],
   "regexManagers": [
     {
       "fileMatch": ["^helm\\/.+\\/values\\.yaml$"],
-      "matchStrings": ["repo: (?<depName>.*)\n(\\s)*version: (?<currentValue>.*?)\n"],
+      "matchStrings": ["chartName: (?<depName>.*)\n(.*)*version: (?<currentValue>.*?)\n"],
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v(?<version>.*)$"
     }
