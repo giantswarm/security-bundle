@@ -13,19 +13,14 @@
     "zricethezav/gitleaks-action",
     "actions/setup-go"
   ],
-  "packageRules": [
-    {
-      "matchSourceUrlPrefixes": ["https://github.com/giantswarm/"],
-      "groupName": "All GiantSwarm packages"
-    }
-  ],
   "regexManagers": [
     {
       "fileMatch": ["^helm\\/.+\\/values\\.yaml$"],
-      "matchStrings": ["chartName: (?<depName>.*)\n(.*)*version: (?<currentValue>.*?)\n"],
+      "matchStrings": ["chartName: (?<depName>.*)\n.*\\s*version: (?<currentValue>.*?)\n"],
       "datasourceTemplate": "github-releases",
+      "depNameTemplate": "giantswarm/{{{depName}}-app",
       "extractVersionTemplate": "^v(?<version>.*)$"
     }
   ],
-  "schedule": [ "after 2pm on tuesday" ]
+  "schedule": [ "after 4pm every weekday" ]
 }
