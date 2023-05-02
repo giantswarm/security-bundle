@@ -28,6 +28,7 @@
         "enabled": false
       }
   ],
+  "prHourlyLimit": 6,
   "regexManagers": [
     {
       "fileMatch": ["^helm\\/.+\\/values\\.yaml$"],
@@ -46,5 +47,5 @@
       "extractVersionTemplate": "^v(?<version>.*)$"
     }
   ],
-  "schedule": [ "after 4pm every weekday" ]
+  "schedule": [ "after 6am every weekday" ]
 }
