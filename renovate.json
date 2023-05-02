@@ -27,5 +27,5 @@
       "extractVersionTemplate": "^v(?<version>.*)$"
     }
   ],
-  "schedule": [ "after 6am on thursday" ]
+  "schedule": [ "after 2pm on tuesday" ]
 }
