@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Changed the value type of configmap/secret values to object rather than multi line string.
-- Update to `kyverno` (app) version 0.14.4, setting a default namespace for `PolicyExceptions`.
+- Update to `kyverno` (app) version 0.14.4, restricting the namespaces where `PolicyExceptions` may be created.
 - Update to `trivy-operator` (app) version 0.4.0, adding a `Cilium Network Policy` for `trivy-operator`.
 
 ## [0.13.0] - 2023-04-12
