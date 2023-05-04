@@ -24,7 +24,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-bundle
-    version: 0.5.1
+    version: 0.5.2
 
   jiralert:
     appName: jiralert
