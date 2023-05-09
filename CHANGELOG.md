@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.2] - 2023-05-09
+
 ### Changed
 
 - Update to `trivy` (app) version 0.8.1, introducing a `PolicyException` and making `VerticalPodAutoscaler` configurable.
@@ -175,7 +177,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.14.1...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.14.2...HEAD
+[0.14.2]: https://github.com/giantswarm/security-bundle/compare/v0.14.1...v0.14.2
 [0.14.1]: https://github.com/giantswarm/security-bundle/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/giantswarm/security-bundle/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/giantswarm/security-bundle/compare/v0.12.0...v0.13.0
