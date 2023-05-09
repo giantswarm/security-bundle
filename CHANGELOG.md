@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to `trivy` (app) version 0.8.1, introducing a `PolicyException` and making `VerticalPodAutoscaler` configurable.
+
 ## [0.14.1] - 2023-05-04
 
 ### Changed
 
 - Update to `falco` (app) version 0.5.2, moving the `PolicyExceptions` to the `giantswarm` namespace.
-- Update to `trivy` (app) version 0.8.1, introducing a `PolicyException` and making `VerticalPodAutoscaler` configurable.
 
 ## [0.14.0] - 2023-05-03
 
