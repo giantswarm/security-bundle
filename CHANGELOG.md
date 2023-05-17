@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.3] - 2023-05-17
+
 ### Changed
 
 - Update to `kyverno` (app) version 0.14.5, introducing a webhooks cleanup job when uninstalling Kyverno chart.
@@ -181,7 +183,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.14.2...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.14.3...HEAD
+[0.14.3]: https://github.com/giantswarm/security-bundle/compare/v0.14.2...v0.14.3
 [0.14.2]: https://github.com/giantswarm/security-bundle/compare/v0.14.1...v0.14.2
 [0.14.1]: https://github.com/giantswarm/security-bundle/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/giantswarm/security-bundle/compare/v0.13.0...v0.14.0
