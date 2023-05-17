@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to `kyverno` (app) version 0.14.5, introducing a webhooks cleanup job when uninstalling Kyverno chart.
+
 ## [0.14.2] - 2023-05-09
 
 ### Changed
