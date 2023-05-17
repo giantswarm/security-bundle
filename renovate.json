@@ -6,46 +6,21 @@
   "labels": ["dependencies", "renovate"],
   "dependencyDashboard": true,
   "ignorePaths": [
-    ".github/**",
-    ".circleci/**"
+    ".github/workflows/zz_generated.*",
+    ".github/workflows/codeql-analysis.yml"
   ],
   "ignoreDeps": [
     "architect",
     "zricethezav/gitleaks-action",
     "actions/setup-go"
   ],
-  "packageRules": [
-      {
-        "matchPackageNames": [
-          "giantswarm/trivy-operator", 
-          "giantswarm/kyverno",
-          "giantswarm/falco",
-          "giantswarm/jiralert",
-          "giantswarm/trivy-operator",
-          "giantswarm/starboard-exporter-app",
-          "giantswarm/kyverno-policies-app"
-        ],
-        "enabled": false
-      }
-  ],
-  "prHourlyLimit": 6,
   "regexManagers": [
     {
       "fileMatch": ["^helm\\/.+\\/values\\.yaml$"],
-      "matchStringsStrategy": "recursive",
-      "matchStrings": ["chartName: (?<depName>.*)\n\\s*catalog: .*\n\\s*enabled: .*\n\\s*namespace: .*\n\\s*version: (?<currentValue>.*?)\n"],
-      "packageNameTemplate": "giantswarm/{{{depName}}}-app",
-      "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^v(?<version>.*)$"
-    },
-    {
-      "fileMatch": ["^helm\\/.+\\/values\\.yaml$"],
-      "matchStringsStrategy": "recursive",
-      "matchStrings": ["chartName: (?<depName>.*)\n\\s*catalog: .*\n\\s*enabled: .*\n\\s*namespace: .*\n\\s*version: (?<currentValue>.*?)\n"],
-      "packageNameTemplate": "giantswarm/{{{depName}}}",
+      "matchStrings": ["repo: (?<depName>.*)\n(\\s)*version: (?<currentValue>.*?)\n"],
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v(?<version>.*)$"
     }
   ],
-  "schedule": [ "after 6am every weekday" ]
+  "schedule": [ "after 6am on thursday" ]
 }
