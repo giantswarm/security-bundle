@@ -24,6 +24,8 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-bundle
+    # used by renovate
+    # repo: giantswarm/falco-app
     version: 0.5.2
 
   jiralert:
@@ -32,6 +34,8 @@ apps:
     catalog: giantswarm
     enabled: false
     namespace: security-bundle
+    # used by renovate
+    # repo: giantswarm/jiralert-app
     version: 0.1.0
 
   kyverno:
@@ -40,6 +44,8 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: kyverno
+    # used by renovate
+    # repo: giantswarm/kyverno-app
     version: 0.14.5
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
@@ -50,6 +56,8 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: kyverno
+    # used by renovate
+    # repo: giantswarm/kyverno-policies
     version: 0.18.1
 
   starboardExporter:
@@ -58,6 +66,8 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-bundle
+    # used by renovate
+    # repo: giantswarm/starboard-exporter
     version: 0.7.3
 
   trivy:
@@ -66,6 +76,8 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-bundle
+    # used by renovate
+    # repo: giantswarm/trivy-app
     version: 0.8.1
 
   trivyOperator:
@@ -74,4 +86,6 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: security-bundle
+    # used by renovate
+    # repo: giantswarm/trivy-operator-app
     version: 0.4.0
