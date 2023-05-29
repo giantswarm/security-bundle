@@ -22,7 +22,7 @@ apps:
     appName: falco
     chartName: falco
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     version: 0.5.2
 
@@ -56,7 +56,7 @@ apps:
     appName: starboard-exporter
     chartName: starboard-exporter
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     version: 0.7.3
 
@@ -64,7 +64,7 @@ apps:
     appName: trivy
     chartName: trivy
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     version: 0.8.1
 
@@ -72,6 +72,6 @@ apps:
     appName: trivy-operator
     chartName: trivy-operator
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     version: 0.4.0
