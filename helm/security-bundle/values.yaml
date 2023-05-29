@@ -4,18 +4,12 @@ organization: ""
 # User values can be provided via a ConfigMap or Secret for each individual app
 # using the structure shown below.
 
-# userConfig:
-#   kyvernoPolicies:
-#     configMap:
-#       values:
-#         kyverno-policies:
-#           podSecurityStandard: restricted
-#   trivy:
-#     configMap:
-#       values:
-#         trivy:
-#           networkPolicy:
-#             enabled: true
+userConfig:
+  kyvernoPolicies:
+    configMap:
+      values:
+        kyverno-policies:
+          podSecurityStandard: restricted
 
 apps:
   falco:
