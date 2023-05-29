@@ -1,0 +1,32 @@
+clusterName: "demo01" # Replace with cluster ID
+organization: "org-demo" # Replace with organization name
+
+# Installs only Kyverno and Kyverno Policies
+
+apps:
+  kyverno:
+    enabled: true
+
+  kyvernoPolicies:
+    enabled: true
+
+  falco:
+    enabled: false
+
+  starboardExporter:
+    enabled: false
+
+  trivy:
+    enabled: false
+
+  trivyOperator:
+    enabled: false
+
+# Enables PSS Restricted policies
+
+userConfig:
+  kyvernoPolicies:
+    configMap:
+      values:
+        kyverno-policies:
+          podSecurityStandard: restricted
