@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Set Kyverno Policies to enforce mode.
+
 ## [0.15.0-gs1] - 2023-05-31
 
 ## [0.15.0] - 2023-05-31
