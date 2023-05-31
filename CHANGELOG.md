@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated `Kyverno-Policies` version to 0.19.0 to enable restricted PSS by default.
+
 ## [0.14.3] - 2023-05-17
 
 ### Changed
