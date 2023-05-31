@@ -1,5 +1,5 @@
 {{- range $key, $value := .Values.apps }}
-{{- $appName := include "app.name" (dict "app" .appName "cluster" $.Values.clusterName "ns" $.Release.Namespace) }}
+{{- $appName := include "app.name" (dict "app" .appName "cluster" $.Values.clusterID "ns" $.Release.Namespace) }}
 {{- if .enabled }}
 ---
 apiVersion: application.giantswarm.io/v1alpha1
@@ -13,14 +13,14 @@ spec:
   catalog: {{ .catalog }}
   config:
     configMap:
-      name: {{ $.Values.clusterName }}-cluster-values
+      name: {{ $.Values.clusterID }}-cluster-values
       namespace: {{ $.Release.Namespace }}
   kubeConfig:
     context:
-      name: {{ $.Values.clusterName }}-admin@{{ $.Values.clusterName }}
+      name: {{ $.Values.clusterID }}-admin@{{ $.Values.clusterID }}
     inCluster: false
     secret:
-      name: {{ $.Values.clusterName }}-kubeconfig
+      name: {{ $.Values.clusterID }}-kubeconfig
       namespace: {{ $.Release.Namespace}}
   name: {{ .chartName }}
   namespace: {{ .namespace }}

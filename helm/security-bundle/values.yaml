@@ -1,4 +1,4 @@
-clusterName: ""
+clusterID: ""
 organization: ""
 
 # User values can be provided via a ConfigMap or Secret for each individual app
