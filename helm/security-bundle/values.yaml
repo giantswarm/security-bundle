@@ -1,28 +1,12 @@
 clusterID: ""
 organization: ""
 
-# User values can be provided via a ConfigMap or Secret for each individual app
-# using the structure shown below.
-
-# userConfig:
-#   kyvernoPolicies:
-#     configMap:
-#       values:
-#         kyverno-policies:
-#           podSecurityStandard: restricted
-#   trivy:
-#     configMap:
-#       values:
-#         trivy:
-#           networkPolicy:
-#             enabled: true
-
 apps:
   falco:
     appName: falco
     chartName: falco
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
@@ -64,7 +48,7 @@ apps:
     appName: starboard-exporter
     chartName: starboard-exporter
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
@@ -74,7 +58,7 @@ apps:
     appName: trivy
     chartName: trivy
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
@@ -84,7 +68,7 @@ apps:
     appName: trivy-operator
     chartName: trivy-operator
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
