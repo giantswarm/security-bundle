@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Renamed `clusterName` value to `clusterID`, aligning with other bundles and the values provided by `cluster-operator`.
+
 ## [0.14.3] - 2023-05-17
 
 ### Changed

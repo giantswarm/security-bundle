@@ -46,7 +46,7 @@ The currently recommended way to install the security bundle is:
 1. Create `user-values.yaml` containing the name of the cluster where the Apps should be installed, and the organization where that cluster is running:
 
     ```yaml
-    clusterName: demo1
+    clusterID: demo1
     organization: demo-team
     ```
 
@@ -93,7 +93,7 @@ for example `demo01-security-bundle` or `security-bundle-demo1`.
 
 ```yaml
 # values.yaml
-clusterName: demo1
+clusterID: demo1
 organization: demo-team
 ```
 
@@ -133,7 +133,7 @@ spec:
 apiVersion: v1
 data:
   values: |
-    clusterName: demo1
+    clusterID: demo1
     organization: giantswarm
 kind: ConfigMap
 metadata:

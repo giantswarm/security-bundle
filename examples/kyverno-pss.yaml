@@ -1,4 +1,4 @@
-clusterName: "demo01" # Replace with cluster ID
+clusterID: "demo01" # Replace with cluster ID
 organization: "org-demo" # Replace with organization name
 
 # Installs only Kyverno and Kyverno Policies

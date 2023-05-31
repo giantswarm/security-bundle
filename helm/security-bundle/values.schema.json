@@ -191,7 +191,7 @@
                 }
             }
         },
-        "clusterName": {
+        "clusterID": {
             "type": "string"
         },
         "organization": {
