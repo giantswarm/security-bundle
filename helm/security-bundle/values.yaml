@@ -1,6 +1,13 @@
 clusterID: ""
 organization: ""
 
+userConfig:
+  kyvernoPolicies:
+    configMap:
+      values:
+        kyverno-policies:
+          validationFailureAction: enforce
+
 apps:
   falco:
     appName: falco
