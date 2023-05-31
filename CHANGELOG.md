@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Renamed `clusterName` value to `clusterID`, aligning with other bundles and the values provided by `cluster-operator`.
+- Updated `Kyverno-Policies` version to 0.19.0 to enable restricted PSS by default.
 
 ## [0.14.3] - 2023-05-17
 
