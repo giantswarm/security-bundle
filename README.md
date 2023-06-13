@@ -6,15 +6,15 @@ Giant Swarm offers a [managed security bundle][security-bundle] which provides a
 
 By default, installing the security bundle in a cluster includes:
 
-- Falco, from our [`falco-app`][falco-app]
 - Kyverno, from our [`kyverno-app`][kyverno-app]
   - our [`kyverno-policies`][kyverno-policies] app for Kubernetes Pod Security Standards (PSS)
-- Trivy, from our [`trivy-app`][trivy-app]
-- Trivy Operator, from our [`trivy-operator`][trivy-operator-app] app
-  - our [`starboard-exporter`][starboard-exporter] for exposing metrics
 
 Some optional components are also installable from this bundle, including:
 
+- Falco, from our [`falco-app`][falco-app]
+- Trivy, from our [`trivy-app`][trivy-app]
+- Trivy Operator, from our [`trivy-operator`][trivy-operator-app] app
+  - our [`starboard-exporter`][starboard-exporter] for exposing metrics
 - Jiralert, from our [`jiralert-app`][jiralert-app], for automatically creating Jira issues from security findings
 
 Previous versions of the pack included Starboard, from our [`starboard-app`][starboard-app]. Starboard has been deprecated in favor of Trivy Operator, and we have removed the Starboard app from this app bundle as of v0.13.0.

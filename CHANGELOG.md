@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to `kyverno` (app) version 0.14.7, introducing exception mechanisms for `chart-operator` and restricting wildcards for Kinds.
+- Disabled the default apps `falco`, `trivy`, `trivy-operator` and `starboard-exporter`. This apps can be manually enabled.
+
 ## [0.15.0] - 2023-05-31
 
 ### Changed
