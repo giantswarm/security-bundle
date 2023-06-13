@@ -9,20 +9,21 @@ organization: ""
 #     configMap:
 #       values:
 #         kyverno-policies:
-#           podSecurityStandard: restricted
+#           validationFailureAction: Enforce
+
 #   trivy:
 #     configMap:
 #       values:
 #         trivy:
 #           networkPolicy:
-#             enabled: true
+#             enabled: false
 
 apps:
   falco:
     appName: falco
     chartName: falco
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
@@ -46,7 +47,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.14.5
+    version: 0.14.7
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
@@ -64,7 +65,7 @@ apps:
     appName: starboard-exporter
     chartName: starboard-exporter
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
@@ -74,7 +75,7 @@ apps:
     appName: trivy
     chartName: trivy
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
@@ -84,7 +85,7 @@ apps:
     appName: trivy-operator
     chartName: trivy-operator
     catalog: giantswarm
-    enabled: true
+    enabled: false
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
