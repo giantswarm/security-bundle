@@ -4,12 +4,12 @@ organization: ""
 # User values can be provided via a ConfigMap or Secret for each individual app
 # using the structure shown below.
 
-# userConfig:
-#   kyvernoPolicies:
-#     configMap:
-#       values:
-#         kyverno-policies:
-#           validationFailureAction: Enforce
+userConfig:
+  kyvernoPolicies:
+    configMap:
+      values:
+        kyverno-policies:
+          validationFailureAction: Enforce
 
 #   trivy:
 #     configMap:
