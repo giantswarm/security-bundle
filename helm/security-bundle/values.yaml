@@ -5,23 +5,37 @@ organization: ""
 # using the structure shown below.
 
 userConfig:
-#  kyvernoPolicies:
-#    configMap:
-#      values:
-#        kyverno-policies:
-#          validationFailureAction: Enforce
+  falco:
+    configMap:
+      values:
+        podSecurityPolicy:
+          create: false
+  jiralert:
+    configMap:
+      values:
+        psp:
+          enabled: false
   kyverno:
     configMap:
       values:
         psp:
           enabled: false
-
-#   trivy:
-#     configMap:
-#       values:
-#         trivy:
-#           networkPolicy:
-#             enabled: false
+  # kyvernoPolicies:
+  #   configMap:
+  #     values:
+  #       kyverno-policies:
+  #         validationFailureAction: Enforce
+  trivy:
+    configMap:
+      values:
+        trivy:
+          rbac:
+            pspEnabled: false
+  trivyOperator:
+    configMap:
+      values:
+        rbac:
+          pspEnabled: false
 
 apps:
   falco:
