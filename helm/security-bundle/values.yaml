@@ -5,11 +5,11 @@ organization: ""
 # using the structure shown below.
 
 userConfig:
-  kyvernoPolicies:
-    configMap:
-      values:
-        kyverno-policies:
-          validationFailureAction: Enforce
+#  kyvernoPolicies:
+#    configMap:
+#      values:
+#        kyverno-policies:
+#          validationFailureAction: Enforce
   kyverno:
     configMap:
       values:
