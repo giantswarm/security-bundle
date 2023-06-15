@@ -29,6 +29,8 @@ More information and configuration options can be found in each app repository.
 
 :warning: **Existing `security-pack` users must delete the old `security-pack` CR first before installing the bundle.** It is not possible to update directly from a `security-pack` to a `security-bundle` App CR by renaming it.
 
+:warning: **In version `0.17.0` PSPs are disabled by default. Clusters running versions older than `1.25.0` must enable the PSPs in the userconfig of the `values.yaml` file before installing the security bundle**
+
 ### Updating from `security-pack`
 
 To change an existing `security-pack` install to a `security-bundle`, the following changes must be made:
