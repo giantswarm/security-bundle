@@ -16,6 +16,9 @@ userConfig:
         kyverno:
           psp:
             enabled: false
+        policy-reporter:
+          psp:
+            enabled: false
 
 #   trivy:
 #     configMap:
