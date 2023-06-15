@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Set Kyverno PSS policies to `Enforce` mode.
+- Disable PSP enabled to `false` in userconfig. 
 
 ## [0.16.0] - 2023-06-13
 
