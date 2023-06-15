@@ -13,9 +13,8 @@ userConfig:
   kyverno:
     configMap:
       values:
-        kyverno:
-          psp:
-            enabled: false
+        psp:
+          enabled: false
 
 #   trivy:
 #     configMap:
@@ -53,7 +52,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.14.7
+    version: 0.14.8
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/

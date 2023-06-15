@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated `kyverno` (App) to version 0.14.8, which modifies the PSPs logic so it can be disabled for every component.
+
 ## [0.17.0] - 2023-06-15
 
 ### Changed
