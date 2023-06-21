@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Set `Kyverno Policies` config to `Enforce` mode.
+- Disable PSPs for all Apps from `userConfig`.
+
 ## [0.17.1] - 2023-06-15
 
 ### Changed

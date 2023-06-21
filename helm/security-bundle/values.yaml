@@ -20,11 +20,11 @@ userConfig:
       values:
         psp:
           enabled: false
-  # kyvernoPolicies:
-  #   configMap:
-  #     values:
-  #       kyverno-policies:
-  #         validationFailureAction: Enforce
+  kyvernoPolicies:
+    configMap:
+      values:
+        kyverno-policies:
+          validationFailureAction: Enforce
   trivy:
     configMap:
       values:
