@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to `kyverno` (app) version 0.14.9, introducing the `scrapeTimeout` and `interval` configurable values for Policy Reporter `ServiceMonitors`.
+
 ## [0.16.0] - 2023-06-13
 
 ### Changed
