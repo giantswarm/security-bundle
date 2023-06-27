@@ -5,6 +5,16 @@
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
 metadata:
+  {{- if .dependsOn }}
+  annotations:
+    {{- if hasPrefix "org-" $.Release.Namespace }}
+    # App is deployed in the org- namespace so the secret name is prefixed by the cluster-id
+    app-operator.giantswarm.io/depends-on: {{ printf "%s-%s" $.Values.clusterID .dependsOn -}}
+    {{- else }}
+    # App is deployed in the cluster-id namespace so prefix is unneeded
+    app-operator.giantswarm.io/depends-on: {{ .dependsOn -}}
+    {{- end }}
+  {{- end }}
   labels:
     {{- include "labels.common" $ | nindent 4 }}
   name: {{ $appName }}
