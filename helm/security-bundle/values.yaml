@@ -74,6 +74,7 @@ apps:
     appName: kyverno-policies
     chartName: kyverno-policies
     catalog: giantswarm
+    dependsOn: kyverno
     enabled: true
     namespace: kyverno
     # used by renovate
