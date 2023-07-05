@@ -29,6 +29,21 @@ More information and configuration options can be found in each app repository.
 
 :warning: **Existing `security-pack` users must delete the old `security-pack` CR first before installing the bundle.** It is not possible to update directly from a `security-pack` to a `security-bundle` App CR by renaming it.
 
+### Compatibility Matrix
+
+| Bundle Version  | K8s Version  | GS Release  | Branch  | PSS Policy State  | PSPs installed |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| v1.0.x  |  >= v1.25.0 | >= v20.0.0  | `main`  | enforce  | no  |
+| v0.x.x  | < v1.25.0 | >= v19.1.0, < v20.0.0  | `legacy`  | audit  | yes  |
+
+### Upgrading from a self-managed to a preinstalled `security-bundle`
+
+The `security-bundle` is now being installed by default in new Giant Swarm cluster versions.
+
+When upgrading from a cluster where the bundle was not preinstalled, it is possible that the installation of the bundle will fail if the bundle itself, or one of its apps (like Kyverno) was installed as an optional app prior to the upgrade.
+
+We are working on an automated way to resolve this condition, but due to technical limitations and variation between how customers manage Apps (e.g. gitops) we currently recommend uninstalling any customer-installed `security-bundle`, `kyverno-app`, and `kyverno-policies` Apps installed in a cluster when upgrading to a version containing the bundle by default. 
+
 ### Updating from `security-pack`
 
 To change an existing `security-pack` install to a `security-bundle`, the following changes must be made:

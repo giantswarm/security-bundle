@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add depends-on annotation to set App depenencies.
+
+### Changed
+
+- Update to `kyverno` (app) version 0.14.10, introducing Cilium Network Policy support.
+- Update to `kyverno-policies` (app) version 0.20.0.
+
 ## [0.16.1] - 2023-06-26
 
 ### Changed
