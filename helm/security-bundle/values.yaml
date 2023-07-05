@@ -66,7 +66,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.14.9
+    version: 0.14.10
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
@@ -79,7 +79,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.19.0
+    version: 0.20.0
 
   starboardExporter:
     appName: starboard-exporter
