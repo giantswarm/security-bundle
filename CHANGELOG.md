@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2023-07-05
+
 ### Added
 
 - Add `depends-on` annotation to set App depenencies. 
@@ -220,7 +222,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/giantswarm/security-bundle/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/giantswarm/security-bundle/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/giantswarm/security-bundle/compare/v0.17.1...v1.0.0
 [0.17.1]: https://github.com/giantswarm/security-bundle/compare/v0.17.0...v0.17.1
