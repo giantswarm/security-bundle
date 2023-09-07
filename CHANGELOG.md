@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Update to `kyverno` (app) upstream version 1.10.2. 
+
 ## [0.16.2] - 2023-07-05
 
 ### Added
