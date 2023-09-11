@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Update to `kyverno` (app) upstream version 1.10.2. *Note:* This update includes breaking changes in the values structure, please check the [migration docs](https://github.com/giantswarm/kyverno-app/tree/main/helm/kyverno/charts/kyverno#new-chart-values) before upgrading.
+- Update to `trivy` (app) version 0.8.3.
+- Update to `falco` (app) version 0.6.5.
+
 ## [1.0.2] - 2023-07-05
 
 ### Added
