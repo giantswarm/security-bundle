@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.17.0] - 2023-09-11
+
 ### Added
 
 - Update to `kyverno` (app) upstream version 1.10.2. *Note:* This update includes breaking changes in the values structure, please check the [migration docs](https://github.com/giantswarm/kyverno-app/tree/main/helm/kyverno/charts/kyverno#new-chart-values) before upgrading.
@@ -221,7 +223,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.16.2...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.17.0...HEAD
+[0.17.0]: https://github.com/giantswarm/security-bundle/compare/v0.16.2...v0.17.0
 [0.16.2]: https://github.com/giantswarm/security-bundle/compare/v0.16.1...v0.16.2
 [0.16.1]: https://github.com/giantswarm/security-bundle/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/giantswarm/security-bundle/compare/v0.15.0...v0.16.0
