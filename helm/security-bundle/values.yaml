@@ -27,7 +27,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
-    version: 0.5.2
+    version: 0.6.5
 
   jiralert:
     appName: jiralert
@@ -47,7 +47,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.14.10
+    version: 0.15.2
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
@@ -80,7 +80,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
-    version: 0.8.1
+    version: 0.8.3
 
   trivyOperator:
     appName: trivy-operator
