@@ -8,6 +8,8 @@ By default, installing the security bundle in a cluster includes:
 
 - Kyverno, from our [`kyverno-app`][kyverno-app]
   - our [`kyverno-policies`][kyverno-policies] app for Kubernetes Pod Security Standards (PSS)
+  - our [`kyverno-policy-operator`][kyverno-policy-operator] app
+  - our [`exception-recommender`][exception-recommender] app
 
 Some optional components are also installable from this bundle, including:
 
