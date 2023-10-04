@@ -5,6 +5,32 @@
         "apps": {
             "type": "object",
             "properties": {
+                "exceptionRecommender": {
+                    "type": "object",
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "catalog": {
+                            "type": "string"
+                        },
+                        "chartName": {
+                            "type": "string"
+                        },
+                        "dependsOn": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "namespace": {
+                            "type": "string"
+                        },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "falco": {
                     "type": "object",
                     "properties": {
@@ -86,6 +112,9 @@
                         "chartName": {
                             "type": "string"
                         },
+                        "dependsOn": {
+                            "type": "string"
+                        },
                         "enabled": {
                             "type": "boolean"
                         },
@@ -97,7 +126,7 @@
                         }
                     }
                 },
-                "starboard": {
+                "kyvernoPolicyOperator": {
                     "type": "object",
                     "properties": {
                         "appName": {
@@ -107,6 +136,9 @@
                             "type": "string"
                         },
                         "chartName": {
+                            "type": "string"
+                        },
+                        "dependsOn": {
                             "type": "string"
                         },
                         "enabled": {
