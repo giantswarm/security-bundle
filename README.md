@@ -8,8 +8,10 @@ By default, installing the security bundle in a cluster includes:
 
 - Kyverno, from our [`kyverno-app`][kyverno-app]
   - our [`kyverno-policies`][kyverno-policies] app for Kubernetes Pod Security Standards (PSS)
-  - our [`kyverno-policy-operator`][kyverno-policy-operator] app
-  - our [`exception-recommender`][exception-recommender] app
+
+- components supporting our Policy API features
+  - our [`kyverno-policy-operator`][kyverno-policy-operator] app, which orchestrates our managed Kyverno policies.
+  - our [`exception-recommender`][exception-recommender] app, which recommends possible Giant Swarm PolicyExceptions for non-compliant workloads.
 
 Some optional components are also installable from this bundle, including:
 
@@ -36,7 +38,8 @@ More information and configuration options can be found in each app repository.
 | Bundle Version  | K8s Version  | GS Release  | Branch  | PSS Policy State  | PSPs installed |
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | v1.0.x  |  >= v1.25.0 | >= v20.0.0  | `main`  | enforce  | no  |
-| v0.x.x  | < v1.25.0 | >= v19.1.0, < v20.0.0  | `legacy`  | audit  | yes  |
+| v1.0.x  |  v1.24.x | >= v19.2.0, < v20.0.0  | `main`  | enforce  |  |
+| v0.x.x  | < v1.25.0 | >= v19.1.0, < v19.2.0  | `legacy`  | audit  | yes  |
 
 ### Upgrading from a self-managed to a preinstalled `security-bundle`
 
@@ -162,10 +165,12 @@ metadata:
 See our [full reference page on how to configure applications](https://docs.giantswarm.io/app-platform/app-configuration/) for more details.
 
 [app-bundle]: https://docs.giantswarm.io/getting-started/app-platform/app-bundle/
+[exception-recommender]: https://github.com/giantswarm/exception-recommender
 [falco-app]: https://github.com/giantswarm/falco-app
 [jiralert-app]: https://github.com/giantswarm/jiralert-app
 [kyverno-app]: https://github.com/giantswarm/kyverno-app
 [kyverno-policies]: https://github.com/giantswarm/kyverno-policies/
+[kyverno-policy-operator]: https://github.com/giantswarm/kyverno-policy-operator
 [security-bundle]: https://docs.giantswarm.io/app-platform/apps/security/
 [starboard-app]: https://github.com/giantswarm/starboard-app
 [starboard-exporter]: https://github.com/giantswarm/starboard-exporter/
