@@ -60,7 +60,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.20.0
+    version: 0.20.1
 
   starboardExporter:
     appName: starboard-exporter
@@ -90,4 +90,4 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.4.0
+    version: 0.4.1
