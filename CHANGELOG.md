@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.18.0] - 2023-10-05
+
 ### Added
 
 - Add `exception-recommender` (app) to the security bundle to create Giant Swarm PolicyException recommendations.
@@ -230,7 +232,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.17.0...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.18.0...HEAD
+[0.18.0]: https://github.com/giantswarm/security-bundle/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/giantswarm/security-bundle/compare/v0.16.2...v0.17.0
 [0.16.2]: https://github.com/giantswarm/security-bundle/compare/v0.16.1...v0.16.2
 [0.16.1]: https://github.com/giantswarm/security-bundle/compare/v0.16.0...v0.16.1
