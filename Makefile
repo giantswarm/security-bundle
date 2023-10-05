@@ -1,6 +1,10 @@
 # DO NOT EDIT. Generated with:
 #
+<<<<<<< HEAD
 #    devctl@6.1.1
+=======
+#    devctl@6.13.0
+>>>>>>> b35f12a (Align files (#166))
 #
 
 include Makefile.*.mk

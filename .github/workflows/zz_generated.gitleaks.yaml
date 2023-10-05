@@ -1,6 +1,10 @@
 # DO NOT EDIT. Generated with:
 #
+<<<<<<< HEAD
 #    devctl@6.1.1
+=======
+#    devctl@6.13.0
+>>>>>>> b35f12a (Align files (#166))
 #
 name: gitleaks
 
@@ -10,7 +14,7 @@ jobs:
   gitleaks:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: '0'
     - name: gitleaks-action
