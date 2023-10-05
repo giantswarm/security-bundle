@@ -14,7 +14,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to `kyverno-policies` (app) version 0.20.1.
 - Update to `trivy-operator` (app) to version 0.4.1.
 
-
 ## [0.17.0] - 2023-09-11
 
 ### Added
