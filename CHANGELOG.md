@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `exception-recommender` (app) to the security bundle to create Giant Swarm PolicyException recommendations.
+- Add `kyverno-policy-operator` (app) to the security bundle to automatically create Kyverno PolicyExceptions from Giant Swarm PolicyExceptions.
+
 ## [0.17.0] - 2023-09-11
 
 ### Added
