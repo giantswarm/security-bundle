@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Add `exception-recommender` (app) to the security bundle to create Giant Swarm PolicyException recommendations.
+- Add `kyverno-policy-operator` (app) to the security bundle to automatically create Kyverno PolicyExceptions from Giant Swarm PolicyExceptions.
 - Update to `kyverno` (app) upstream version 1.10.2. *Note:* This update includes breaking changes in the values structure, please check the [migration docs](https://github.com/giantswarm/kyverno-app/tree/main/helm/kyverno/charts/kyverno#new-chart-values) before upgrading.
+- Update to `kyverno-policies` (app) version 0.20.1.
+- Update to `trivy-operator` (app) to version 0.4.1.
 - Update to `trivy` (app) version 0.8.3.
 - Update to `falco` (app) version 0.6.5.
 
