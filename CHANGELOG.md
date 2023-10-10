@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to `exception-recommender` (app) version 0.0.2.
+- Update to `kyverno-policy-operator` (app) version 0.0.2.
+
 ## [0.18.0] - 2023-10-05
 
 ### Added
