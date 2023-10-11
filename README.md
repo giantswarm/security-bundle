@@ -27,11 +27,7 @@ Apps can be selectively enabled or disabled using the `enabled` setting for that
 
 More information and configuration options can be found in each app repository.
 
-**Note:** There is a known issue when uninstalling Kyverno where some resources may not be removed properly. The cause is still under investigation, but a [recent update](https://github.com/kyverno/kyverno/issues/3111) has improved the situation so that Kyverno's webhooks are properly removed, meaning the remnants are unnecessary but should otherwise have no negative effect on the cluster. If installing Kyverno through this App, you may need to manually remove some lingering Kyverno resources if you subsequently choose to remove Kyverno.
-
 ## Installing
-
-:warning: **Existing `security-pack` users must delete the old `security-pack` CR first before installing the bundle.** It is not possible to update directly from a `security-pack` to a `security-bundle` App CR by renaming it.
 
 :warning: **In version `v1.0.0` PSPs are disabled by default. Clusters running versions older than `1.25.0` must enable the PSPs in the userconfig of the `values.yaml` file before installing the Security Bundle or use older `v0.x.x` versions.**
 
@@ -40,8 +36,8 @@ More information and configuration options can be found in each app repository.
 | Bundle Version  | K8s Version  | GS Release  | Branch  | PSS Policy State  | PSPs installed |
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | v1.0.x  |  >= v1.25.0 | >= v20.0.0  | `main`  | enforce  | no  |
-| v1.0.x  |  v1.24.x | >= v19.2.0, < v20.0.0  | `main`  | enforce  |  |
-| v0.x.x  | < v1.25.0 | >= v19.1.0, < v19.2.0  | `legacy`  | audit  | yes  |
+| v1.0.x  |  v1.24.x | >= v19.3.0, < v20.0.0  | `main`  | enforce  | no |
+| v0.x.x  | < v1.25.0 | >= v19.1.0, < v19.3.0  | `legacy`  | audit  | yes  |
 
 ### Upgrading from a self-managed to a preinstalled `security-bundle`
 
