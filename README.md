@@ -35,8 +35,8 @@ More information and configuration options can be found in each app repository.
 
 | Bundle Version  | K8s Version  | GS Release  | Branch  | PSS Policy State  | PSPs installed |
 |:---:|:---:|:---:|:---:|:---:|:---:|
-| v1.0.x  |  >= v1.25.0 | >= v20.0.0  | `main`  | enforce  | no  |
-| v1.0.x  |  v1.24.x | >= v19.3.0, < v20.0.0  | `main`  | enforce  | no |
+| v1.x.x  |  >= v1.25.0 | >= v20.0.0  | `main`  | enforce  | no  |
+| v1.x.x  |  v1.24.x | >= v19.3.0, < v20.0.0  | `main`  | enforce  | no |
 | v0.x.x  | < v1.25.0 | >= v19.1.0, < v19.3.0  | `legacy`  | audit  | yes  |
 
 ### Upgrading from a self-managed to a preinstalled `security-bundle`
