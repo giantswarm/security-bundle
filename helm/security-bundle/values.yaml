@@ -11,6 +11,8 @@ userConfig:
         global:
           podSecurityStandards:
             enforced: true
+        recommender:
+          createNamespace: false
   falco:
     configMap:
       values:
@@ -56,7 +58,7 @@ apps:
     catalog: giantswarm
     dependsOn: kyverno
     enabled: false
-    namespace: security-bundle
+    namespace: policy-exceptions
     # used by renovate
     # repo: giantswarm/exception-recommender
     version: 0.0.2
@@ -97,7 +99,7 @@ apps:
     catalog: giantswarm
     dependsOn: kyverno-policies
     enabled: true
-    namespace: security-bundle
+    namespace: policy-exceptions
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
     version: 0.0.2

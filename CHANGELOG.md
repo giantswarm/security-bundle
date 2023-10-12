@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Change `kyverno-policy-oeprator` and `exception-recommender` namespaces to `policy-exceptions`.
+
 ## [1.1.0] - 2023-10-10
 
 - Add `exception-recommender` (app) to the security bundle to create Giant Swarm PolicyException recommendations.
