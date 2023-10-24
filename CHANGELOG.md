@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Change `kyverno-policy-oeprator` and `exception-recommender` namespaces to `policy-exceptions`.
+- Change `kyverno-policy-operator` and `exception-recommender` namespaces to `policy-exceptions`.
 
 ## [1.1.0] - 2023-10-10
 
