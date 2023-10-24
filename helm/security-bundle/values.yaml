@@ -102,7 +102,7 @@ apps:
     namespace: policy-exceptions
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
-    version: 0.0.2
+    version: 0.0.3
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
