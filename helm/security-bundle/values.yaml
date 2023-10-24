@@ -26,8 +26,9 @@ userConfig:
   kyverno:
     configMap:
       values:
-        psp:
-          enabled: false
+        global:
+          podSecurityStandards:
+            enforced: true
   kyvernoPolicies:
     configMap:
       values:
