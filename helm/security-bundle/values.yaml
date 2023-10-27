@@ -99,7 +99,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 0.7.3
+    version: 0.7.4
 
   trivy:
     appName: trivy
