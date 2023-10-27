@@ -82,7 +82,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/jiralert-app
-    version: 0.1.0
+    version: 0.1.1
 
   kyverno:
     appName: kyverno
