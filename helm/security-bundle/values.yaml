@@ -109,7 +109,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
-    version: 0.8.3
+    version: 0.9.0
 
   trivyOperator:
     appName: trivy-operator
