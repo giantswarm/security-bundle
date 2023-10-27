@@ -92,7 +92,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.16.0
+    version: 0.16.1
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
