@@ -1,6 +1,0 @@
-{
-    "extends": [
-      "github>giantswarm/renovate-presets:default.json5"
-    ],
-    "baseBranches": ["main", "legacy"]
-}
