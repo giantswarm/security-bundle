@@ -16,8 +16,9 @@ userConfig:
   falco:
     configMap:
       values:
-        podSecurityPolicy:
-          create: false
+        global:
+          podSecurityStandards:
+            enforced: true
         falco:
           falco-exporter:
             podSecurityPolicy:
@@ -25,8 +26,9 @@ userConfig:
   jiralert:
     configMap:
       values:
-        psp:
-          enabled: false
+        global:
+          podSecurityStandards:
+            enforced: true
   kyverno:
     configMap:
       values:
