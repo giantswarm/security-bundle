@@ -18,6 +18,10 @@ userConfig:
       values:
         podSecurityPolicy:
           create: false
+        falco:
+          falco-exporter:
+            podSecurityPolicy:
+              create: false
   jiralert:
     configMap:
       values:
