@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Update to `kyverno` (app) version 0.16.1.
+- Update to `kyverno-policy-operator` (app) version 0.0.4.
+- Update to `trivy-operator` (app) version 0.5.0.
+- Update to `trivy` (app) version 0.9.0.
+- Update to `jiralert` (app) version 0.1.2.
+- Update to `falco` (app) version 0.6.7.
 - Disable PSPs for `falco-exporter`.
 
 ## [1.2.0] - 2023-10-24
