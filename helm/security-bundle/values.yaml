@@ -35,7 +35,7 @@ apps:
     namespace: policy-exceptions
     # used by renovate
     # repo: giantswarm/exception-recommender
-    version: 0.0.2
+    version: 0.0.3
 
   falco:
     appName: falco
