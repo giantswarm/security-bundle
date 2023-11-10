@@ -32,7 +32,7 @@ apps:
     catalog: giantswarm
     dependsOn: kyverno
     enabled: true
-    namespace: policy-exceptions
+    namespace: security-bundle
     # used by renovate
     # repo: giantswarm/exception-recommender
     version: 0.0.3
@@ -73,7 +73,7 @@ apps:
     catalog: giantswarm
     dependsOn: kyverno-policies
     enabled: true
-    namespace: policy-exceptions
+    namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
     version: 0.0.4
