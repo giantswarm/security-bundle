@@ -10,8 +10,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Change `kyverno-policy-operator` and `exception-recommender` namespaces to `policy-exceptions`.
-- Update to `exception-recommender` (app) version 0.0.2.
-- Update to `kyverno-policy-operator` (app) version 0.0.2.
+- Update to `kyverno-app` (app) version v0.16.1.
+- Update to `kyverno-policy-operator` (app) version v0.0.4.
+- Update to `exception-recommender` (app) version v0.0.3.
+- Update to `falco-app` (app) version v0.7.0.
+- Update to `trivy-app` (app) version v0.9.0.
+- Update to `trivy-operator-app` (app) version v0.5.0.
+- Update to `jiralert-app` (app) version v0.1.2.
+
+### Notes
+
+Falco made some big changes in the way rules are distributed, categorized, and updated.
+This means that we will ship Falco with fewer rules by default, as aligned with upstream. For more information, check the Falco [release notes](https://github.com/falcosecurity/falco/releases/tag/0.36.0).
 
 ## [0.18.0] - 2023-10-05
 
