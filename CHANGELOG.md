@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to `kyverno-policy-operator` (app) version 0.0.5.
+
 ## [0.18.2] - 2023-11-10
 
 ### Changed
