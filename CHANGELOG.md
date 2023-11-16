@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Revert namespace change of `exception-recommender` and `kyverno-policy-operator`.
+- Update to `kyverno-policy-operator` (app) v0.0.5.
+- Update to `exception-recommender` (app) v0.0.3.
+- Update to `falco` (app) to v0.7.0.
+
 ## [1.3.0] - 2023-10-31
 
 ### Changed
