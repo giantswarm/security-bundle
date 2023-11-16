@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2023-11-16
+
 ### Changed
 
 - Revert namespace change of `exception-recommender` and `kyverno-policy-operator`.
@@ -260,7 +262,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/giantswarm/security-bundle/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/giantswarm/security-bundle/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/giantswarm/security-bundle/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/giantswarm/security-bundle/compare/v1.0.2...v1.1.0
