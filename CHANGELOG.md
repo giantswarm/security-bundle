@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.1] - 2023-11-21
+
 ### Changed
 
 - Revert namespace change from `policy-exceptions` to `security-bundle`.
@@ -254,7 +256,8 @@ This means that we will ship Falco with fewer rules by default, as aligned with 
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.19.0...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.19.1...HEAD
+[0.19.1]: https://github.com/giantswarm/security-bundle/compare/v0.19.0...v0.19.1
 [0.19.0]: https://github.com/giantswarm/security-bundle/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/giantswarm/security-bundle/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/giantswarm/security-bundle/compare/v0.16.2...v0.17.0
