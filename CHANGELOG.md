@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Re enable `exception-recommender` (app) and bump it to version 0.0.4. The app now enables users to create recommendations based on other policy categories.
+
 ## [1.4.1] - 2023-11-29
 
 ### Changed
