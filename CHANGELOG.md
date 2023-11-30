@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.2] - 2023-11-30
+
 ### Changed
 
 - Update to `exception-recommender` (app) to v0.0.5.
@@ -260,7 +262,8 @@ This means that we will ship Falco with fewer rules by default, as aligned with 
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.19.1...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.19.2...HEAD
+[0.19.2]: https://github.com/giantswarm/security-bundle/compare/v0.19.1...v0.19.2
 [0.19.1]: https://github.com/giantswarm/security-bundle/compare/v0.19.0...v0.19.1
 [0.19.0]: https://github.com/giantswarm/security-bundle/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/giantswarm/security-bundle/compare/v0.17.0...v0.18.0
