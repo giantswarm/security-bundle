@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to `exception-recommender` (app) to v0.0.5.
+
 ## [0.19.1] - 2023-11-21
 
 ### Changed
