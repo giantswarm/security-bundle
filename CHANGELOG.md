@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to `kyverno-app` (app) version v0.16.4.
+- Update to `kyverno-policies` (app) version v0.20.2.
+- Update to `exception-recommender` (app) to v0.0.6.
+- Update to `starboard-exporter` (app) version v0.7.5. 
+
 ### Added
 
 - Add `options` to individual app settings to allow custom timeout values.
