@@ -21,6 +21,24 @@ metadata:
   namespace: {{ $.Release.Namespace }}
 spec:
   catalog: {{ .catalog }}
+  {{- with .options }}
+  {{- if .install }}
+  install:
+    timeout: {{ .install.timeout }}
+  {{- end }}
+  {{- if .upgrade }}
+  upgrade:
+    timeout: {{ .upgrade.timeout }}
+  {{- end }}
+  {{- if .rollback }}
+  rollback:
+    timeout: {{ .rollback.timeout }}
+  {{- end }}
+  {{- if .uninstall }}
+  uninstall:
+    timeout: {{ .uninstall.timeout }}
+  {{- end }}
+  {{- end }}
   config:
     configMap:
       name: {{ $.Values.clusterID }}-cluster-values
