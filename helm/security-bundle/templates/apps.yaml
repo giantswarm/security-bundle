@@ -21,7 +21,6 @@ metadata:
   namespace: {{ $.Release.Namespace }}
 spec:
   catalog: {{ .catalog }}
-  {{- if .options}}
   {{- with .options }}
   {{- if .install }}
   install:
@@ -38,7 +37,6 @@ spec:
   {{- if .uninstall }}
   uninstall:
     timeout: {{ .uninstall.timeout }}
-  {{- end }}
   {{- end }}
   {{- end }}
   config:
