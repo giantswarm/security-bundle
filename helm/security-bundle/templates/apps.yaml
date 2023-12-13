@@ -51,7 +51,7 @@ spec:
       name: {{ $.Values.clusterID }}-kubeconfig
       namespace: {{ $.Release.Namespace}}
   name: {{ .chartName }}
-  namespace: {{ .namespace }}
+  namespace: {{ required "A valid .Values.global.namespace or .Values.apps.{APP_NAME}.namespace entry is required" (default ($.Values.global).namespace .namespace) }}
   version: {{ .version }}
   {{- if $.Values.userConfig }}
   {{- with (get $.Values.userConfig $key) }}
