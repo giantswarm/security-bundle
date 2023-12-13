@@ -2,6 +2,7 @@ clusterID: ""
 organization: ""
 
 global:
+  # All Apps will be installed in this namespace unless overridden below.
   namespace: "security-bundle"
 
 # User values can be provided via a ConfigMap or Secret for each individual app
