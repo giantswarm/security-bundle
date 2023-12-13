@@ -1,6 +1,10 @@
 clusterID: ""
 organization: ""
 
+global:
+  # All Apps will be installed in this namespace unless overridden below.
+  namespace: "security-bundle"
+
 # User values can be provided via a ConfigMap or Secret for each individual app
 # using the structure shown below.
 
@@ -65,7 +69,7 @@ apps:
     catalog: giantswarm
     dependsOn: kyverno
     enabled: false
-    namespace: security-bundle
+    # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/exception-recommender
     version: 0.0.6
@@ -75,7 +79,7 @@ apps:
     chartName: falco
     catalog: giantswarm
     enabled: false
-    namespace: security-bundle
+    # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
     version: 0.7.0
@@ -85,7 +89,7 @@ apps:
     chartName: jiralert
     catalog: giantswarm
     enabled: false
-    namespace: security-bundle
+    # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/jiralert-app
     version: 0.1.2
@@ -113,7 +117,7 @@ apps:
     catalog: giantswarm
     dependsOn: kyverno-policies
     enabled: true
-    namespace: security-bundle
+    # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
     version: 0.0.5
@@ -146,7 +150,7 @@ apps:
     chartName: trivy
     catalog: giantswarm
     enabled: false
-    namespace: security-bundle
+    # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
     version: 0.9.0
@@ -156,7 +160,7 @@ apps:
     chartName: trivy-operator
     catalog: giantswarm
     enabled: false
-    namespace: security-bundle
+    # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
     version: 0.5.0

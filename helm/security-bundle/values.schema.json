@@ -226,6 +226,14 @@
         "clusterID": {
             "type": "string"
         },
+        "global": {
+            "type": "object",
+            "properties": {
+                "namespace": {
+                    "type": "string"
+                }
+            }
+        },
         "organization": {
             "type": "string"
         }
