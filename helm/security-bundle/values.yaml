@@ -72,7 +72,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/exception-recommender
-    version: 0.0.6
+    version: 0.0.7
 
   falco:
     appName: falco
