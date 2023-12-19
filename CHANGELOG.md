@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2023-12-19
+
 ### Added
 
 - Add a `global.namespace` value for automatically setting all app namespaces.
@@ -285,7 +287,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.4.2...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/giantswarm/security-bundle/compare/v1.4.2...v1.5.0
 [1.4.2]: https://github.com/giantswarm/security-bundle/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/giantswarm/security-bundle/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/giantswarm/security-bundle/compare/v1.3.0...v1.4.0
