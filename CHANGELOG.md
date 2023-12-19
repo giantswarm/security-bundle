@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add a `global.namespace` value for automatically setting all app namespaces.
 
+### Changed
+
+- Update to exception-recommender (app) to v0.0.7.
+- Update to falco (app) to v0.7.1.
+- Update to jiralert (app) version v0.1.3.
+- Update to kyverno-policy-operator (app) version v0.0.6.
+- Update to starboard-exporter (app) version v0.7.7.
+- Update to trivy-operator (app) to v0.5.1.
+
 ## [1.4.2] - 2023-12-07
 
 ### Changed
