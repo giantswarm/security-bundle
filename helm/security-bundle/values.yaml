@@ -109,7 +109,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.17.2
+    version: 0.17.3
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
