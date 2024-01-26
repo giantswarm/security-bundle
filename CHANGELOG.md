@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to exception-recommender (app) to v0.1.0.
+- Update to falco (app) to v0.8.0.
+- Update to kyverno-policy-operator (app) version v0.0.7.
+- Update to kyverno (app) version v0.17.2.
+- Update to trivy-operator (app) to v0.7.0.
+- Update to trivy (app) to v0.10.0.
+
 ## [0.20.0] - 2023-12-19
 
 ### Added
