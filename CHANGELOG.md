@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Update to kyverno (app) to v0.17.4.
+- Update to kyverno (app) to v0.17.5.
 - Update to exception-recommender (app) to v0.1.1.
 - Update to trivy-operator (app) to v0.7.2.
 
