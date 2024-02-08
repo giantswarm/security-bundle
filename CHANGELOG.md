@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.20.1] - 2024-02-08
+
 ### Changed
 
 - Update to falco (app) to v0.8.0.
@@ -297,7 +299,8 @@ This means that we will ship Falco with fewer rules by default, as aligned with 
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.20.0...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v0.20.1...HEAD
+[0.20.1]: https://github.com/giantswarm/security-bundle/compare/v0.20.0...v0.20.1
 [0.20.0]: https://github.com/giantswarm/security-bundle/compare/v0.19.3...v0.20.0
 [0.19.3]: https://github.com/giantswarm/security-bundle/compare/v0.19.2...v0.19.3
 [0.19.2]: https://github.com/giantswarm/security-bundle/compare/v0.19.1...v0.19.2
