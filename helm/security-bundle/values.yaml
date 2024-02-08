@@ -32,7 +32,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/exception-recommender
-    version: 0.1.0
+    version: 0.0.7
 
   falco:
     appName: falco
@@ -69,7 +69,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.17.2
+    version: 0.16.4
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
@@ -80,7 +80,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
-    version: 0.0.7
+    version: 0.0.6
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
@@ -123,4 +123,4 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.7.0
+    version: 0.7.2
