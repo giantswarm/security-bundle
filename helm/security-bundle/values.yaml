@@ -39,6 +39,14 @@ userConfig:
         global:
           podSecurityStandards:
             enforced: true
+        crds:
+          install: false
+  kyvernoCrds:
+    configMap:
+      values:
+        global:
+          podSecurityStandards:
+            enforced: true
   kyvernoPolicies:
     configMap:
       values:
@@ -119,6 +127,7 @@ apps:
     appName: kyverno
     chartName: kyverno
     catalog: giantswarm
+    dependsOn: kyverno-crds
     enabled: true
     namespace: kyverno
     # Options allow to configure timeouts:
@@ -131,6 +140,23 @@ apps:
     # used by renovate
     # repo: giantswarm/kyverno-app
     version: 0.17.14
+
+  kyvernoCrds:
+    appName: kyverno-crds
+    chartName: kyverno-crds
+    catalog: giantswarm-test
+    enabled: true
+    namespace: kyverno
+    # Options allow to configure timeouts:
+    # https://docs.giantswarm.io/getting-started/app-platform/installation-configuration/
+    options:
+      install:
+        timeout: 10m
+      upgrade:
+        timeout: 10m
+    # used by renovate
+    # repo: giantswarm/kyverno-crds
+    version: 0.0.0-593e229ea96dc64b501ad80ac338cafb18326257
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
