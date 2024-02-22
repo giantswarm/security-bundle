@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.2] - 2024-02-22
+
 ### Changed
 
 - Update to kyverno (app) to v0.17.6.
@@ -320,7 +322,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.6.1...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.6.2...HEAD
+[1.6.2]: https://github.com/giantswarm/security-bundle/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/giantswarm/security-bundle/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/giantswarm/security-bundle/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/giantswarm/security-bundle/compare/v1.4.2...v1.5.0
