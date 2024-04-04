@@ -50,16 +50,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.4.2] - 2023-12-07
 
+### Added
+
+- Add `options` to individual app settings to allow custom timeout values.
+
 ### Changed
 
 - Update to `kyverno-app` (app) version v0.16.4.
 - Update to `kyverno-policies` (app) version v0.20.2.
 - Update to `exception-recommender` (app) to v0.0.6.
 - Update to `starboard-exporter` (app) version v0.7.5. 
-
-### Added
-
-- Add `options` to individual app settings to allow custom timeout values.
 
 ## [1.4.1] - 2023-11-29
 
@@ -99,8 +99,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0] - 2023-10-10
 
+### Added
+
 - Add `exception-recommender` (app) to the security bundle to create Giant Swarm PolicyException recommendations.
 - Add `kyverno-policy-operator` (app) to the security bundle to automatically create Kyverno PolicyExceptions from Giant Swarm PolicyExceptions.
+
+### Changed
+
 - Update to `kyverno` (app) upstream version 1.10.2. *Note:* This update includes breaking changes in the values structure, please check the [migration docs](https://github.com/giantswarm/kyverno-app/tree/main/helm/kyverno/charts/kyverno#new-chart-values) before upgrading.
 - Update to `kyverno-policies` (app) version 0.20.1.
 - Update to `trivy-operator` (app) to version 0.4.1.
@@ -252,7 +257,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.7.0] - 2022-09-06
 
-## Added
+### Added
 
 - Enable optional installation of `trivy-operator`.
 
@@ -319,6 +324,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use Falco app version 0.3.2.
 
 ## [0.0.1] - 2022-03-24
+
+### Added
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
