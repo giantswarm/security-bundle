@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `kyverno` (app) to v0.17.9.
+- Update `trivy` (app) to v0.10.1.
+
 ## [1.6.2] - 2024-02-22
 
 ### Changed
