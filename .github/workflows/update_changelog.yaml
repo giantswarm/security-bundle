@@ -1,0 +1,105 @@
+name: Update Changelog
+# This workflow is triggered by Renovate changes on the `values.yaml` file on main.
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'helm/**/values.yaml'
+jobs:
+  update_changelog:
+    if: ${{ github.actor == 'renovate[bot]' }}
+    name: Add Changelog entry
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.HERALD_APP_ID }}
+          private-key: ${{ secrets.HERALD_APP_KEY }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          persist-credentials: true
+          ref: "${{ github.event.ref }}"
+          fetch-depth: 0
+      - name: Set up git identity
+        run: |
+          git config --local user.email "149080493+heraldbot[bot]@users.noreply.github.com"
+          git config --local user.name "HeraldBot[bot]"
+      - name: Create changelog branch
+        id: create_branch
+        run: |
+          branch="automated-changelog-update"
+          
+          # Fetch origin
+          git fetch origin
+
+          # Check if branch exists
+          if [ -z $(git rev-parse --verify origin/$branch 2>/dev/null) ]
+          then
+            # Branch doesn't exist, create it
+            git checkout -b $branch
+          else
+            # Branch exists, use existing
+            git checkout $branch
+          fi
+          
+          # Output branch
+          echo "branch=${branch}" >> $GITHUB_OUTPUT
+      - name: Run Changelogger
+        id: run_changelogger
+        run: |
+          # Get commit message
+          commit="${{ github.event.head_commit.message }}"
+
+          # Extract version
+          appVersion=$(echo $commit | grep -oP 'v\d+\.\d+\.\d+')
+
+          # Extract the app name, removing giantswarm/ from it
+          appName=$(echo $commit | grep -oP 'giantswarm/[-a-zA-Z]*' | sed 's/giantswarm\///')
+
+          # Remove app suffix if present
+          appName=${appName%-app}
+
+          # Form the changelog line
+          newLine="- Update \`${appName}\` (app) to $appVersion."
+
+          # Output App/Version
+          app="${appName}@${appVersion}"
+          echo "app=${app}" >> $GITHUB_OUTPUT
+          echo "${app}"
+
+          go run ./hack/changelogger.go --add-changed "${newLine}" --changelog-path ${PWD}/CHANGELOG.md
+
+      - name: Commit new changes
+        id: commit_changes
+        run: |
+          git add -A
+          if git diff-index --quiet HEAD; then
+            echo "No changes found"
+          else
+            git commit -m "Add changelog entry for ${{ steps.run_changelogger.outputs.app }}"
+          fi
+      - name: Push changes
+        env:
+          remote_repo: "https://${{ github.actor }}:${{ steps.generate_token.outputs.token }}@github.com/${{ github.repository }}.git"
+        run: |
+          git push "${remote_repo}" HEAD:"${{ steps.create_branch.outputs.branch }}"
+      - name: Create PR
+        env:
+          GITHUB_TOKEN: "${{ steps.generate_token.outputs.token }}"
+        run: |
+          body="## Description
+
+          * Update \`CHANGELOG.md\` with new App version entries.
+
+
+          ---
+          > [!NOTE]  
+          > This PR was created by the **Update Changelog** workflow and triggered by a **Renovate** change on the \`values.yaml\` file.
+          "
+          # TODO: Check if PR exists instead
+          gh pr create --title "Bump App versions on changelog" --body "${body}" --head ${{ steps.create_branch.outputs.branch }} --base "${{ github.event.ref }}" || true
