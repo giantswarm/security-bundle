@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `trivy` (app) to v0.11.0.
+
 ## [1.6.3] - 2024-04-04
 
 ### Changed
@@ -219,6 +223,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.10.0] - 2022-12-21
 
 ### Added
+
 - Add icon url to `Chart.yaml`
 
 ### Changed
