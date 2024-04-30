@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update `trivy` (app) to v0.11.0.
+- Update `falco` (app) to v0.8.1.
 
 ## [1.6.3] - 2024-04-04
 
