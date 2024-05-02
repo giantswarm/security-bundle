@@ -39,6 +39,17 @@ spec:
     timeout: {{ .uninstall.timeout }}
   {{- end }}
   {{- end }}
+  {{- if .extraConfigs }}
+  extraConfigs:
+  {{- range $extraConfig := .extraConfigs }}
+  - kind: {{ $extraConfig.kind }}
+    name: {{ tpl $extraConfig.name $ }}
+    namespace: {{ tpl $extraConfig.namespace $ }}
+    {{- if $extraConfig.priority }}
+    priority: {{ $extraConfig.priority }}
+    {{- end}}
+  {{- end }}
+  {{- end }}
   config:
     configMap:
       name: {{ $.Values.clusterID }}-cluster-values
