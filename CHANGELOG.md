@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `extraConfigs` settings for the bundle Apps.
+
 ### Changed
 
 - Update `trivy` (app) to v0.11.0.
