@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.4] - 2024-05-03
+
 ### Added
 
 - Add `extraConfigs` settings for the bundle Apps.
@@ -348,7 +350,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.6.3...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.6.4...HEAD
+[1.6.4]: https://github.com/giantswarm/security-bundle/compare/v1.6.3...v1.6.4
 [1.6.3]: https://github.com/giantswarm/security-bundle/compare/v1.6.2...v1.6.3
 [1.6.2]: https://github.com/giantswarm/security-bundle/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/giantswarm/security-bundle/compare/v1.6.0...v1.6.1
