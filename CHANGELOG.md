@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `starboard-exporter` (app) to v0.7.10.
+
 ## [1.6.4] - 2024-05-03
 
 ### Added
