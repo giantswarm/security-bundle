@@ -52,9 +52,6 @@ func TestBasic(t *testing.T) {
 					Should(BeTrue())
 			})
 		}).
-		BeforeInstall(func() {
-			// Do any pre-install checks here (ensure the cluster has needed pre-reqs)
-		}).
 		BeforeUpgrade(func() {
 			// Perform any checks between installing the latest released version
 			// and upgrading it to the version to test
