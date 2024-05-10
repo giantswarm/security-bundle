@@ -1,16 +1,20 @@
 package basic
 
 import (
+	"context"
 	"fmt"
 	"testing"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/api/apps/v1"
+	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/giantswarm/apptest-framework/pkg/config"
 	"github.com/giantswarm/apptest-framework/pkg/state"
 	"github.com/giantswarm/apptest-framework/pkg/suite"
+	"github.com/giantswarm/clustertest/pkg/client"
 	"github.com/giantswarm/clustertest/pkg/organization"
 	"github.com/giantswarm/clustertest/pkg/wait"
 )
@@ -43,12 +47,13 @@ func TestBasic(t *testing.T) {
 			// E.g. ensure that the initial install has completed and has settled before upgrading
 		}).
 		Tests(func() {
-			Describe("Check Apps status", func() {
-				var org *organization.Org
+			var org *organization.Org
 
-				BeforeEach(func() {
-					org = state.GetCluster().Organization
-				})
+			BeforeSuite(func() {
+				org = state.GetCluster().Organization
+			})
+
+			Describe("Check Apps status", func() {
 
 				It("should have kyverno, kyverno-policies and kyverno-policy-operator deplyoed", func() {
 					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-kyverno", state.GetCluster().Name), org.GetNamespace())).
@@ -91,41 +96,51 @@ func TestBasic(t *testing.T) {
 						Should(BeTrue())
 				})
 			})
-			// Describe("Check that Apps are running", func() {
-			// 	It("should have kyverno-admission running", func() {
-			// 		kyvernoAdmissionDeploymentName := "kyverno-admission-controller"
-			// 		kyvernoAdmissionDeployment := v1.Deployment{}
 
-			// 		kyvernoDeploymentLookup := types.NamespacedName{Name: kyvernoAdmissionDeploymentName, Namespace: kyvernoNamespace}
-			// 		clusterName := state.GetCluster().Name
+			Describe("Check that Apps are running", func() {
+				var checkDeployment v1.Deployment
+				var wcClient *client.Client
+				var err error
+				var ctx context.Context
 
-			// 		By("checking if the kyverno-admission-controller Deployment is satisfied")
+				BeforeEach(func() {
+					checkDeployment = v1.Deployment{}
+				})
 
-			// 		Eventually(func() bool {
-			// 			wcClient, err := state.GetFramework().WC(clusterName)
-			// 			if err != nil {
-			// 				fmt.Println("Unable to get Workload Cluster client")
-			// 				return false
-			// 			}
-			// 			err = wcClient.Get(state.GetContext(), kyvernoDeploymentLookup, &kyvernoAdmissionDeployment)
-			// 			if err != nil {
-			// 				fmt.Printf("Unable to get %s Deployment", kyvernoAdmissionDeploymentName)
-			// 				return false
-			// 			}
+				BeforeAll(func() {
+					wcClient, err = state.GetFramework().WC(state.GetCluster().Name)
+					Expect(err).ToNot(HaveOccurred())
 
-			// 			if kyvernoAdmissionDeployment.Status.ReadyReplicas >= 3 {
-			// 				fmt.Printf("%s Deployment has %d replicas ready", kyvernoAdmissionDeploymentName, kyvernoAdmissionDeployment.Status.ReadyReplicas)
-			// 				return true
-			// 			} else {
-			// 				fmt.Printf("%s Deployment is not yet satisfied: Has %d replicas ready", kyvernoAdmissionDeploymentName, kyvernoAdmissionDeployment.Status.ReadyReplicas)
-			// 				return false
-			// 			}
-			// 		}).
-			// 			WithTimeout(timeout).
-			// 			WithPolling(interval).
-			// 			Should(BeTrue())
-			// 	})
-			// })
+					ctx = state.GetContext()
+				})
+
+				It("should have kyverno-admission running", func() {
+					kyvernoAdmissionDeploymentName := "kyverno-admission-controller"
+
+					kyvernoDeploymentLookup := types.NamespacedName{Name: kyvernoAdmissionDeploymentName, Namespace: kyvernoNamespace}
+
+					By("checking if the kyverno-admission-controller Deployment is satisfied")
+
+					Eventually(func() bool {
+						err := wcClient.Get(ctx, kyvernoDeploymentLookup, &checkDeployment)
+						if err != nil {
+							fmt.Printf("Unable to get %s Deployment", kyvernoAdmissionDeploymentName)
+							return false
+						}
+
+						if checkDeployment.Status.ReadyReplicas >= 3 {
+							fmt.Printf("%s Deployment has %d replicas ready", kyvernoAdmissionDeploymentName, checkDeployment.Status.ReadyReplicas)
+							return true
+						} else {
+							fmt.Printf("%s Deployment is not yet satisfied: Has %d replicas ready", kyvernoAdmissionDeploymentName, checkDeployment.Status.ReadyReplicas)
+							return false
+						}
+					}).
+						WithTimeout(timeout).
+						WithPolling(interval).
+						Should(BeTrue())
+				})
+			})
 		}).
 		Run(t, "Basic Test")
 }
