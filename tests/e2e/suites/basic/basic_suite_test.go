@@ -11,6 +11,7 @@ import (
 	"github.com/giantswarm/apptest-framework/pkg/config"
 	"github.com/giantswarm/apptest-framework/pkg/state"
 	"github.com/giantswarm/apptest-framework/pkg/suite"
+	"github.com/giantswarm/clustertest/pkg/organization"
 	"github.com/giantswarm/clustertest/pkg/wait"
 )
 
@@ -42,54 +43,58 @@ func TestBasic(t *testing.T) {
 			// E.g. ensure that the initial install has completed and has settled before upgrading
 		}).
 		Tests(func() {
-			org := state.GetCluster().Organization
-			Describe("Check PSS Apps status", func() {
+			Describe("Check Apps status", func() {
+				var org *organization.Org
+
+				mcClient := state.GetFramework().MC()
+				clusterName := state.GetCluster().Name
+				ctx := state.GetContext()
+
+				BeforeEach(func() {
+					org = state.GetCluster().Organization
+				})
+
 				It("should have kyverno, kyverno-policies and kyverno-policy-operator deplyoed", func() {
-					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-kyverno", state.GetCluster().Name), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-kyverno", clusterName), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 
-					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-kyverno-policies", state.GetCluster().Name), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-kyverno-policies", clusterName), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 
-					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-kyverno-policy-operator", state.GetCluster().Name), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-kyverno-policy-operator", clusterName), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 				})
-			})
 
-			Describe("Check Vulnerability Detection Apps status", func() {
 				It("should have trivy, trivy-operator and starboard-exporter deplyoed", func() {
-					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-trivy", state.GetCluster().Name), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-trivy", clusterName), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 
-					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-trivy-operator", state.GetCluster().Name), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-trivy-operator", clusterName), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 
-					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-starboard-exporter", state.GetCluster().Name), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-starboard-exporter", clusterName), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 				})
-			})
 
-			Describe("Check Anomaly Detection Apps status", func() {
 				It("should have falco deplyoed", func() {
-					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-falco", state.GetCluster().Name), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-falco", clusterName), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 				})
 			})
-
 			// Describe("Check that Apps are running", func() {
 			// 	It("should have kyverno-admission running", func() {
 			// 		kyvernoAdmissionDeploymentName := "kyverno-admission-controller"
