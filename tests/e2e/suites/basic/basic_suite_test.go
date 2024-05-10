@@ -33,7 +33,7 @@ func TestBasic(t *testing.T) {
 
 	suite.New(config.MustLoad("../../config.yaml")).
 		// The namespace to install the app into within the workload cluster
-		WithInstallNamespace(state.GetCluster().Organization.GetNamespace()).
+		WithInstallNamespace("default").
 		// If this is an upgrade test or not.
 		// If true, the suite will first install the latest released version of the app before upgrading to the test version
 		WithIsUpgrade(isUpgrade).
