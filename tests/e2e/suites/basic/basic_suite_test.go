@@ -87,14 +87,14 @@ func TestBasic(t *testing.T) {
 					Should(BeTrue())
 			})
 
-			kyvernoAdmissionDeploymentName := "kyverno-admission-controller"
-			kyvernoAdmissionDeployment := v1.Deployment{}
+			It("should have kyverno-admission running", func() {
+				kyvernoAdmissionDeploymentName := "kyverno-admission-controller"
+				kyvernoAdmissionDeployment := v1.Deployment{}
 
-			kyvernoDeploymentLookup := types.NamespacedName{Name: kyvernoAdmissionDeploymentName, Namespace: kyvernoNamespace}
-
-			It("should have kyverno running", func() {
-				By("checking if the kyverno-admission-controller Deployment is satisfied")
+				kyvernoDeploymentLookup := types.NamespacedName{Name: kyvernoAdmissionDeploymentName, Namespace: kyvernoNamespace}
 				clusterName := state.GetCluster().Name
+
+				By("checking if the kyverno-admission-controller Deployment is satisfied")
 
 				Eventually(func() bool {
 					wcClient, err := state.GetFramework().WC(clusterName)
@@ -115,7 +115,10 @@ func TestBasic(t *testing.T) {
 						fmt.Printf("%s Deployment is not yet satisfied: Has %d replicas ready", kyvernoAdmissionDeploymentName, kyvernoAdmissionDeployment.Status.ReadyReplicas)
 						return false
 					}
-				}, timeout, interval).Should(BeTrue())
+				}).
+					WithTimeout(timeout).
+					WithPolling(interval).
+					Should(BeTrue())
 			})
 		}).
 		Run(t, "Basic Test")
