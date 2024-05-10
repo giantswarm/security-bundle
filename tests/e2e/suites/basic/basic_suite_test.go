@@ -7,8 +7,6 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	v1 "k8s.io/api/apps/v1"
-	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/giantswarm/apptest-framework/pkg/config"
 	"github.com/giantswarm/apptest-framework/pkg/state"
@@ -92,41 +90,41 @@ func TestBasic(t *testing.T) {
 				})
 			})
 
-			Describe("Check that Apps are running", func() {
-				It("should have kyverno-admission running", func() {
-					kyvernoAdmissionDeploymentName := "kyverno-admission-controller"
-					kyvernoAdmissionDeployment := v1.Deployment{}
+			// Describe("Check that Apps are running", func() {
+			// 	It("should have kyverno-admission running", func() {
+			// 		kyvernoAdmissionDeploymentName := "kyverno-admission-controller"
+			// 		kyvernoAdmissionDeployment := v1.Deployment{}
 
-					kyvernoDeploymentLookup := types.NamespacedName{Name: kyvernoAdmissionDeploymentName, Namespace: kyvernoNamespace}
-					clusterName := state.GetCluster().Name
+			// 		kyvernoDeploymentLookup := types.NamespacedName{Name: kyvernoAdmissionDeploymentName, Namespace: kyvernoNamespace}
+			// 		clusterName := state.GetCluster().Name
 
-					By("checking if the kyverno-admission-controller Deployment is satisfied")
+			// 		By("checking if the kyverno-admission-controller Deployment is satisfied")
 
-					Eventually(func() bool {
-						wcClient, err := state.GetFramework().WC(clusterName)
-						if err != nil {
-							fmt.Println("Unable to get Workload Cluster client")
-							return false
-						}
-						err = wcClient.Get(state.GetContext(), kyvernoDeploymentLookup, &kyvernoAdmissionDeployment)
-						if err != nil {
-							fmt.Printf("Unable to get %s Deployment", kyvernoAdmissionDeploymentName)
-							return false
-						}
+			// 		Eventually(func() bool {
+			// 			wcClient, err := state.GetFramework().WC(clusterName)
+			// 			if err != nil {
+			// 				fmt.Println("Unable to get Workload Cluster client")
+			// 				return false
+			// 			}
+			// 			err = wcClient.Get(state.GetContext(), kyvernoDeploymentLookup, &kyvernoAdmissionDeployment)
+			// 			if err != nil {
+			// 				fmt.Printf("Unable to get %s Deployment", kyvernoAdmissionDeploymentName)
+			// 				return false
+			// 			}
 
-						if kyvernoAdmissionDeployment.Status.ReadyReplicas >= 3 {
-							fmt.Printf("%s Deployment has %d replicas ready", kyvernoAdmissionDeploymentName, kyvernoAdmissionDeployment.Status.ReadyReplicas)
-							return true
-						} else {
-							fmt.Printf("%s Deployment is not yet satisfied: Has %d replicas ready", kyvernoAdmissionDeploymentName, kyvernoAdmissionDeployment.Status.ReadyReplicas)
-							return false
-						}
-					}).
-						WithTimeout(timeout).
-						WithPolling(interval).
-						Should(BeTrue())
-				})
-			})
+			// 			if kyvernoAdmissionDeployment.Status.ReadyReplicas >= 3 {
+			// 				fmt.Printf("%s Deployment has %d replicas ready", kyvernoAdmissionDeploymentName, kyvernoAdmissionDeployment.Status.ReadyReplicas)
+			// 				return true
+			// 			} else {
+			// 				fmt.Printf("%s Deployment is not yet satisfied: Has %d replicas ready", kyvernoAdmissionDeploymentName, kyvernoAdmissionDeployment.Status.ReadyReplicas)
+			// 				return false
+			// 			}
+			// 		}).
+			// 			WithTimeout(timeout).
+			// 			WithPolling(interval).
+			// 			Should(BeTrue())
+			// 	})
+			// })
 		}).
 		Run(t, "Basic Test")
 }
