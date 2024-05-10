@@ -46,50 +46,46 @@ func TestBasic(t *testing.T) {
 			Describe("Check Apps status", func() {
 				var org *organization.Org
 
-				mcClient := state.GetFramework().MC()
-				clusterName := state.GetCluster().Name
-				ctx := state.GetContext()
-
 				BeforeEach(func() {
 					org = state.GetCluster().Organization
 				})
 
 				It("should have kyverno, kyverno-policies and kyverno-policy-operator deplyoed", func() {
-					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-kyverno", clusterName), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-kyverno", state.GetCluster().Name), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 
-					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-kyverno-policies", clusterName), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-kyverno-policies", state.GetCluster().Name), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 
-					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-kyverno-policy-operator", clusterName), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-kyverno-policy-operator", state.GetCluster().Name), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 				})
 
 				It("should have trivy, trivy-operator and starboard-exporter deplyoed", func() {
-					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-trivy", clusterName), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-trivy", state.GetCluster().Name), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 
-					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-trivy-operator", clusterName), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-trivy-operator", state.GetCluster().Name), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 
-					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-starboard-exporter", clusterName), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-starboard-exporter", state.GetCluster().Name), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
 				})
 
 				It("should have falco deplyoed", func() {
-					Eventually(wait.IsAppDeployed(ctx, mcClient, fmt.Sprintf("%s-falco", clusterName), org.GetNamespace())).
+					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-falco", state.GetCluster().Name), org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue())
