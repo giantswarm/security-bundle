@@ -115,7 +115,7 @@ apps:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
     catalog: giantswarm
-    dependsOn: kyverno-policies
+    dependsOn: kyverno
     enabled: true
     # namespace: security-bundle
     # used by renovate
