@@ -82,6 +82,7 @@ jobs:
           app="${appName}@${appVersion}"
           echo "app=${app}" >> $GITHUB_OUTPUT
           echo "${app}"
+          echo "Output line: ${newLine}"
 
           go run ./hack/changelogger.go --add-changed "${newLine}" --changelog-path ${PWD}/CHANGELOG.md
 
