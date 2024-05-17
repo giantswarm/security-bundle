@@ -58,7 +58,7 @@ jobs:
       - name: Run Changelogger
         id: run_changelogger
         run: |
-          if [ -z "${{ inputs.line }}" ]
+          if [[ -z ${{ inputs.line }} ]]
           then
             # Get commit message
             commit="${{ github.event.head_commit.message }}"
