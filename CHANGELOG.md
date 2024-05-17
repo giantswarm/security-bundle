@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `trivy-operator` (app) to v0.8.0.
+- Update `kyverno` (app) to v0.17.11.
+
 ## [1.6.5] - 2024-05-07
 
 ### Changed
