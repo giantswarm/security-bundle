@@ -75,6 +75,7 @@ jobs:
             # Form the changelog line
             newLine="- Update \`${appName}\` (app) to $appVersion."
           else
+            # Use line from workflow_dispatch
             newLine="${{ inputs.line }}"
           fi
 
@@ -93,7 +94,14 @@ jobs:
           if git diff-index --quiet HEAD; then
             echo "No changes found"
           else
-            git commit -m "Add changelog entry for ${{ steps.run_changelogger.outputs.app }}"
+            if [[ ${{ !inputs.line }} == true ]]
+            then
+              git commit -m "Add changelog entry for ${{ steps.run_changelogger.outputs.app }}"
+            else
+              # Use workflow_dispatch line as commit message
+              customEntry=$(echo "${{ inputs.line }}" | sed 's/- //g')
+              git commit -m "Add custom changelog entry: ${customEntry}"
+            fi
           fi
       - name: Push changes
         env:
