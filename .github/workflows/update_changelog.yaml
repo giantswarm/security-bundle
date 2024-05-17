@@ -14,7 +14,7 @@ on:
         description: "Changelog line to add. For now, this supports adding Changed lines only."
 jobs:
   update_changelog:
-    if: ${{ github.actor == 'renovate[bot]' }}
+    if: ${{ (github.actor == 'renovate[bot]') || (inputs.line != '') }} 
     name: Add Changelog entry
     runs-on: ubuntu-22.04
     steps:
