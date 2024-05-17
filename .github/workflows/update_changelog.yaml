@@ -6,11 +6,12 @@ on:
       - 'main'
     paths:
       - 'helm/**/values.yaml'
-  workflow_call:
+  workflow_dispatch:
     inputs:
       line:
         required: true
         type: string
+        description: "Changelog line to add. For now, this supports adding Changed lines only."
 jobs:
   update_changelog:
     if: ${{ github.actor == 'renovate[bot]' }}
