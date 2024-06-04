@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `cloudnative-pg`, `edgedb`, and `reports-server` apps (disabled).
+
 ## [1.6.7] - 2024-05-23
 
 ### Changed
