@@ -66,7 +66,7 @@ apps:
   cloudnativePG:
     appName: cloudnative-pg
     chartName: cloudnative-pg
-    catalog: giantswarm-operations
+    catalog: giantswarm-operations-platform
     enabled: false
     namespace: giantswarm
     # used by renovate
@@ -76,7 +76,7 @@ apps:
   edgedb:
     appName: edgedb
     chartName: edgedb
-    catalog: giantswarm-operations
+    catalog: giantswarm-operations-platform
     dependsOn: cloudnative-pg
     enabled: false
     namespace: policy-system
@@ -159,7 +159,7 @@ apps:
   reportsServer:
     appName: reports-server
     chartName: reports-server
-    catalog: giantswarm-operations
+    catalog: giantswarm-operations-platform
     dependsOn: cloudnative-pg
     enabled: false
     namespace: kyverno
