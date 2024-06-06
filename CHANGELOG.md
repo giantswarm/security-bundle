@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update `trivy` (app) to v0.12.0.
 - Update `trivy-operator` (app) to v0.9.0.
+- Update `cloudnative-pg` (app) to v0.0.5.
 
 ## [1.6.7] - 2024-05-23
 
