@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `cloudnative-pg`, `edgedb`, and `reports-server` apps (disabled).
 
+### Changed
+
+- Update `trivy` (app) to v0.12.0.
+
 ## [1.6.7] - 2024-05-23
 
 ### Changed
