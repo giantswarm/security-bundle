@@ -71,6 +71,27 @@ userConfig:
           pspEnabled: false
 
 apps:
+  cloudnativePG:
+    appName: cloudnative-pg
+    chartName: cloudnative-pg
+    catalog: giantswarm-operations-platform
+    enabled: false
+    namespace: giantswarm
+    # used by renovate
+    # repo: giantswarm/cloudnative-pg-app
+    version: 0.0.5
+
+  edgedb:
+    appName: edgedb
+    chartName: edgedb
+    catalog: giantswarm-operations-platform
+    dependsOn: cloudnative-pg
+    enabled: false
+    namespace: policy-system
+    # used by renovate
+    # repo: giantswarm/edgedb-app
+    version: 0.0.3
+
   exceptionRecommender:
     appName: exception-recommender
     chartName: exception-recommender
@@ -90,7 +111,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
-    version: 0.8.0
+    version: 0.8.1
 
   jiralert:
     appName: jiralert
@@ -118,7 +139,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.17.5
+    version: 0.17.13
 
   kyvernoCrds:
     appName: kyverno-crds
@@ -141,7 +162,7 @@ apps:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
     catalog: giantswarm
-    dependsOn: kyverno-policies
+    dependsOn: kyverno
     enabled: true
     # namespace: security-bundle
     # used by renovate
@@ -161,6 +182,17 @@ apps:
     # repo: giantswarm/kyverno-policies
     version: 0.20.2
 
+  reportsServer:
+    appName: reports-server
+    chartName: reports-server
+    catalog: giantswarm-operations-platform
+    dependsOn: cloudnative-pg
+    enabled: false
+    namespace: kyverno
+    # used by renovate
+    # repo: giantswarm/reports-server-app
+    version: 0.0.2
+
   starboardExporter:
     appName: starboard-exporter
     chartName: starboard-exporter
@@ -169,7 +201,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 0.7.8
+    version: 0.7.10
 
   trivy:
     appName: trivy
@@ -179,7 +211,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
-    version: 0.10.0
+    version: 0.12.0
 
   trivyOperator:
     appName: trivy-operator
@@ -189,4 +221,4 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.7.2
+    version: 0.9.0
