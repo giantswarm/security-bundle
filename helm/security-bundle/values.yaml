@@ -156,7 +156,7 @@ apps:
         timeout: 10m
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 0.0.0-593e229ea96dc64b501ad80ac338cafb18326257
+    version: 0.0.0-59ebcb79ff144198961b70f8d7ca01f933e4e557
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
