@@ -147,13 +147,6 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: kyverno
-    # Options allow to configure timeouts:
-    # https://docs.giantswarm.io/getting-started/app-platform/installation-configuration/
-    options:
-      install:
-        timeout: 10m
-      upgrade:
-        timeout: 10m
     # used by renovate
     # repo: giantswarm/kyverno-crds
     version: 1.11.1

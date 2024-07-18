@@ -182,27 +182,6 @@
                         "namespace": {
                             "type": "string"
                         },
-                        "options": {
-                            "type": "object",
-                            "properties": {
-                                "install": {
-                                    "type": "object",
-                                    "properties": {
-                                        "timeout": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "upgrade": {
-                                    "type": "object",
-                                    "properties": {
-                                        "timeout": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        },
                         "version": {
                             "type": "string"
                         }
