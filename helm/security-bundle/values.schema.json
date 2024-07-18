@@ -5,7 +5,30 @@
         "apps": {
             "type": "object",
             "properties": {
-                "exceptionRecommender": {
+                "cloudnativePG": {
+                    "type": "object",
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "catalog": {
+                            "type": "string"
+                        },
+                        "chartName": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "namespace": {
+                            "type": "string"
+                        },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "edgedb": {
                     "type": "object",
                     "properties": {
                         "appName": {
@@ -31,6 +54,29 @@
                         }
                     }
                 },
+                "exceptionRecommender": {
+                    "type": "object",
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "catalog": {
+                            "type": "string"
+                        },
+                        "chartName": {
+                            "type": "string"
+                        },
+                        "dependsOn": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "falco": {
                     "type": "object",
                     "properties": {
@@ -45,9 +91,6 @@
                         },
                         "enabled": {
                             "type": "boolean"
-                        },
-                        "namespace": {
-                            "type": "string"
                         },
                         "version": {
                             "type": "string"
@@ -69,9 +112,6 @@
                         "enabled": {
                             "type": "boolean"
                         },
-                        "namespace": {
-                            "type": "string"
-                        },
                         "version": {
                             "type": "string"
                         }
@@ -89,11 +129,79 @@
                         "chartName": {
                             "type": "string"
                         },
+                        "dependsOn": {
+                            "type": "string"
+                        },
                         "enabled": {
                             "type": "boolean"
                         },
                         "namespace": {
                             "type": "string"
+                        },
+                        "options": {
+                            "type": "object",
+                            "properties": {
+                                "install": {
+                                    "type": "object",
+                                    "properties": {
+                                        "timeout": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "upgrade": {
+                                    "type": "object",
+                                    "properties": {
+                                        "timeout": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "kyvernoCrds": {
+                    "type": "object",
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "catalog": {
+                            "type": "string"
+                        },
+                        "chartName": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "namespace": {
+                            "type": "string"
+                        },
+                        "options": {
+                            "type": "object",
+                            "properties": {
+                                "install": {
+                                    "type": "object",
+                                    "properties": {
+                                        "timeout": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "upgrade": {
+                                    "type": "object",
+                                    "properties": {
+                                        "timeout": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         },
                         "version": {
                             "type": "string"
@@ -127,6 +235,29 @@
                     }
                 },
                 "kyvernoPolicyOperator": {
+                    "type": "object",
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "catalog": {
+                            "type": "string"
+                        },
+                        "chartName": {
+                            "type": "string"
+                        },
+                        "dependsOn": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "reportsServer": {
                     "type": "object",
                     "properties": {
                         "appName": {
@@ -190,9 +321,6 @@
                         "enabled": {
                             "type": "boolean"
                         },
-                        "namespace": {
-                            "type": "string"
-                        },
                         "version": {
                             "type": "string"
                         }
@@ -212,9 +340,6 @@
                         },
                         "enabled": {
                             "type": "boolean"
-                        },
-                        "namespace": {
-                            "type": "string"
                         },
                         "version": {
                             "type": "string"
@@ -236,6 +361,287 @@
         },
         "organization": {
             "type": "string"
+        },
+        "userConfig": {
+            "type": "object",
+            "properties": {
+                "exceptionRecommender": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "global": {
+                                            "type": "object",
+                                            "properties": {
+                                                "podSecurityStandards": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "enforced": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "recommender": {
+                                            "type": "object",
+                                            "properties": {
+                                                "createNamespace": {
+                                                    "type": "boolean"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "falco": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "falco": {
+                                            "type": "object",
+                                            "properties": {
+                                                "falco-exporter": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "podSecurityPolicy": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "create": {
+                                                                    "type": "boolean"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "global": {
+                                            "type": "object",
+                                            "properties": {
+                                                "podSecurityStandards": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "enforced": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "jiralert": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "global": {
+                                            "type": "object",
+                                            "properties": {
+                                                "podSecurityStandards": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "enforced": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "kyverno": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "crds": {
+                                            "type": "object",
+                                            "properties": {
+                                                "install": {
+                                                    "type": "boolean"
+                                                }
+                                            }
+                                        },
+                                        "global": {
+                                            "type": "object",
+                                            "properties": {
+                                                "podSecurityStandards": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "enforced": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "kyvernoCrds": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "global": {
+                                            "type": "object",
+                                            "properties": {
+                                                "podSecurityStandards": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "enforced": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "kyvernoPolicies": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "kyverno-policies": {
+                                            "type": "object",
+                                            "properties": {
+                                                "validationFailureAction": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "kyvernoPolicyOperator": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "global": {
+                                            "type": "object",
+                                            "properties": {
+                                                "podSecurityStandards": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "enforced": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "trivy": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "trivy": {
+                                            "type": "object",
+                                            "properties": {
+                                                "rbac": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "pspEnabled": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "trivyOperator": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "rbac": {
+                                            "type": "object",
+                                            "properties": {
+                                                "pspEnabled": {
+                                                    "type": "boolean"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -144,7 +144,7 @@ apps:
   kyvernoCrds:
     appName: kyverno-crds
     chartName: kyverno-crds
-    catalog: giantswarm-test
+    catalog: giantswarm
     enabled: true
     namespace: kyverno
     # Options allow to configure timeouts:
@@ -156,7 +156,7 @@ apps:
         timeout: 10m
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 0.0.0-59ebcb79ff144198961b70f8d7ca01f933e4e557
+    version: 1.11.1
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
@@ -175,7 +175,7 @@ apps:
     appName: kyverno-policies
     chartName: kyverno-policies
     catalog: giantswarm
-    dependsOn: kyverno
+    dependsOn: kyverno-crds
     enabled: true
     namespace: kyverno
     # used by renovate
