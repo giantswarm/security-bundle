@@ -5,7 +5,30 @@
         "apps": {
             "type": "object",
             "properties": {
-                "exceptionRecommender": {
+                "cloudnativePG": {
+                    "type": "object",
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "catalog": {
+                            "type": "string"
+                        },
+                        "chartName": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "namespace": {
+                            "type": "string"
+                        },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "edgedb": {
                     "type": "object",
                     "properties": {
                         "appName": {
@@ -31,6 +54,29 @@
                         }
                     }
                 },
+                "exceptionRecommender": {
+                    "type": "object",
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "catalog": {
+                            "type": "string"
+                        },
+                        "chartName": {
+                            "type": "string"
+                        },
+                        "dependsOn": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "falco": {
                     "type": "object",
                     "properties": {
@@ -45,9 +91,6 @@
                         },
                         "enabled": {
                             "type": "boolean"
-                        },
-                        "namespace": {
-                            "type": "string"
                         },
                         "version": {
                             "type": "string"
@@ -69,15 +112,59 @@
                         "enabled": {
                             "type": "boolean"
                         },
-                        "namespace": {
-                            "type": "string"
-                        },
                         "version": {
                             "type": "string"
                         }
                     }
                 },
                 "kyverno": {
+                    "type": "object",
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "catalog": {
+                            "type": "string"
+                        },
+                        "chartName": {
+                            "type": "string"
+                        },
+                        "dependsOn": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "namespace": {
+                            "type": "string"
+                        },
+                        "options": {
+                            "type": "object",
+                            "properties": {
+                                "install": {
+                                    "type": "object",
+                                    "properties": {
+                                        "timeout": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "upgrade": {
+                                    "type": "object",
+                                    "properties": {
+                                        "timeout": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "kyvernoCrds": {
                     "type": "object",
                     "properties": {
                         "appName": {
@@ -144,6 +231,29 @@
                         "enabled": {
                             "type": "boolean"
                         },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "reportsServer": {
+                    "type": "object",
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "catalog": {
+                            "type": "string"
+                        },
+                        "chartName": {
+                            "type": "string"
+                        },
+                        "dependsOn": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
                         "namespace": {
                             "type": "string"
                         },
@@ -190,9 +300,6 @@
                         "enabled": {
                             "type": "boolean"
                         },
-                        "namespace": {
-                            "type": "string"
-                        },
                         "version": {
                             "type": "string"
                         }
@@ -212,9 +319,6 @@
                         },
                         "enabled": {
                             "type": "boolean"
-                        },
-                        "namespace": {
-                            "type": "string"
                         },
                         "version": {
                             "type": "string"
@@ -236,6 +340,9 @@
         },
         "organization": {
             "type": "string"
+        },
+        "userConfig": {
+            "type": "object"
         }
     }
 }
