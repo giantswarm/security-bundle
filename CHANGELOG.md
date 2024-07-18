@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `kyverno-crds` app to handle Kyverno CRD install.
 
+### Changed
+
+- Update `kyverno` (app) to v0.17.15. This version disables the CRD install job in favor of `kyverno-crds` App.
+
 ## [1.7.1] - 2024-06-13
 
 ### Changed
