@@ -96,7 +96,7 @@ apps:
     appName: exception-recommender
     chartName: exception-recommender
     catalog: giantswarm
-    dependsOn: kyverno
+    dependsOn: kyverno-crds
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -155,7 +155,7 @@ apps:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
     catalog: giantswarm
-    dependsOn: kyverno
+    dependsOn: kyverno-crds
     enabled: true
     # namespace: security-bundle
     # used by renovate
