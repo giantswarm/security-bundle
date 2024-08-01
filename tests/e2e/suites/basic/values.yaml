@@ -1,0 +1,24 @@
+apps:
+  exceptionRecommender:
+    enabled: true
+
+  falco:
+    enabled: true
+
+  kyverno:
+    enabled: true
+
+  kyvernoPolicyOperator:
+    enabled: true
+
+  kyvernoPolicies:
+    enabled: true
+
+  starboardExporter:
+    enabled: true
+
+  trivy:
+    enabled: true
+
+  trivyOperator:
+    enabled: true
