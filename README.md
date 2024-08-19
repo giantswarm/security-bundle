@@ -21,6 +21,12 @@ Some optional components are also installable from this bundle, including:
   - our [`starboard-exporter`][starboard-exporter] for exposing metrics
 - Jiralert, from our [`jiralert-app`][jiralert-app], for automatically creating Jira issues from security findings
 
+Several additional components deployable from the bundle are under development for future platform features. These are platform-internal and not intended for direct customer use, but can be optionally enabled to test upcoming improvements to report storage.
+
+- CloudNative PG, from our [`cloudnative-pg-app`][cnpg-app]
+- EdgeDB, from our [`edgedb-app`][edgedb-app]
+- Kyverno Reports Server, from our [`reports-server-app`][reports-server-app]
+
 Previous versions of the pack included Starboard, from our [`starboard-app`][starboard-app]. Starboard has been deprecated in favor of Trivy Operator, and we have removed the Starboard app from this app bundle as of v0.13.0.
 
 Apps can be selectively enabled or disabled using the `enabled` setting for that app in the `security-bundle` Helm values.
@@ -163,12 +169,15 @@ metadata:
 See our [full reference page on how to configure applications](https://docs.giantswarm.io/app-platform/app-configuration/) for more details.
 
 [app-bundle]: https://docs.giantswarm.io/getting-started/app-platform/app-bundle/
+[cnpg-app]: https://github.com/giantswarm/cloudnative-pg-app
+[edgedb-app]: https://github.com/giantswarm/edgedb-app
 [exception-recommender]: https://github.com/giantswarm/exception-recommender
 [falco-app]: https://github.com/giantswarm/falco-app
 [jiralert-app]: https://github.com/giantswarm/jiralert-app
 [kyverno-app]: https://github.com/giantswarm/kyverno-app
 [kyverno-policies]: https://github.com/giantswarm/kyverno-policies/
 [kyverno-policy-operator]: https://github.com/giantswarm/kyverno-policy-operator
+[reports-server-app]: https://github.com/giantswarm/reports-server-app
 [security-bundle]: https://docs.giantswarm.io/app-platform/apps/security/
 [starboard-app]: https://github.com/giantswarm/starboard-app
 [starboard-exporter]: https://github.com/giantswarm/starboard-exporter/

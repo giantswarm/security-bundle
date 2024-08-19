@@ -6,9 +6,15 @@ on:
       - 'main'
     paths:
       - 'helm/**/values.yaml'
+  workflow_dispatch:
+    inputs:
+      line:
+        required: true
+        type: string
+        description: "Changelog line to add. For now, this supports adding Changed lines only."
 jobs:
   update_changelog:
-    if: ${{ github.actor == 'renovate[bot]' }}
+    if: ${{ (github.actor == 'renovate[bot]') || (inputs.line != '') }} 
     name: Add Changelog entry
     runs-on: ubuntu-22.04
     steps:
@@ -52,25 +58,32 @@ jobs:
       - name: Run Changelogger
         id: run_changelogger
         run: |
-          # Get commit message
-          commit="${{ github.event.head_commit.message }}"
+          if [[ ${{ !inputs.line }} == true ]]
+          then
+            # Get commit message
+            commit="${{ github.event.head_commit.message }}"
 
-          # Extract version
-          appVersion=$(echo $commit | grep -oP 'v\d+\.\d+\.\d+')
+            # Extract version
+            appVersion=$(echo $commit | grep -oP 'v\d+\.\d+\.\d+')
 
-          # Extract the app name, removing giantswarm/ from it
-          appName=$(echo $commit | grep -oP 'giantswarm/[-a-zA-Z]*' | sed 's/giantswarm\///')
+            # Extract the app name, removing giantswarm/ from it
+            appName=$(echo $commit | grep -oP 'giantswarm/[-a-zA-Z]*' | sed 's/giantswarm\///')
 
-          # Remove app suffix if present
-          appName=${appName%-app}
+            # Remove app suffix if present
+            appName=${appName%-app}
 
-          # Form the changelog line
-          newLine="- Update \`${appName}\` (app) to $appVersion."
+            # Form the changelog line
+            newLine="- Update \`${appName}\` (app) to $appVersion."
+          else
+            # Use line from workflow_dispatch
+            newLine="${{ inputs.line }}"
+          fi
 
           # Output App/Version
           app="${appName}@${appVersion}"
           echo "app=${app}" >> $GITHUB_OUTPUT
           echo "${app}"
+          echo "Output line: ${newLine}"
 
           go run ./hack/changelogger.go --add-changed "${newLine}" --changelog-path ${PWD}/CHANGELOG.md
 
@@ -81,7 +94,14 @@ jobs:
           if git diff-index --quiet HEAD; then
             echo "No changes found"
           else
-            git commit -m "Add changelog entry for ${{ steps.run_changelogger.outputs.app }}"
+            if [[ ${{ !inputs.line }} == true ]]
+            then
+              git commit -m "Add changelog entry for ${{ steps.run_changelogger.outputs.app }}"
+            else
+              # Use workflow_dispatch line as commit message
+              customEntry=$(echo "${{ inputs.line }}" | sed 's/- //g')
+              git commit -m "Add custom changelog entry: ${customEntry}"
+            fi
           fi
       - name: Push changes
         env:

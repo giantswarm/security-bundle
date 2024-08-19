@@ -7,6 +7,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.1] - 2024-08-14
+
+### Changed
+
+- Update `trivy-operator` (app) to v0.9.1.
+
+## [1.8.0] - 2024-07-19
+
+### Added
+
+- Add `kyverno-crds` app to handle Kyverno CRD install.
+
+### Changed
+
+- Update `kyverno` (app) to v0.17.15. This version disables the CRD install job in favor of `kyverno-crds` App.
+
+## [1.7.1] - 2024-06-13
+
+### Changed
+
+- Update `kyverno` (app) to v0.17.14.
+- Update `starboard-exporter` (app) to v0.7.11.
+
+## [1.7.0] - 2024-06-06
+
+### Added
+
+- Add `cloudnative-pg`, `edgedb`, and `reports-server` apps (disabled).
+
+### Changed
+
+- Update `trivy` (app) to v0.12.0.
+- Update `trivy-operator` (app) to v0.9.0.
+- Update `cloudnative-pg` (app) to v0.0.5.
+
+## [1.6.7] - 2024-05-23
+
+### Changed
+
+- Update `kyverno` (app) to v0.17.13.
+
+## [1.6.6] - 2024-05-23
+
+### Changed
+
+- Update `kyverno` (app) to v0.17.12.
+- Update `trivy-operator` (app) to v0.8.1.
+
 ## [1.6.5] - 2024-05-07
 
 ### Changed
@@ -356,7 +404,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.6.5...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.8.1...HEAD
+[1.8.1]: https://github.com/giantswarm/security-bundle/compare/v1.8.0...v1.8.1
+[1.8.0]: https://github.com/giantswarm/security-bundle/compare/v1.7.1...v1.8.0
+[1.7.1]: https://github.com/giantswarm/security-bundle/compare/v1.7.0...v1.7.1
+[1.7.0]: https://github.com/giantswarm/security-bundle/compare/v1.6.7...v1.7.0
+[1.6.7]: https://github.com/giantswarm/security-bundle/compare/v1.6.6...v1.6.7
+[1.6.6]: https://github.com/giantswarm/security-bundle/compare/v1.6.5...v1.6.6
 [1.6.5]: https://github.com/giantswarm/security-bundle/compare/v1.6.4...v1.6.5
 [1.6.4]: https://github.com/giantswarm/security-bundle/compare/v1.6.3...v1.6.4
 [1.6.3]: https://github.com/giantswarm/security-bundle/compare/v1.6.2...v1.6.3

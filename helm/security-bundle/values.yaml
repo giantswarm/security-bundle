@@ -39,6 +39,14 @@ userConfig:
         global:
           podSecurityStandards:
             enforced: true
+        crds:
+          install: false
+  kyvernoCrds:
+    configMap:
+      values:
+        global:
+          podSecurityStandards:
+            enforced: true
   kyvernoPolicies:
     configMap:
       values:
@@ -63,11 +71,32 @@ userConfig:
           pspEnabled: false
 
 apps:
+  cloudnativePG:
+    appName: cloudnative-pg
+    chartName: cloudnative-pg
+    catalog: giantswarm-operations-platform
+    enabled: false
+    namespace: giantswarm
+    # used by renovate
+    # repo: giantswarm/cloudnative-pg-app
+    version: 0.0.5
+
+  edgedb:
+    appName: edgedb
+    chartName: edgedb
+    catalog: giantswarm-operations-platform
+    dependsOn: cloudnative-pg
+    enabled: false
+    namespace: policy-system
+    # used by renovate
+    # repo: giantswarm/edgedb-app
+    version: 0.0.3
+
   exceptionRecommender:
     appName: exception-recommender
     chartName: exception-recommender
     catalog: giantswarm
-    dependsOn: kyverno
+    dependsOn: kyverno-crds
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -98,6 +127,7 @@ apps:
     appName: kyverno
     chartName: kyverno
     catalog: giantswarm
+    dependsOn: kyverno-crds
     enabled: true
     namespace: kyverno
     # Options allow to configure timeouts:
@@ -109,13 +139,23 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.17.10
+    version: 0.17.15
+
+  kyvernoCrds:
+    appName: kyverno-crds
+    chartName: kyverno-crds
+    catalog: giantswarm
+    enabled: true
+    namespace: kyverno
+    # used by renovate
+    # repo: giantswarm/kyverno-crds
+    version: 1.11.1
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
     catalog: giantswarm
-    dependsOn: kyverno-policies
+    dependsOn: kyverno-crds
     enabled: true
     # namespace: security-bundle
     # used by renovate
@@ -128,12 +168,23 @@ apps:
     appName: kyverno-policies
     chartName: kyverno-policies
     catalog: giantswarm
-    dependsOn: kyverno
+    dependsOn: kyverno-crds
     enabled: true
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
     version: 0.20.2
+
+  reportsServer:
+    appName: reports-server
+    chartName: reports-server
+    catalog: giantswarm-operations-platform
+    dependsOn: cloudnative-pg
+    enabled: false
+    namespace: kyverno
+    # used by renovate
+    # repo: giantswarm/reports-server-app
+    version: 0.0.2
 
   starboardExporter:
     appName: starboard-exporter
@@ -143,7 +194,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 0.7.10
+    version: 0.7.11
 
   trivy:
     appName: trivy
@@ -153,7 +204,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
-    version: 0.11.0
+    version: 0.12.0
 
   trivyOperator:
     appName: trivy-operator
@@ -163,4 +214,4 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.7.2
+    version: 0.9.1
