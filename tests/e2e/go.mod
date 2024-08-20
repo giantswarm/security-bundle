@@ -8,7 +8,12 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.16
 
 replace github.com/alessio/shellescape => al.essio.dev/pkg/shellescape v1.4.2
 
-require github.com/giantswarm/apptest-framework v1.7.0
+require (
+	github.com/giantswarm/apptest-framework v1.7.0
+	github.com/giantswarm/clustertest v1.18.0
+	github.com/onsi/ginkgo/v2 v2.20.0
+	github.com/onsi/gomega v1.34.1
+)
 
 require (
 	dario.cat/mergo v1.0.0 // indirect
@@ -49,7 +54,6 @@ require (
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/giantswarm/apiextensions-application v0.6.2 // indirect
 	github.com/giantswarm/cluster-standup-teardown v1.19.0 // indirect
-	github.com/giantswarm/clustertest v1.18.0 // indirect
 	github.com/giantswarm/k8smetadata v0.25.0 // indirect
 	github.com/giantswarm/kubectl-gs/v2 v2.57.0 // indirect
 	github.com/giantswarm/microerror v0.4.1 // indirect
@@ -113,8 +117,6 @@ require (
 	github.com/monochromegane/go-gitignore v0.0.0-20200626010858-205db1a8cc00 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/mxk/go-flowrate v0.0.0-20140419014527-cca7078d478f // indirect
-	github.com/onsi/ginkgo/v2 v2.20.0 // indirect
-	github.com/onsi/gomega v1.34.1 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
