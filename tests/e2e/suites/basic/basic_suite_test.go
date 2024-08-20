@@ -16,10 +16,7 @@ import (
 )
 
 const (
-	isUpgrade        = true
-	timeout          = time.Second * 10
-	duration         = time.Second * 10
-	interval         = time.Millisecond * 250
+	isUpgrade        = false
 	appReadyTimeout  = 10 * time.Minute
 	appReadyInterval = 5 * time.Second
 	kyvernoNamespace = "kyverno"
