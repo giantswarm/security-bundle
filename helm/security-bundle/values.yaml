@@ -179,7 +179,8 @@ apps:
     appName: policy-meta-operator
     chartName: policy-meta-operator
     catalog: giantswarm-test
-    enabled: true # Temporal, for testing
+    # Temporal, for testing purposes.
+    enabled: true
     namespace: policy-system
     version: 0.0.0-72ff39b275b0a8b595f9580a118f506b1bae9a82
 
