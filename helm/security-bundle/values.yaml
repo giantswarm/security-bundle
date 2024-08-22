@@ -97,7 +97,7 @@ apps:
     chartName: exception-recommender
     catalog: giantswarm-test
     dependsOn: kyverno-crds
-    enabled: false
+    enabled: true
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/exception-recommender
@@ -160,7 +160,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
-    version: 0.0.7-8d5f22be058654defced04f34ffaa8904dc1697b
+    version: 0.0.7-51c333ebdfdcd714892ca14b05d87f110a6c9df0
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
