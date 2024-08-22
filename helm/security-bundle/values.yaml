@@ -101,7 +101,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/exception-recommender
-    version: 0.1.1-f1ba99638e43cc874c73d4183c904c94721a9977
+    version: 0.1.1-17a389f37396e5e6f23200edfefaed9baf50b6a0
 
   falco:
     appName: falco
@@ -179,6 +179,7 @@ apps:
     appName: policy-meta-operator
     chartName: policy-meta-operator
     catalog: giantswarm-test
+    dependsOn: edgedb
     # Temporal, for testing purposes.
     enabled: true
     namespace: policy-system
