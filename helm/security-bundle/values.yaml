@@ -75,7 +75,7 @@ apps:
     appName: cloudnative-pg
     chartName: cloudnative-pg
     catalog: giantswarm-operations-platform
-    enabled: false
+    enabled: true
     namespace: giantswarm
     # used by renovate
     # repo: giantswarm/cloudnative-pg-app
@@ -86,7 +86,7 @@ apps:
     chartName: edgedb
     catalog: giantswarm-operations-platform
     dependsOn: cloudnative-pg
-    enabled: false
+    enabled: true
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/edgedb-app
