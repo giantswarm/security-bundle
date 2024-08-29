@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update `cloudnative-pg` (app) to v0.0.6.
 - Update `trivy-operator` (app) to v0.10.0.
+- Update `kyverno-policy-operator` (app) to v0.0.8.
 
 ## [1.8.1] - 2024-08-14
 
