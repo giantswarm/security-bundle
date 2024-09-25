@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update `kyverno` (app) to v0.18.0.
 - Update `kyverno-crds` (app) to v1.12.0.
+- Update `kyverno-policies` (app) to v0.21.0.
 
 ## [1.8.2] - 2024-08-29
 
