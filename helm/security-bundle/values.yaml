@@ -149,7 +149,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.11.1
+    version: 1.12.0
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
@@ -173,7 +173,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.20.2
+    version: 0.21.0
 
   reportsServer:
     appName: reports-server
