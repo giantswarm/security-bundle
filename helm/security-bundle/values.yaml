@@ -139,7 +139,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.17.15
+    version: 0.18.1
 
   kyvernoCrds:
     appName: kyverno-crds
@@ -149,7 +149,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.11.1
+    version: 1.12.0
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
@@ -162,6 +162,7 @@ apps:
     # repo: giantswarm/kyverno-policy-operator
     version: 0.0.7-51c333ebdfdcd714892ca14b05d87f110a6c9df0
 
+
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
   kyvernoPolicies:
@@ -173,7 +174,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.20.2
+    version: 0.21.0
 
   policyMetaOperator:
     appName: policy-meta-operator
@@ -224,4 +225,4 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.10.0
+    version: 0.10.1
