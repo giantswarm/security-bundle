@@ -184,7 +184,7 @@ apps:
     # Temporal, for testing purposes.
     enabled: true
     namespace: policy-system
-    version: 0.0.0-7d65c4b66f109e2e8007f1990d57d6aaa3835abb
+    version: 0.0.0-4dc7ccae9677dda4579f380483de6612aa3767c7
 
   reportsServer:
     appName: reports-server
