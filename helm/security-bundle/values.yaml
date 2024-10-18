@@ -5,6 +5,10 @@ global:
   # All Apps will be installed in this namespace unless overridden below.
   namespace: "security-bundle"
 
+  # Image registry used for pre-install / pre-upgrade hooks only. Not passed to apps.
+  image:
+    registry: gsoci.azurecr.io
+
 # User values can be provided via a ConfigMap or Secret for each individual app
 # using the structure shown below.
 
@@ -111,6 +115,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
+    updateMethod: re-create
     version: 0.8.1
 
   jiralert:
@@ -215,3 +220,9 @@ apps:
     # used by renovate
     # repo: giantswarm/trivy-operator-app
     version: 0.10.1
+
+hooks:
+  image:
+    registry: gsoci.azurecr.io
+    repository: giantswarm/kubectl
+    tag: 1.31.1

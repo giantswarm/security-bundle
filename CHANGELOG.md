@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add optional pre-upgrade job to re-create App CRs instead of updating them in-place.
+
 ### Changed
 
 - Update `kyverno` (app) to v0.18.1.

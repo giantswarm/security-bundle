@@ -1,0 +1,145 @@
+{{- range $key, $value := .Values.apps }}
+{{- $appName := include "app.name" (dict "app" .appName "cluster" $.Values.clusterID "ns" $.Release.Namespace) }}
+{{- if eq .updateMethod "re-create" }}
+{{- with $ -}}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "re-create-app-cr-hook.allLabels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook-weight": "-5"
+    {{- include "re-create-app-cr-hook.annotations" . | nindent 4 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-4"
+    {{- include "re-create-app-cr-hook.annotations" . | nindent 4 }}
+  labels:
+    {{- include "re-create-app-cr-hook.allLabels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+    app.kubernetes.io/instance: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - jobs
+  verbs:
+  - create
+  - delete
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - list
+- apiGroups:
+  - apps
+  resources:
+  - deployments/scale
+  verbs:
+  - patch
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - validatingwebhookconfigurations
+  - mutatingwebhookconfigurations
+  verbs:
+  - list
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "re-create-app-cr-hook.uniqueName" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-3"
+    {{- include "re-create-app-cr-hook.annotations" . | nindent 4 }}
+  labels:
+    {{- include "re-create-app-cr-hook.allLabels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+    app.kubernetes.io/instance: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "re-create-app-cr-hook.uniqueName" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "re-create-app-cr-hook.uniqueName" . }}
+    namespace: {{ .Release.Namespace | quote }}
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-3"
+    {{- include "re-create-app-cr-hook.annotations" . | nindent 4 }}
+  labels:
+    {{- include "re-create-app-cr-hook.allLabels" . | nindent 4 }}
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+      app.kubernetes.io/instance: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+  egress:
+    - toEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "443"
+        - ports:
+            - port: "6443" 
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "re-create-app-cr-hook.allLabels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+    app.kubernetes.io/instance: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
+  annotations:
+    "helm.sh/hook-weight": "-2"
+    {{- include "re-create-app-cr-hook.annotations" . | nindent 4 }}
+spec:
+  backoffLimit: 2
+  template:
+    metadata:
+      labels:
+        {{- include "re-create-app-cr-hook.allLabels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      serviceAccountName: {{ include "re-create-app-cr-hook.uniqueName" . }}
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+      containers:
+        - name: kubectl
+          image: "{{ default ($.Values.global).image.registry $.Values.hooks.image.registry }}/{{ $.Values.hooks.image.repository }}:{{ $.Values.hooks.image.tag }}"
+          command:
+            - sh
+            - '-c'
+            - |-
+              kubectl delete -n {{ .Release.Namespace }} apps.application.giantswarm.io {{ $appName }}
+              sleep 30
+---
+{{- end }}
+{{- end }}
+{{- end -}}
