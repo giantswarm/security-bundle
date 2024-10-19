@@ -55,7 +55,7 @@ roleRef:
   name: {{ include "re-create-app-cr-hook.uniqueName" . }}
 subjects:
   - kind: ServiceAccount
-    name: {{ include "re-create-app-cr-hook.uniqueName" . }}
+    name: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
     namespace: {{ .Release.Namespace | quote }}
 ---
 apiVersion: cilium.io/v2
