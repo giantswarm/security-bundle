@@ -1,6 +1,6 @@
 {{- range $key, $value := .Values.apps }}
 {{- $appName := include "app.name" (dict "app" .appName "cluster" $.Values.clusterID "ns" $.Release.Namespace) }}
-{{- if eq .updateMethod "re-create" }}
+{{- if and .enabled (eq .updateMethod "re-create") }}
 {{- with $ -}}
 ---
 apiVersion: v1
