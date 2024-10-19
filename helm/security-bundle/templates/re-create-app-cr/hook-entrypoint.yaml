@@ -151,13 +151,13 @@ spec:
                 - ALL
             seccompProfile:
               type: RuntimeDefault
-            resources:
-              requests:
-                cpu: 50m
-                memory: 25Mi
-              limits:
-                cpu: 750m
-                memory: 100Mi
+          resources:
+            requests:
+              cpu: 50m
+              memory: 25Mi
+            limits:
+              cpu: 750m
+              memory: 100Mi
 ---
 {{- end }}
 {{- end }}
