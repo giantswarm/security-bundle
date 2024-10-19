@@ -15,7 +15,7 @@ metadata:
     {{- include "re-create-app-cr-hook.annotations" . | nindent 4 }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
   name: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
   namespace: {{ .Release.Namespace | quote }}
@@ -29,35 +29,15 @@ metadata:
     app.kubernetes.io/instance: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
 rules:
 - apiGroups:
-  - ""
+  - application.giantswarm.io
   resources:
-  - jobs
-  verbs:
-  - create
-  - delete
-- apiGroups:
   - apps
-  resources:
-  - deployments
-  verbs:
-  - list
-- apiGroups:
-  - apps
-  resources:
-  - deployments/scale
-  verbs:
-  - patch
-- apiGroups:
-  - admissionregistration.k8s.io
-  resources:
-  - validatingwebhookconfigurations
-  - mutatingwebhookconfigurations
   verbs:
   - list
   - delete
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: {{ include "re-create-app-cr-hook.uniqueName" . }}
   namespace: {{ .Release.Namespace | quote }}
@@ -71,7 +51,7 @@ metadata:
     app.kubernetes.io/instance: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
+  kind: Role
   name: {{ include "re-create-app-cr-hook.uniqueName" . }}
 subjects:
   - kind: ServiceAccount
