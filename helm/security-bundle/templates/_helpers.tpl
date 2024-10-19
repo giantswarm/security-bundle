@@ -39,17 +39,13 @@ helm.sh/chart: {{ include "chart" . | quote }}
 {{/*
 Helpers for App CR re-creation logic. This is a pre-upgrade hook that deletes an existing App CR before a new one is applied.
 */}}
-{{- define "re-create-app-cr-hook.updateLogic" -}}
-{{- printf "%s-%s" ( default .Chart.Name .Values.nameOverride | trunc 63 ) "update-logic" | replace "+" "_" | trimSuffix "-" -}}
-{{- end -}}
 
 {{/*
-The team label here only applies to CRD install resources and is to keep the linter happy until we can set this on upstream charts.
+Annotations to set on the hook resources.
 */}}
 {{- define "re-create-app-cr-hook.annotations" -}}
 "helm.sh/hook": "pre-upgrade"
 "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
-application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 {{- end -}}
 
 {{- define "re-create-app-cr-hook.shortName" -}}

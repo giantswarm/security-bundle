@@ -113,10 +113,10 @@ apps:
     catalog: giantswarm
     enabled: false
     # namespace: security-bundle
+    updateMethod: re-create
     # used by renovate
     # repo: giantswarm/falco-app
-    updateMethod: re-create
-    version: 0.8.1
+    version: 0.9.0
 
   jiralert:
     appName: jiralert
