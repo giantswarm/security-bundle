@@ -52,7 +52,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ include "re-create-app-cr-hook.uniqueName" . }}
+  name: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
 subjects:
   - kind: ServiceAccount
     name: {{ include "re-create-app-cr-hook.uniqueName" . }}-{{ $appName }}
