@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `kyverno-crds` (app) to v1.12.0.
 - Update `kyverno-policies` (app) to v0.21.0.
 - Update `trivy-operator` (app) to v0.10.1.
+- Update `starboard-exporter` (app) to v0.8.0.
 
 ## [1.8.2] - 2024-08-29
 
