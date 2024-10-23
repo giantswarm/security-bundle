@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `trivy-operator` (app) to v0.10.1.
 - Update `starboard-exporter` (app) to v0.8.0.
 - Update `trivy-operator` (app) to v0.10.2.
+- Update `trivy` (app) to v0.13.0.
 
 ## [1.8.2] - 2024-08-29
 
