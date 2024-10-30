@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0] - 2024-10-30
+
 ### Breaking changes
 
 **Note:** When upgrading to this security-bundle version with Falco enabled, the Falco App will fail to upgrade due to a breaking change in the upstream chart. To finish the upgrade, disable, then re-enable the Falco App by setting `apps.falco.enabled=[false|true]` [in the security-bundle user values Config Map](https://github.com/giantswarm/security-bundle/tree/main?tab=readme-ov-file#configuring).
@@ -427,7 +429,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.8.2...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.9.0...HEAD
+[1.9.0]: https://github.com/giantswarm/security-bundle/compare/v1.8.2...v1.9.0
 [1.8.2]: https://github.com/giantswarm/security-bundle/compare/v1.8.1...v1.8.2
 [1.8.1]: https://github.com/giantswarm/security-bundle/compare/v1.8.0...v1.8.1
 [1.8.0]: https://github.com/giantswarm/security-bundle/compare/v1.7.1...v1.8.0
