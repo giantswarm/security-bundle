@@ -7,11 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `trivy-operator` (app) to v0.10.3.
+- Update `trivy` (app) to v0.13.1.
+
 ## [1.9.0] - 2024-10-30
-
-### Breaking changes
-
-**Note:** When upgrading to this security-bundle version with Falco enabled, the Falco App will fail to upgrade due to a breaking change in the upstream chart. To finish the upgrade, disable, then re-enable the Falco App by setting `apps.falco.enabled=[false|true]` [in the security-bundle user values Config Map](https://github.com/giantswarm/security-bundle/tree/main?tab=readme-ov-file#configuring).
 
 ### Changed
 
@@ -22,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `trivy-operator` (app) to v0.10.2.
 - Update `trivy` (app) to v0.13.0.
 - Update `falco` (app) to v0.9.1.
+
+### Breaking changes
+
+**Note:** When upgrading to this security-bundle version with Falco enabled, the Falco App will fail to upgrade due to a breaking change in the upstream chart. To finish the upgrade, disable, then re-enable the Falco App by setting `apps.falco.enabled=[false|true]` [in the security-bundle user values Config Map](https://github.com/giantswarm/security-bundle/tree/main?tab=readme-ov-file#configuring).
 
 ## [1.8.2] - 2024-08-29
 
