@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update `trivy-operator` (app) to v0.10.3.
+- Update `trivy` (app) to v0.13.1.
 
 ## [1.9.0] - 2024-10-30
 
