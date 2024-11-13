@@ -112,15 +112,13 @@ func writeChangelogFile(newChangelog Changelog, path string) error {
 		}
 	}
 
-	for _, ref := range newChangelog.Refs {
-		lines = append(lines, ref)
-	}
+	lines = append(lines, newChangelog.Refs...)
 	// Append new line at the end of the file
 	lines = append(lines, "")
 
 	newFile := strings.Join(lines, "\n")
 
-	err := os.WriteFile(path, []byte(newFile), 666)
+	err := os.WriteFile(path, []byte(newFile), 0666)
 
 	return err
 }
