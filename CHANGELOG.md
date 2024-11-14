@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.1] - 2024-11-13
+
 ### Changed
 
 - Update `trivy-operator` (app) to v0.10.3.
@@ -434,7 +436,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.9.0...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.9.1...HEAD
+[1.9.1]: https://github.com/giantswarm/security-bundle/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/giantswarm/security-bundle/compare/v1.8.2...v1.9.0
 [1.8.2]: https://github.com/giantswarm/security-bundle/compare/v1.8.1...v1.8.2
 [1.8.1]: https://github.com/giantswarm/security-bundle/compare/v1.8.0...v1.8.1
