@@ -3,6 +3,7 @@ package basic
 import (
 	"context"
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -25,7 +26,7 @@ const (
 )
 
 var components = []string{
-	"security-bundle", // Main bundle app
+	"security-bundle",
 	"exception-recommender",
 	"falco",
 	"kyverno-crds",
@@ -60,32 +61,59 @@ func TestBasic(t *testing.T) {
 						Should(BeTrue(), fmt.Sprintf("%s should be deployed", component))
 				}
 			})
-
 			It("should have all components running and ready", func() {
 				wcClient, err := state.GetFramework().WC(state.GetCluster().Name)
 				Expect(err).NotTo(HaveOccurred(), "should get workload cluster client")
 
-				// Verify workload cluster components
-				for _, component := range []string{"kyverno", "trivy", "falco"} {
-					By(fmt.Sprintf("Checking %s deployments", component))
+				componentConfigs := map[string]struct {
+					namespace string
+					kind      string
+					prefix    string
+				}{
+					"kyverno":            {namespace: "kyverno", kind: "Deployment", prefix: "kyverno"},
+					"falco":              {namespace: "giantswarm", kind: "Deployment", prefix: "falco"},
+					"trivy":              {namespace: "giantswarm", kind: "Deployment", prefix: "trivy-operator"},
+					"trivy-statefulset":  {namespace: "giantswarm", kind: "StatefulSet", prefix: "trivy"},
+					"starboard-exporter": {namespace: "giantswarm", kind: "Deployment", prefix: "starboard-exporter"},
+				}
+
+				for component, config := range componentConfigs {
+					By(fmt.Sprintf("Checking %s %s", component, config.kind))
 					Eventually(func() bool {
-						// List deployments in the component's namespace
-						deploymentList := &appsv1.DeploymentList{}
-						err := wcClient.List(context.Background(), deploymentList, client.InNamespace("namespace-name"))
-						if err != nil {
-							return false
-						}
-						// Find the component's deployment and check its status
-						for _, d := range deploymentList.Items {
-							if d.Name == component {
-								return d.Status.ReadyReplicas == d.Status.Replicas && d.Status.Replicas > 0
+						var ready, replicas int32
+						switch config.kind {
+						case "Deployment":
+							deploymentList := &appsv1.DeploymentList{}
+							err := wcClient.List(context.Background(), deploymentList, client.InNamespace(config.namespace))
+							if err != nil {
+								return false
+							}
+							for _, d := range deploymentList.Items {
+								if strings.HasPrefix(d.Name, config.prefix) {
+									ready = d.Status.ReadyReplicas
+									replicas = d.Status.Replicas
+									break
+								}
+							}
+						case "StatefulSet":
+							stsList := &appsv1.StatefulSetList{}
+							err := wcClient.List(context.Background(), stsList, client.InNamespace(config.namespace))
+							if err != nil {
+								return false
+							}
+							for _, s := range stsList.Items {
+								if strings.HasPrefix(s.Name, config.prefix) {
+									ready = s.Status.ReadyReplicas
+									replicas = s.Status.Replicas
+									break
+								}
 							}
 						}
-						return false
+						return ready == replicas && replicas > 0
 					}).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
-						Should(BeTrue(), fmt.Sprintf("%s deployment should be ready", component))
+						Should(BeTrue(), fmt.Sprintf("%s %s should be ready", component, config.kind))
 				}
 			})
 		}).
