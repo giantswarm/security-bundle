@@ -35,10 +35,12 @@ func TestBasic(t *testing.T) {
 		t.Fatal("E2E_KUBECONFIG environment variable must be set")
 	}
 
-	suite.New(config.MustLoad("../../config.yaml")).
+	// Load config and ensure version is in semantic format
+	cfg := config.MustLoad("../../config.yaml")
+
+	suite.New(cfg).
 		WithIsUpgrade(isUpgrade).
 		WithValuesFile("./values.yaml").
-		WithInstallNamespace(testNamespace).
 		AfterClusterReady(func() {
 			// Create test namespace if it doesn't exist
 			ctx := context.Background()
@@ -59,7 +61,7 @@ func TestBasic(t *testing.T) {
 				components := []string{"kyverno-crds", "kyverno", "kyverno-policies", "kyverno-policy-operator"}
 
 				for _, component := range components {
-					appName := fmt.Sprintf("security-bundle-%s", component)
+					appName := fmt.Sprintf("%s-%s", state.GetCluster().Name, component)
 
 					By(fmt.Sprintf("Checking HelmRelease for %s", component))
 					Eventually(func() (bool, error) {
@@ -101,7 +103,6 @@ func TestBasic(t *testing.T) {
 			})
 		}).
 		AfterSuite(func() {
-			// Cleanup namespace if needed
 			if state.GetFramework() != nil && state.GetFramework().MC() != nil {
 				ctx := context.Background()
 				ns := &corev1.Namespace{
