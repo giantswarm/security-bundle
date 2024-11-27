@@ -11,7 +11,6 @@ import (
 	"github.com/giantswarm/apptest-framework/pkg/config"
 	"github.com/giantswarm/apptest-framework/pkg/state"
 	"github.com/giantswarm/apptest-framework/pkg/suite"
-	"github.com/giantswarm/clustertest/pkg/organization"
 	"github.com/giantswarm/clustertest/pkg/wait"
 )
 
@@ -24,52 +23,102 @@ const (
 )
 
 func TestBasic(t *testing.T) {
-	suite.New(config.MustLoad("../../config.yaml")).
-		// The namespace to install the app into within the workload cluster
-		WithInstallNamespace(state.GetCluster().Organization.GetNamespace()).
-		// If this is an upgrade test or not.
-		// If true, the suite will first install the latest released version of the app before upgrading to the test version
-		WithIsUpgrade(isUpgrade).
-		WithValuesFile("./values.yaml").
-		AfterClusterReady(func() {
-			// Do any pre-install checks here (ensure the cluster has needed pre-reqs)
-		}).
-		BeforeUpgrade(func() {
-			// Perform any checks between installing the latest released version
-			// and upgrading it to the version to test
-			// E.g. ensure that the initial install has completed and has settled before upgrading
-		}).
-		Tests(func() {
-			var org *organization.Org
+	cfg := config.MustLoad("../../config.yaml")
 
-			BeforeSuite(func() {
-				org = state.GetCluster().Organization
+	testSuite := suite.New(cfg).
+		WithValuesFile("./values.yaml").
+		WithIsUpgrade(isUpgrade)
+
+	testSuite.Tests(func() {
+		BeforeSuite(func() {
+			// Wait for setup to complete and verify state
+			Eventually(func() bool {
+				return state.GetCluster() != nil &&
+					state.GetCluster().Organization != nil
+			}).WithTimeout(2*time.Minute).
+				WithPolling(5*time.Second).
+				Should(BeTrue(), "cluster state should be initialized")
+
+			// Once state is initialized, set the namespace
+			testSuite.WithInstallNamespace(state.GetCluster().Organization.GetNamespace())
+		})
+
+		Describe("Security Bundle Components", func() {
+			It("should deploy core components", func() {
+				org := state.GetCluster().Organization
+
+				// Wait for kyverno CRDs
+				Eventually(wait.IsAppDeployed(state.GetContext(),
+					state.GetFramework().MC(),
+					fmt.Sprintf("%s-kyverno-crds", state.GetCluster().Name),
+					org.GetNamespace())).
+					WithTimeout(appReadyTimeout).
+					WithPolling(appReadyInterval).
+					Should(BeTrue(), "kyverno CRDs should be deployed")
+
+				// Wait for kyverno
+				Eventually(wait.IsAppDeployed(state.GetContext(),
+					state.GetFramework().MC(),
+					fmt.Sprintf("%s-kyverno", state.GetCluster().Name),
+					org.GetNamespace())).
+					WithTimeout(appReadyTimeout).
+					WithPolling(appReadyInterval).
+					Should(BeTrue(), "kyverno should be deployed")
+
+				// Wait for kyverno policies
+				Eventually(wait.IsAppDeployed(state.GetContext(),
+					state.GetFramework().MC(),
+					fmt.Sprintf("%s-kyverno-policies", state.GetCluster().Name),
+					org.GetNamespace())).
+					WithTimeout(appReadyTimeout).
+					WithPolling(appReadyInterval).
+					Should(BeTrue(), "kyverno policies should be deployed")
+
+				// Wait for kyverno policy operator
+				Eventually(wait.IsAppDeployed(state.GetContext(),
+					state.GetFramework().MC(),
+					fmt.Sprintf("%s-kyverno-policy-operator", state.GetCluster().Name),
+					org.GetNamespace())).
+					WithTimeout(appReadyTimeout).
+					WithPolling(appReadyInterval).
+					Should(BeTrue(), "kyverno policy operator should be deployed")
 			})
 
-			Describe("Check Apps status", func() {
+			Context("Optional Components", func() {
+				It("should deploy trivy components when enabled", func() {
+					org := state.GetCluster().Organization
 
-				It("should have kyverno, kyverno-crds, kyverno-policies and kyverno-policy-operator deplyoed", func() {
-					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-kyverno-crds", state.GetCluster().Name), org.GetNamespace())).
+					// Wait for trivy
+					Eventually(wait.IsAppDeployed(state.GetContext(),
+						state.GetFramework().MC(),
+						fmt.Sprintf("%s-trivy", state.GetCluster().Name),
+						org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
-						Should(BeTrue())
+						Should(BeTrue(), "trivy should be deployed")
 
-					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-kyverno", state.GetCluster().Name), org.GetNamespace())).
+					// Wait for trivy operator
+					Eventually(wait.IsAppDeployed(state.GetContext(),
+						state.GetFramework().MC(),
+						fmt.Sprintf("%s-trivy-operator", state.GetCluster().Name),
+						org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
-						Should(BeTrue())
+						Should(BeTrue(), "trivy operator should be deployed")
+				})
 
-					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-kyverno-policies", state.GetCluster().Name), org.GetNamespace())).
+				It("should deploy falco when enabled", func() {
+					org := state.GetCluster().Organization
+
+					Eventually(wait.IsAppDeployed(state.GetContext(),
+						state.GetFramework().MC(),
+						fmt.Sprintf("%s-falco", state.GetCluster().Name),
+						org.GetNamespace())).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
-						Should(BeTrue())
-
-					Eventually(wait.IsAppDeployed(state.GetContext(), state.GetFramework().MC(), fmt.Sprintf("%s-kyverno-policy-operator", state.GetCluster().Name), org.GetNamespace())).
-						WithTimeout(appReadyTimeout).
-						WithPolling(appReadyInterval).
-						Should(BeTrue())
+						Should(BeTrue(), "falco should be deployed")
 				})
 			})
-		}).
-		Run(t, "Basic Test")
+		})
+	}).Run(t, "Security Bundle Basic Test")
 }
