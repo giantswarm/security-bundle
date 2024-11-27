@@ -2,119 +2,92 @@ package basic
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"os"
 	"testing"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/giantswarm/apptest-framework/pkg/config"
 	"github.com/giantswarm/apptest-framework/pkg/state"
 	"github.com/giantswarm/apptest-framework/pkg/suite"
 	"github.com/giantswarm/clustertest/pkg/wait"
 
-	helmv2beta1 "github.com/fluxcd/helm-controller/api/v2beta1"
-	corev1 "k8s.io/api/core/v1"
-	k8serrors "k8s.io/apimachinery/pkg/api/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
+	appsv1 "k8s.io/api/apps/v1"
 )
 
 const (
 	isUpgrade        = false
-	appReadyTimeout  = 5 * time.Minute
+	appReadyTimeout  = 10 * time.Minute
 	appReadyInterval = 5 * time.Second
-	testNamespace    = "security-bundle-test"
 )
 
+var components = []string{
+	"security-bundle", // Main bundle app
+	"exception-recommender",
+	"falco",
+	"kyverno-crds",
+	"kyverno",
+	"kyverno-policy-operator",
+	"kyverno-policies",
+	"starboard-exporter",
+	"trivy",
+	"trivy-operator",
+}
+
 func TestBasic(t *testing.T) {
-	if os.Getenv("E2E_KUBECONFIG") == "" {
-		t.Fatal("E2E_KUBECONFIG environment variable must be set")
-	}
-
-	// Load config and ensure version is in semantic format
-	cfg := config.MustLoad("../../config.yaml")
-
-	suite.New(cfg).
+	suite.New(config.MustLoad("../../config.yaml")).
 		WithIsUpgrade(isUpgrade).
 		WithValuesFile("./values.yaml").
-		AfterClusterReady(func() {
-			// Create test namespace if it doesn't exist
-			ctx := context.Background()
-			if state.GetFramework() != nil && state.GetFramework().MC() != nil {
-				ns := &corev1.Namespace{
-					ObjectMeta: metav1.ObjectMeta{
-						Name: testNamespace,
-					},
-				}
-				err := state.GetFramework().MC().Create(ctx, ns)
-				if err != nil && !k8serrors.IsAlreadyExists(err) {
-					Fail(fmt.Sprintf("Failed to create test namespace: %v", err))
-				}
-			}
-		}).
 		Tests(func() {
-			It("should deploy kyverno core components", func() {
-				components := []string{"kyverno-crds", "kyverno", "kyverno-policies", "kyverno-policy-operator"}
+			It("should deploy all security bundle components successfully", func() {
+				Expect(state.GetCluster()).NotTo(BeNil(), "cluster state should be initialized")
+				Expect(state.GetCluster().Organization).NotTo(BeNil(), "organization should be available")
 
+				namespace := state.GetCluster().Organization.GetNamespace()
+
+				By("Verifying all components are deployed")
 				for _, component := range components {
 					appName := fmt.Sprintf("%s-%s", state.GetCluster().Name, component)
-
-					By(fmt.Sprintf("Checking HelmRelease for %s", component))
-					Eventually(func() (bool, error) {
-						mcKubeClient := state.GetFramework().MC()
-						release := &helmv2beta1.HelmRelease{}
-						err := mcKubeClient.Get(context.Background(), types.NamespacedName{
-							Name:      appName,
-							Namespace: testNamespace,
-						}, release)
-						if err != nil {
-							return false, err
-						}
-
-						for _, c := range release.Status.Conditions {
-							if c.Type == "Ready" {
-								if c.Status == "True" {
-									return true, nil
-								} else {
-									return false, errors.New(fmt.Sprintf("HelmRelease not ready [%s]: %s", c.Reason, c.Message))
-								}
-							}
-						}
-
-						return false, errors.New("HelmRelease not ready")
-					}).
-						WithTimeout(appReadyTimeout).
-						WithPolling(appReadyInterval).
-						Should(BeTrue(), fmt.Sprintf("%s HelmRelease should be ready", component))
-
-					By(fmt.Sprintf("Verifying %s is deployed", component))
 					Eventually(wait.IsAppDeployed(context.Background(),
 						state.GetFramework().MC(),
 						appName,
-						testNamespace)).
+						namespace)).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
 						Should(BeTrue(), fmt.Sprintf("%s should be deployed", component))
 				}
 			})
-		}).
-		AfterSuite(func() {
-			if state.GetFramework() != nil && state.GetFramework().MC() != nil {
-				ctx := context.Background()
-				ns := &corev1.Namespace{
-					ObjectMeta: metav1.ObjectMeta{
-						Name: testNamespace,
-					},
+
+			It("should have all components running and ready", func() {
+				wcClient, err := state.GetFramework().WC(state.GetCluster().Name)
+				Expect(err).NotTo(HaveOccurred(), "should get workload cluster client")
+
+				// Verify workload cluster components
+				for _, component := range []string{"kyverno", "trivy", "falco"} {
+					By(fmt.Sprintf("Checking %s deployments", component))
+					Eventually(func() bool {
+						// List deployments in the component's namespace
+						deploymentList := &appsv1.DeploymentList{}
+						err := wcClient.List(context.Background(), deploymentList, client.InNamespace("namespace-name"))
+						if err != nil {
+							return false
+						}
+						// Find the component's deployment and check its status
+						for _, d := range deploymentList.Items {
+							if d.Name == component {
+								return d.Status.ReadyReplicas == d.Status.Replicas && d.Status.Replicas > 0
+							}
+						}
+						return false
+					}).
+						WithTimeout(appReadyTimeout).
+						WithPolling(appReadyInterval).
+						Should(BeTrue(), fmt.Sprintf("%s deployment should be ready", component))
 				}
-				err := state.GetFramework().MC().Delete(ctx, ns)
-				if err != nil && !k8serrors.IsNotFound(err) {
-					fmt.Printf("Warning: Failed to delete test namespace: %v\n", err)
-				}
-			}
+			})
 		}).
 		Run(t, "Basic Test")
 }

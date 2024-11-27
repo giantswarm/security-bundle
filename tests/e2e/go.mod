@@ -9,12 +9,12 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.16
 replace github.com/alessio/shellescape => al.essio.dev/pkg/shellescape v1.4.2
 
 require (
-	github.com/fluxcd/helm-controller/api v1.1.0
 	github.com/giantswarm/apptest-framework v1.7.0
 	github.com/giantswarm/clustertest v1.18.0
 	github.com/onsi/ginkgo/v2 v2.20.0
 	github.com/onsi/gomega v1.34.1
-	k8s.io/apimachinery v0.31.1
+	k8s.io/api v0.31.1
+	sigs.k8s.io/controller-runtime v0.19.0
 )
 
 require (
@@ -52,8 +52,6 @@ require (
 	github.com/exponent-io/jsonpath v0.0.0-20210407135951-1de76d718b3f // indirect
 	github.com/fatih/color v1.17.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
-	github.com/fluxcd/pkg/apis/kustomize v1.6.1 // indirect
-	github.com/fluxcd/pkg/apis/meta v1.6.1 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/giantswarm/apiextensions-application v0.6.2 // indirect
@@ -169,8 +167,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.15.4 // indirect
-	k8s.io/api v0.31.1 // indirect
 	k8s.io/apiextensions-apiserver v0.31.1 // indirect
+	k8s.io/apimachinery v0.31.1 // indirect
 	k8s.io/apiserver v0.31.1 // indirect
 	k8s.io/cli-runtime v0.31.0 // indirect
 	k8s.io/client-go v0.31.1 // indirect
@@ -182,7 +180,6 @@ require (
 	k8s.io/utils v0.0.0-20240711033017-18e509b52bc8 // indirect
 	oras.land/oras-go v1.2.6 // indirect
 	sigs.k8s.io/cluster-api v1.8.1 // indirect
-	sigs.k8s.io/controller-runtime v0.19.0 // indirect
 	sigs.k8s.io/e2e-framework v0.4.0 // indirect
 	sigs.k8s.io/gateway-api v1.1.0 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
