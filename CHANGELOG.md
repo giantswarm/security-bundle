@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.1] - 2024-11-13
+
+### Changed
+
+- Update `trivy-operator` (app) to v0.10.3.
+- Update `trivy` (app) to v0.13.1.
+
+## [1.9.0] - 2024-10-30
+
+### Changed
+
+- Update `kyverno` (app) to v0.18.1.
+- Update `kyverno-crds` (app) to v1.12.0.
+- Update `kyverno-policies` (app) to v0.21.0.
+- Update `starboard-exporter` (app) to v0.8.0.
+- Update `trivy-operator` (app) to v0.10.2.
+- Update `trivy` (app) to v0.13.0.
+- Update `falco` (app) to v0.9.1.
+
+### Breaking changes
+
+**Note:** When upgrading to this security-bundle version with Falco enabled, the Falco App will fail to upgrade due to a breaking change in the upstream chart. To finish the upgrade, disable, then re-enable the Falco App by setting `apps.falco.enabled=[false|true]` [in the security-bundle user values Config Map](https://github.com/giantswarm/security-bundle/tree/main?tab=readme-ov-file#configuring).
+
+## [1.8.2] - 2024-08-29
+
+### Changed
+
+- Update `cloudnative-pg` (app) to v0.0.6.
+- Update `trivy-operator` (app) to v0.10.0.
+- Update `kyverno-policy-operator` (app) to v0.0.8.
+- Update `kyverno` (app) to v0.17.16.
+
 ## [1.8.1] - 2024-08-14
 
 ### Changed
@@ -404,7 +436,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.8.1...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.9.1...HEAD
+[1.9.1]: https://github.com/giantswarm/security-bundle/compare/v1.9.0...v1.9.1
+[1.9.0]: https://github.com/giantswarm/security-bundle/compare/v1.8.2...v1.9.0
+[1.8.2]: https://github.com/giantswarm/security-bundle/compare/v1.8.1...v1.8.2
 [1.8.1]: https://github.com/giantswarm/security-bundle/compare/v1.8.0...v1.8.1
 [1.8.0]: https://github.com/giantswarm/security-bundle/compare/v1.7.1...v1.8.0
 [1.7.1]: https://github.com/giantswarm/security-bundle/compare/v1.7.0...v1.7.1

@@ -19,12 +19,13 @@ type Changelog struct {
 }
 
 type Version struct {
-	Name    string   `json:"name"`
-	Changed []string `json:"changed"`
-	Added   []string `json:"added"`
-	Fixed   []string `json:"fixed"`
-	Removed []string `json:"removed"`
-	Notes   []string `json:"notes"`
+	Name            string   `json:"name"`
+	Changed         []string `json:"changed"`
+	Added           []string `json:"added"`
+	Fixed           []string `json:"fixed"`
+	Removed         []string `json:"removed"`
+	Notes           []string `json:"notes"`
+	BreakingChanges []string `json:"breakingchanges"`
 }
 
 func init() {
@@ -68,9 +69,7 @@ func writeChangelogFile(newChangelog Changelog, path string) error {
 
 	lines = append(lines, newChangelog.Title+"\n")
 	if len(newChangelog.Notes) > 0 {
-		for _, note := range newChangelog.Notes {
-			lines = append(lines, note)
-		}
+		lines = append(lines, newChangelog.Notes...)
 	}
 	for _, version := range newChangelog.Versions {
 		lines = append(lines, version.Name+"\n")
@@ -78,55 +77,48 @@ func writeChangelogFile(newChangelog Changelog, path string) error {
 		if len(version.Added) != 0 {
 			header := "### Added\n"
 			lines = append(lines, header)
-
-			for _, item := range version.Added {
-				lines = append(lines, item)
-			}
+			lines = append(lines, version.Added...)
 			lines = append(lines, "")
 		}
 		if len(version.Changed) != 0 {
 			header := "### Changed\n"
 			lines = append(lines, header)
-			for _, item := range version.Changed {
-				lines = append(lines, item)
-			}
+			lines = append(lines, version.Changed...)
 			lines = append(lines, "")
 		}
 		if len(version.Fixed) != 0 {
 			header := "### Fixed\n"
 			lines = append(lines, header)
-			for _, item := range version.Fixed {
-				lines = append(lines, item)
-			}
+			lines = append(lines, version.Fixed...)
 			lines = append(lines, "")
 		}
 		if len(version.Removed) != 0 {
 			header := "### Removed\n"
 			lines = append(lines, header)
-			for _, item := range version.Removed {
-				lines = append(lines, item)
-			}
+			lines = append(lines, version.Removed...)
 			lines = append(lines, "")
 		}
 		if len(version.Notes) != 0 {
 			header := "### Notes\n"
 			lines = append(lines, header)
-			for _, item := range version.Notes {
-				lines = append(lines, item)
-			}
+			lines = append(lines, version.Notes...)
+			lines = append(lines, "")
+		}
+		if len(version.BreakingChanges) != 0 {
+			header := "### Breaking Changes\n"
+			lines = append(lines, header)
+			lines = append(lines, version.BreakingChanges...)
 			lines = append(lines, "")
 		}
 	}
 
-	for _, ref := range newChangelog.Refs {
-		lines = append(lines, ref)
-	}
+	lines = append(lines, newChangelog.Refs...)
 	// Append new line at the end of the file
 	lines = append(lines, "")
 
 	newFile := strings.Join(lines, "\n")
 
-	err := os.WriteFile(path, []byte(newFile), 666)
+	err := os.WriteFile(path, []byte(newFile), 0666)
 
 	return err
 }
@@ -177,6 +169,8 @@ func parseMarkdown(markdown []string) Changelog {
 						currentVersion.Removed = append(currentVersion.Removed, line)
 					case "Notes":
 						currentVersion.Notes = append(currentVersion.Notes, line)
+					case "Breaking":
+						currentVersion.BreakingChanges = append(currentVersion.BreakingChanges, line)
 					default:
 						continue
 					}

@@ -79,7 +79,7 @@ apps:
     namespace: giantswarm
     # used by renovate
     # repo: giantswarm/cloudnative-pg-app
-    version: 0.0.5
+    version: 0.0.6
 
   edgedb:
     appName: edgedb
@@ -111,7 +111,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
-    version: 0.8.1
+    version: 0.9.1
 
   jiralert:
     appName: jiralert
@@ -139,7 +139,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.17.15
+    version: 0.18.1
 
   kyvernoCrds:
     appName: kyverno-crds
@@ -149,7 +149,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.11.1
+    version: 1.12.0
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
@@ -160,7 +160,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
-    version: 0.0.7
+    version: 0.0.8
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
@@ -173,7 +173,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.20.2
+    version: 0.21.0
 
   reportsServer:
     appName: reports-server
@@ -194,7 +194,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 0.7.11
+    version: 0.8.0
 
   trivy:
     appName: trivy
@@ -204,7 +204,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
-    version: 0.12.0
+    version: 0.13.1
 
   trivyOperator:
     appName: trivy-operator
@@ -214,4 +214,4 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.9.1
+    version: 0.10.3
