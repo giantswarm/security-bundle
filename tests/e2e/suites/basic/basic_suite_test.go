@@ -72,8 +72,8 @@ func TestBasic(t *testing.T) {
 				}{
 					"kyverno":            {namespace: "kyverno", kind: "Deployment", prefix: "kyverno"},
 					"falco":              {namespace: "giantswarm", kind: "Deployment", prefix: "falco"},
-					"trivy":              {namespace: "giantswarm", kind: "Deployment", prefix: "trivy-operator"},
-					"trivy-statefulset":  {namespace: "giantswarm", kind: "StatefulSet", prefix: "trivy"},
+					"trivy-operator":     {namespace: "giantswarm", kind: "Deployment", prefix: "trivy-operator"},
+					"trivy":              {namespace: "giantswarm", kind: "StatefulSet", prefix: "trivy"},
 					"starboard-exporter": {namespace: "giantswarm", kind: "Deployment", prefix: "starboard-exporter"},
 				}
 
