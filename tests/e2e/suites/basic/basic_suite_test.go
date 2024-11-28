@@ -3,7 +3,6 @@ package basic
 import (
 	"context"
 	"fmt"
-	"strings"
 	"testing"
 	"time"
 
@@ -68,13 +67,18 @@ func TestBasic(t *testing.T) {
 				componentConfigs := map[string]struct {
 					namespace string
 					kind      string
-					prefix    string
+					name      string
 				}{
-					"kyverno":            {namespace: "kyverno", kind: "Deployment", prefix: "kyverno"},
-					"falco":              {namespace: "giantswarm", kind: "Deployment", prefix: "falco"},
-					"trivy-operator":     {namespace: "giantswarm", kind: "Deployment", prefix: "trivy-operator"},
-					"trivy":              {namespace: "giantswarm", kind: "StatefulSet", prefix: "trivy"},
-					"starboard-exporter": {namespace: "giantswarm", kind: "Deployment", prefix: "starboard-exporter"},
+					"kyverno":                 {namespace: "kyverno", kind: "Deployment", name: "kyverno-admission-controller"},
+					"falco":                   {namespace: "security-bundle", kind: "DaemonSet", name: "falco"},
+					"falco-exporter":          {namespace: "security-bundle", kind: "DaemonSet", name: "falco-falco-exporter"},
+					"falco-sidekick":          {namespace: "security-bundle", kind: "Deployment", name: "falco-falcosidekick"},
+					"falco-metacollector":     {namespace: "security-bundle", kind: "Deployment", name: "falco-k8s-metacollector"},
+					"trivy-operator":          {namespace: "security-bundle", kind: "Deployment", name: "trivy-operator"},
+					"trivy":                   {namespace: "security-bundle", kind: "StatefulSet", name: "trivy"},
+					"starboard-exporter":      {namespace: "security-bundle", kind: "Deployment", name: "starboard-exporter"},
+					"exception-recommender":   {namespace: "security-bundle", kind: "Deployment", name: "exception-recommender"},
+					"kyverno-policy-operator": {namespace: "security-bundle", kind: "Deployment", name: "kyverno-policy-operator"},
 				}
 
 				for component, config := range componentConfigs {
@@ -83,31 +87,29 @@ func TestBasic(t *testing.T) {
 						var ready, replicas int32
 						switch config.kind {
 						case "Deployment":
-							deploymentList := &appsv1.DeploymentList{}
-							err := wcClient.List(context.Background(), deploymentList, client.InNamespace(config.namespace))
+							deployment := &appsv1.Deployment{}
+							err := wcClient.Get(context.Background(), client.ObjectKey{Namespace: config.namespace, Name: config.name}, deployment)
 							if err != nil {
 								return false
 							}
-							for _, d := range deploymentList.Items {
-								if strings.HasPrefix(d.Name, config.prefix) {
-									ready = d.Status.ReadyReplicas
-									replicas = d.Status.Replicas
-									break
-								}
+							ready = deployment.Status.ReadyReplicas
+							replicas = deployment.Status.Replicas
+						case "DaemonSet":
+							ds := &appsv1.DaemonSet{}
+							err := wcClient.Get(context.Background(), client.ObjectKey{Namespace: config.namespace, Name: config.name}, ds)
+							if err != nil {
+								return false
 							}
+							ready = ds.Status.NumberReady
+							replicas = ds.Status.DesiredNumberScheduled
 						case "StatefulSet":
-							stsList := &appsv1.StatefulSetList{}
-							err := wcClient.List(context.Background(), stsList, client.InNamespace(config.namespace))
+							sts := &appsv1.StatefulSet{}
+							err := wcClient.Get(context.Background(), client.ObjectKey{Namespace: config.namespace, Name: config.name}, sts)
 							if err != nil {
 								return false
 							}
-							for _, s := range stsList.Items {
-								if strings.HasPrefix(s.Name, config.prefix) {
-									ready = s.Status.ReadyReplicas
-									replicas = s.Status.Replicas
-									break
-								}
-							}
+							ready = sts.Status.ReadyReplicas
+							replicas = sts.Status.Replicas
 						}
 						return ready == replicas && replicas > 0
 					}).
