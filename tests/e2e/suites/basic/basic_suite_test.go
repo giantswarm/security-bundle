@@ -6,14 +6,15 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/onsi/ginkgo/v2"
-	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
 	"github.com/giantswarm/apptest-framework/pkg/config"
 	"github.com/giantswarm/apptest-framework/pkg/state"
 	"github.com/giantswarm/apptest-framework/pkg/suite"
 	"github.com/giantswarm/clustertest/pkg/wait"
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+	admissionregistrationv1 "k8s.io/api/admissionregistration/v1"
+	batchv1 "k8s.io/api/batch/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	appsv1 "k8s.io/api/apps/v1"
 )
@@ -69,16 +70,33 @@ func TestBasic(t *testing.T) {
 					kind      string
 					name      string
 				}{
-					"kyverno":                 {namespace: "kyverno", kind: "Deployment", name: "kyverno-admission-controller"},
+					// security-bundle namespace
+					"exception-recommender":   {namespace: "security-bundle", kind: "Deployment", name: "exception-recommender"},
 					"falco":                   {namespace: "security-bundle", kind: "DaemonSet", name: "falco"},
 					"falco-exporter":          {namespace: "security-bundle", kind: "DaemonSet", name: "falco-falco-exporter"},
 					"falco-sidekick":          {namespace: "security-bundle", kind: "Deployment", name: "falco-falcosidekick"},
 					"falco-metacollector":     {namespace: "security-bundle", kind: "Deployment", name: "falco-k8s-metacollector"},
-					"trivy-operator":          {namespace: "security-bundle", kind: "Deployment", name: "trivy-operator"},
-					"trivy":                   {namespace: "security-bundle", kind: "StatefulSet", name: "trivy"},
-					"starboard-exporter":      {namespace: "security-bundle", kind: "Deployment", name: "starboard-exporter"},
-					"exception-recommender":   {namespace: "security-bundle", kind: "Deployment", name: "exception-recommender"},
 					"kyverno-policy-operator": {namespace: "security-bundle", kind: "Deployment", name: "kyverno-policy-operator"},
+					"starboard-exporter":      {namespace: "security-bundle", kind: "Deployment", name: "starboard-exporter"},
+					"trivy":                   {namespace: "security-bundle", kind: "StatefulSet", name: "trivy"},
+					"trivy-operator":          {namespace: "security-bundle", kind: "Deployment", name: "trivy-operator"},
+
+					// kyverno namespace
+					"kyverno":                       {namespace: "kyverno", kind: "Deployment", name: "kyverno-admission-controller"},
+					"kyverno-background-controller": {namespace: "kyverno", kind: "Deployment", name: "kyverno-background-controller"},
+					"kyverno-cleanup-controller":    {namespace: "kyverno", kind: "Deployment", name: "kyverno-cleanup-controller"},
+					"kyverno-kyverno-plugin":        {namespace: "kyverno", kind: "Deployment", name: "kyverno-kyverno-plugin"},
+					"kyverno-policy-reporter":       {namespace: "kyverno", kind: "Deployment", name: "kyverno-policy-reporter"},
+					"kyverno-reports-controller":    {namespace: "kyverno", kind: "Deployment", name: "kyverno-reports-controller"},
+					"kyverno-ui":                    {namespace: "kyverno", kind: "Deployment", name: "kyverno-ui"},
+
+					// kyverno-webhook
+					"kyverno-webhook": {namespace: "kyverno", kind: "MutatingWebhookConfiguration", name: "kyverno-policy-mutating-webhook-cfg"},
+
+					// jobs
+					"kyverno-cleanup-cluster-ephemeral-reports": {namespace: "kyverno", kind: "CronJob", name: "kyverno-cleanup-cluster-ephemeral-reports"},
+					"kyverno-cleanup-ephemeral-reports":         {namespace: "kyverno", kind: "CronJob", name: "kyverno-cleanup-ephemeral-reports"},
+					"kyverno-cleanup-update-requests":           {namespace: "kyverno", kind: "CronJob", name: "kyverno-cleanup-update-requests"},
 				}
 
 				for component, config := range componentConfigs {
@@ -110,8 +128,17 @@ func TestBasic(t *testing.T) {
 							}
 							ready = sts.Status.ReadyReplicas
 							replicas = sts.Status.Replicas
+						case "MutatingWebhookConfiguration":
+							webhook := &admissionregistrationv1.MutatingWebhookConfiguration{}
+							err := wcClient.Get(context.Background(), client.ObjectKey{Name: config.name}, webhook)
+							return err == nil
+						case "CronJob":
+							cj := &batchv1.CronJob{}
+							err := wcClient.Get(context.Background(), client.ObjectKey{Namespace: config.namespace, Name: config.name}, cj)
+							return err == nil
 						}
 						return ready == replicas && replicas > 0
+
 					}).
 						WithTimeout(appReadyTimeout).
 						WithPolling(appReadyInterval).
