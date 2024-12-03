@@ -43,7 +43,7 @@ func TestBasic(t *testing.T) {
 		WithIsUpgrade(isUpgrade).
 		WithValuesFile("./values.yaml").
 		Tests(func() {
-			It("should deploy all security bundle components successfully", func() {
+			It("should deploy all security bundle App CRs successfully", func() {
 				Expect(state.GetCluster()).NotTo(BeNil(), "cluster state should be initialized")
 				Expect(state.GetCluster().Organization).NotTo(BeNil(), "organization should be available")
 
