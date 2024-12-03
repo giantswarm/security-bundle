@@ -91,7 +91,8 @@ func TestBasic(t *testing.T) {
 					"kyverno-ui":                    {namespace: "kyverno", kind: "Deployment", name: "kyverno-ui"},
 
 					// kyverno-webhook
-					"kyverno-webhook": {namespace: "kyverno", kind: "MutatingWebhookConfiguration", name: "kyverno-policy-mutating-webhook-cfg"},
+					"kyverno-mutating-webhook":   {namespace: "kyverno", kind: "MutatingWebhookConfiguration", name: "kyverno-policy-mutating-webhook-cfg"},
+					"kyverno-validating-webhook": {namespace: "kyverno", kind: "ValidatingWebhookConfiguration", name: "kyverno-policy-validating-webhook-cfg"},
 
 					// jobs
 					"kyverno-cleanup-cluster-ephemeral-reports": {namespace: "kyverno", kind: "CronJob", name: "kyverno-cleanup-cluster-ephemeral-reports"},
@@ -129,8 +130,12 @@ func TestBasic(t *testing.T) {
 							ready = sts.Status.ReadyReplicas
 							replicas = sts.Status.Replicas
 						case "MutatingWebhookConfiguration":
-							webhook := &admissionregistrationv1.MutatingWebhookConfiguration{}
-							err := wcClient.Get(context.Background(), client.ObjectKey{Name: config.name}, webhook)
+							mutatingWebhook := &admissionregistrationv1.MutatingWebhookConfiguration{}
+							err := wcClient.Get(context.Background(), client.ObjectKey{Name: config.name}, mutatingWebhook)
+							return err == nil
+						case "ValidatingWebhookConfiguration":
+							validatingWebhook := &admissionregistrationv1.ValidatingWebhookConfiguration{}
+							err := wcClient.Get(context.Background(), client.ObjectKey{Name: config.name}, validatingWebhook)
 							return err == nil
 						case "CronJob":
 							cj := &batchv1.CronJob{}
