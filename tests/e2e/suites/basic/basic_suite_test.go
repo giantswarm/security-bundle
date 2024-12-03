@@ -91,8 +91,13 @@ func TestBasic(t *testing.T) {
 					"kyverno-ui":                    {namespace: "kyverno", kind: "Deployment", name: "kyverno-ui"},
 
 					// kyverno-webhook
-					"kyverno-mutating-webhook":   {namespace: "kyverno", kind: "MutatingWebhookConfiguration", name: "kyverno-policy-mutating-webhook-cfg"},
-					"kyverno-validating-webhook": {namespace: "kyverno", kind: "ValidatingWebhookConfiguration", name: "kyverno-policy-validating-webhook-cfg"},
+					"kyverno-mutating-webhook":                  {namespace: "kyverno", kind: "MutatingWebhookConfiguration", name: "kyverno-policy-mutating-webhook-cfg"},
+					"kyverno-policy-validating-webhook":         {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-policy-validating-webhook-cfg"},
+					"kyverno-resource-validating-webhook":       {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-resource-validating-webhook-cfg"},
+					"kyverno-global-context-validating-webhook": {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-global-context-validating-webhook-cfg"},
+					"kyverno-exception-validating-webhook":      {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-exception-validating-webhook-cfg"},
+					"kyverno-cleanup-validating-webhook":        {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-cleanup-validating-webhook-cfg"},
+					"kyverno-ttl-validating-webhook":            {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-ttl-validating-webhook-cfg"},
 
 					// jobs
 					"kyverno-cleanup-cluster-ephemeral-reports": {namespace: "kyverno", kind: "CronJob", name: "kyverno-cleanup-cluster-ephemeral-reports"},
