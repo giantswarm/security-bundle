@@ -49,7 +49,7 @@ func TestBasic(t *testing.T) {
 
 				namespace := state.GetCluster().Organization.GetNamespace()
 
-				By("Verifying all components are deployed")
+				By("Verifying all App CRs are deployed")
 				for _, component := range components {
 					appName := fmt.Sprintf("%s-%s", state.GetCluster().Name, component)
 					Eventually(wait.IsAppDeployed(context.Background(),
