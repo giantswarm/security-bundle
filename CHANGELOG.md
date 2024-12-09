@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add e2e tests for the `security-bundle` and all is components
+
 ## [1.9.1] - 2024-11-13
 
 ### Changed
