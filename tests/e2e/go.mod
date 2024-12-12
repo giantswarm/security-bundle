@@ -11,7 +11,7 @@ replace github.com/alessio/shellescape => github.com/alessio/shellescape v1.5.1
 require (
 	github.com/giantswarm/apptest-framework v1.10.2
 	github.com/giantswarm/clustertest v1.27.3
-	github.com/onsi/ginkgo/v2 v2.20.2
+	github.com/onsi/ginkgo/v2 v2.22.0
 	github.com/onsi/gomega v1.34.2
 	k8s.io/api v0.31.1
 	sigs.k8s.io/controller-runtime v0.19.3
@@ -86,7 +86,7 @@ require (
 	github.com/google/go-github/v66 v66.0.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
-	github.com/google/pprof v0.0.0-20240910150728-a0b0bb1d4134 // indirect
+	github.com/google/pprof v0.0.0-20241029153458-d1b30febd7db // indirect
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
