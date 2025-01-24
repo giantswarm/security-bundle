@@ -2,7 +2,7 @@ module e2e
 
 go 1.23.1
 
-toolchain go1.23.4
+toolchain go1.23.5
 
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.16
 
