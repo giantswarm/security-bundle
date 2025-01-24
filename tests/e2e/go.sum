@@ -143,6 +143,8 @@ github.com/giantswarm/clustertest v1.27.3 h1:F1T299vaxdPu3iGrhHWZoiEG39Q7Sc5hgvv
 github.com/giantswarm/clustertest v1.27.3/go.mod h1:NkH6TIwV11FWWoQ9bQ0egGV3Wke/n2KYHPg+7P5i6Is=
 github.com/giantswarm/clustertest v1.32.0 h1:j0hsCJ4pWA+bEbgGG3qyx3wZ9HQMr/0qGpITZdZCldw=
 github.com/giantswarm/clustertest v1.32.0/go.mod h1:hNuX2ifImtzySCPu3KxSUO7cnuBRTLxzKjCsxCdKt0E=
+github.com/giantswarm/clustertest v1.32.1 h1:O359XcoK7M2osK8HupB3kkS6+NR9IpQai4fHEUiwkDk=
+github.com/giantswarm/clustertest v1.32.1/go.mod h1:V+2IV6zy4XjWzmy6/Ds9OW3Y8M9kmFyF2hZuSAUTqAY=
 github.com/giantswarm/k8smetadata v0.25.0 h1:6mKmmm4xHPuBvxDMAkIhU5oj6KJkJSaR2s5esIsnHs4=
 github.com/giantswarm/k8smetadata v0.25.0/go.mod h1:QiQAyaZnwco1U0lENLF0Kp4bSN4dIPwIlHWEvUo3ES8=
 github.com/giantswarm/kubectl-gs/v2 v2.57.0 h1:IMmho55Qq+WE+frJXcTBhx19+J54xwu/j4+pGU5YecA=
