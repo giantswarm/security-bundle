@@ -90,7 +90,7 @@ apps:
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/edgedb-app
-    version: 0.0.3
+    version: 0.1.0
 
   exceptionRecommender:
     appName: exception-recommender
