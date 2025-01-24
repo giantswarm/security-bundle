@@ -10,7 +10,7 @@ replace github.com/alessio/shellescape => github.com/alessio/shellescape v1.5.1
 
 require (
 	github.com/giantswarm/apptest-framework v1.10.2
-	github.com/giantswarm/clustertest v1.32.0
+	github.com/giantswarm/clustertest v1.32.1
 	github.com/onsi/ginkgo/v2 v2.22.2
 	github.com/onsi/gomega v1.36.2
 	k8s.io/api v0.32.0
