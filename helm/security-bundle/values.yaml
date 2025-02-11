@@ -126,7 +126,7 @@ apps:
   kyverno:
     appName: kyverno
     chartName: kyverno
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn: kyverno-crds
     enabled: true
     namespace: kyverno
@@ -139,17 +139,17 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.18.1
+    version: 0.18.1-3e44d93b85018522f86b8ae5316f162850056ea5
 
   kyvernoCrds:
     appName: kyverno-crds
     chartName: kyverno-crds
-    catalog: giantswarm
+    catalog: giantswarm-test
     enabled: true
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.12.0
+    version: 1.12.0-aba21c090b120b304cbf343892b0a0ea0bd32036
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
@@ -167,13 +167,13 @@ apps:
   kyvernoPolicies:
     appName: kyverno-policies
     chartName: kyverno-policies
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn: kyverno-crds
     enabled: true
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.21.1
+    version: 0.21.1-a1d8e2d257919d0bdcdb5d2e6cfb19a8c6aaea52
 
   reportsServer:
     appName: reports-server
