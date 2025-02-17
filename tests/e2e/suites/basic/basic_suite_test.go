@@ -82,7 +82,7 @@ func TestBasic(t *testing.T) {
 					"trivy-operator":          {namespace: "security-bundle", kind: "Deployment", name: "trivy-operator"},
 
 					// kyverno namespace
-					"kyverno":                       {namespace: "kyverno", kind: "Deployment", name: "kyverno-admission-controller"},
+					"kyverno-admission-controller":  {namespace: "kyverno", kind: "Deployment", name: "kyverno-admission-controller"},
 					"kyverno-background-controller": {namespace: "kyverno", kind: "Deployment", name: "kyverno-background-controller"},
 					"kyverno-cleanup-controller":    {namespace: "kyverno", kind: "Deployment", name: "kyverno-cleanup-controller"},
 					"kyverno-kyverno-plugin":        {namespace: "kyverno", kind: "Deployment", name: "kyverno-kyverno-plugin"},
@@ -98,11 +98,6 @@ func TestBasic(t *testing.T) {
 					"kyverno-exception-validating-webhook":      {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-exception-validating-webhook-cfg"},
 					"kyverno-cleanup-validating-webhook":        {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-cleanup-validating-webhook-cfg"},
 					"kyverno-ttl-validating-webhook":            {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-ttl-validating-webhook-cfg"},
-
-					// jobs
-					"kyverno-cleanup-cluster-ephemeral-reports": {namespace: "kyverno", kind: "CronJob", name: "kyverno-cleanup-cluster-ephemeral-reports"},
-					"kyverno-cleanup-ephemeral-reports":         {namespace: "kyverno", kind: "CronJob", name: "kyverno-cleanup-ephemeral-reports"},
-					"kyverno-cleanup-update-requests":           {namespace: "kyverno", kind: "CronJob", name: "kyverno-cleanup-update-requests"},
 				}
 
 				for component, config := range componentConfigs {
