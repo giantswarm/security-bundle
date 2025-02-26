@@ -173,7 +173,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.22.0
+    version: 0.23.0
 
   reportsServer:
     appName: reports-server
