@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update `kyverno` (app) to v0.19.0.
 - Update `kyverno-crds` (app) to v1.13.0.
-- Update `kyverno-policies` (app) to v0.22.0.
+- Update `kyverno-policies` (app) to v0.23.0.
 - Update `edgedb` (app) to v0.1.0.
 - Update `falco` (app) to v0.10.0.
 - Update `trivy` (app) to v0.13.2.
