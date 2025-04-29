@@ -79,7 +79,7 @@ apps:
     namespace: giantswarm
     # used by renovate
     # repo: giantswarm/cloudnative-pg-app
-    version: 0.0.6
+    version: 0.0.7
 
   edgedb:
     appName: edgedb
@@ -194,7 +194,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 0.8.0
+    version: 0.8.1
 
   trivy:
     appName: trivy
