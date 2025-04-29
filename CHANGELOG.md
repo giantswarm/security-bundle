@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `kyverno-crds` (app) to v1.13.1.
+
 ## [1.10.0] - 2025-02-28
 
 ### Added
@@ -180,7 +184,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to `kyverno-app` (app) version v0.16.4.
 - Update to `kyverno-policies` (app) version v0.20.2.
 - Update to `exception-recommender` (app) to v0.0.6.
-- Update to `starboard-exporter` (app) version v0.7.5. 
+- Update to `starboard-exporter` (app) version v0.7.5.
 
 ## [1.4.1] - 2023-11-29
 
@@ -237,7 +241,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add `depends-on` annotation to set App depenencies. 
+- Add `depends-on` annotation to set App depenencies.
 
 ### Changed
 
