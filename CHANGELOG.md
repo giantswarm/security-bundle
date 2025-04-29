@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `trivy` (app) to v0.13.4.
+- Update `cloudnative-pg` (app) to v0.0.7.
+- Update `starboard-exporter` (app) to v0.8.1.
+
 ## [1.10.0] - 2025-02-28
 
 ### Added
