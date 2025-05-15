@@ -75,7 +75,7 @@ apps:
     appName: cloudnative-pg
     chartName: cloudnative-pg
     catalog: giantswarm-operations-platform
-    enabled: false
+    enabled: true
     namespace: giantswarm
     # used by renovate
     # repo: giantswarm/cloudnative-pg-app
@@ -86,7 +86,7 @@ apps:
     chartName: edgedb
     catalog: giantswarm-operations-platform
     dependsOn: cloudnative-pg
-    enabled: false
+    enabled: true
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/edgedb-app
@@ -97,11 +97,12 @@ apps:
     chartName: exception-recommender
     catalog: giantswarm
     dependsOn: kyverno-crds
-    enabled: false
+    enabled: true
+    namespace: policy-system
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/exception-recommender
-    version: 0.1.1
+    version: 0.2.0
 
   falco:
     appName: falco
@@ -160,7 +161,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
-    version: 0.0.8
+    version: 0.1.4
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
@@ -174,6 +175,16 @@ apps:
     # used by renovate
     # repo: giantswarm/kyverno-policies
     version: 0.23.0
+
+  policyMetaOperator:
+    appName: policy-meta-operator
+    chartName: policy-meta-operator
+    catalog: giantswarm-test
+    dependsOn: edgedb
+    # Temporal, for testing purposes.
+    enabled: true
+    namespace: policy-system
+    version: 0.0.3-fa017ab5cb886324e3946cfd5e2537fea9949f40
 
   reportsServer:
     appName: reports-server
