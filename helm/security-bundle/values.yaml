@@ -175,6 +175,16 @@ apps:
     # repo: giantswarm/kyverno-policies
     version: 0.23.0
 
+  policyApiCrds:
+    appName: policy-api-crds
+    chartName: policy-api-crds
+    catalog: giantswarm-test
+    enabled: true
+    namespace: policy-system
+    # used by renovate
+    # repo: giantswarm/policy-api
+    version: 0.0.5-9727e941ce99d58f5e05004cbb625f7186a7c464
+
   reportsServer:
     appName: reports-server
     chartName: reports-server
