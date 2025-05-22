@@ -178,7 +178,7 @@ apps:
   policyApiCrds:
     appName: policy-api-crds
     chartName: policy-api-crds
-    catalog: giantswarm-test
+    catalog: giantswarm
     dependsOn: kyverno-policy-operator
     enabled: false
     namespace: policy-system
