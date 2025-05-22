@@ -179,12 +179,12 @@ apps:
     appName: policy-api-crds
     chartName: policy-api-crds
     catalog: giantswarm-test
+    dependsOn: kyverno-policy-operator
     enabled: true
     namespace: policy-system
-    dependsOn: kyverno-policy-operator
     # used by renovate
     # repo: giantswarm/policy-api
-    version: 0.0.5-9727e941ce99d58f5e05004cbb625f7186a7c464
+    version: 0.0.6
 
   reportsServer:
     appName: reports-server
