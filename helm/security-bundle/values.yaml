@@ -180,7 +180,7 @@ apps:
     chartName: policy-api-crds
     catalog: giantswarm-test
     dependsOn: kyverno-policy-operator
-    enabled: true
+    enabled: false
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/policy-api
