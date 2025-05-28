@@ -17,7 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `cloudnative-pg` (app) to v0.0.7.
 - Update `starboard-exporter` (app) to v0.8.1.
 - Update `kyverno-crds` (app) to v1.13.1.
-- Update `kyverno-policy-operator` (app) to v0.0.10.
+- Update `kyverno-policy-operator` (app) to v0.0.11.
+- Update `cloudnative-pg` (app) to v0.0.9.
 
 ## [1.10.0] - 2025-02-28
 
