@@ -16,9 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `trivy` (app) to v0.13.4.
 - Update `cloudnative-pg` (app) to v0.0.7.
 - Update `starboard-exporter` (app) to v0.8.1.
-- Update `kyverno-crds` (app) to v1.13.1.
 - Update `kyverno-policy-operator` (app) to v0.0.11.
 - Update `cloudnative-pg` (app) to v0.0.9.
+
+## [1.10.1] - 2025-04-29
+
+### Notes
+
+**Note:** Kyverno `PolicyExceptions` (API group `kyverno.io`) versions `v2alpha1` and `v2beta1` are deprecated and will be removed in the next Kyverno minor release (v1.14). Please update all Kyverno PolicyExceptions to `v2`. No action is required for Giant Swarm Policy API `PolicyExceptions` (API group `policy.giantswarm.io`), which are handled automatically.
+
+### Changed
+
+- Update `kyverno-crds` (app) to v1.13.1.
 
 ## [1.10.0] - 2025-02-28
 
@@ -464,7 +473,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.10.0...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.10.1...HEAD
+[1.10.1]: https://github.com/giantswarm/security-bundle/compare/v1.10.0...v1.10.1
 [1.10.0]: https://github.com/giantswarm/security-bundle/compare/v1.9.1...v1.10.0
 [1.9.1]: https://github.com/giantswarm/security-bundle/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/giantswarm/security-bundle/compare/v1.8.2...v1.9.0
