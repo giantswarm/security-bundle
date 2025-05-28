@@ -6,7 +6,7 @@ toolchain go1.24.3
 
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.16
 
-replace github.com/alessio/shellescape => github.com/alessio/shellescape v1.5.1
+replace github.com/alessio/shellescape => github.com/alessio/shellescape v1.6.0
 
 require (
 	github.com/giantswarm/apptest-framework v1.12.0
