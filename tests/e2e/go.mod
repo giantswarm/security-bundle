@@ -13,7 +13,7 @@ require (
 	github.com/giantswarm/clustertest v1.33.0
 	github.com/onsi/ginkgo/v2 v2.22.2
 	github.com/onsi/gomega v1.36.2
-	k8s.io/api v0.33.0
+	k8s.io/api v0.33.1
 	sigs.k8s.io/controller-runtime v0.21.0
 )
 
@@ -174,7 +174,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.16.4 // indirect
 	k8s.io/apiextensions-apiserver v0.33.0 // indirect
-	k8s.io/apimachinery v0.33.0 // indirect
+	k8s.io/apimachinery v0.33.1 // indirect
 	k8s.io/apiserver v0.33.0 // indirect
 	k8s.io/cli-runtime v0.32.2 // indirect
 	k8s.io/client-go v0.33.0 // indirect
