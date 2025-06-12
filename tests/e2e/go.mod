@@ -11,8 +11,8 @@ replace github.com/alessio/shellescape => github.com/alessio/shellescape v1.6.0
 require (
 	github.com/giantswarm/apptest-framework v1.12.0
 	github.com/giantswarm/clustertest v1.33.0
-	github.com/onsi/ginkgo/v2 v2.22.2
-	github.com/onsi/gomega v1.36.2
+	github.com/onsi/ginkgo/v2 v2.23.3
+	github.com/onsi/gomega v1.37.0
 	k8s.io/api v0.33.0
 	sigs.k8s.io/controller-runtime v0.21.0
 )
@@ -163,7 +163,7 @@ require (
 	golang.org/x/term v0.30.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
 	golang.org/x/time v0.9.0 // indirect
-	golang.org/x/tools v0.28.0 // indirect
+	golang.org/x/tools v0.30.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241219192143-6b3ec007d9bb // indirect
 	google.golang.org/grpc v1.69.2 // indirect
