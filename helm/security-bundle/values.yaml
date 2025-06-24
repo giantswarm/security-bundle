@@ -79,7 +79,7 @@ apps:
     namespace: giantswarm
     # used by renovate
     # repo: giantswarm/cloudnative-pg-app
-    version: 0.0.9
+    version: 0.0.10
 
   edgedb:
     appName: edgedb
