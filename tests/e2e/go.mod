@@ -10,7 +10,7 @@ replace github.com/alessio/shellescape => github.com/alessio/shellescape v1.6.0
 
 require (
 	github.com/giantswarm/apptest-framework v1.13.0
-	github.com/giantswarm/clustertest v1.34.0
+	github.com/giantswarm/clustertest v1.35.0
 	github.com/onsi/ginkgo/v2 v2.23.4
 	github.com/onsi/gomega v1.37.0
 	k8s.io/api v0.33.2
@@ -30,7 +30,7 @@ require (
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/blang/semver/v4 v4.0.0 // indirect
-	github.com/cert-manager/cert-manager v1.18.0 // indirect
+	github.com/cert-manager/cert-manager v1.18.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/chai2010/gettext-go v1.0.3 // indirect
 	github.com/containerd/containerd v1.7.27 // indirect
@@ -87,6 +87,7 @@ require (
 	github.com/google/go-github/v68 v68.0.0 // indirect
 	github.com/google/go-github/v69 v69.2.0 // indirect
 	github.com/google/go-github/v72 v72.0.0 // indirect
+	github.com/google/go-github/v73 v73.0.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/pprof v0.0.0-20250403155104-27863c87afa6 // indirect
@@ -156,6 +157,8 @@ require (
 	go.uber.org/automaxprocs v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
+	go.yaml.in/yaml/v2 v2.4.2 // indirect
+	go.yaml.in/yaml/v3 v3.0.3 // indirect
 	golang.org/x/crypto v0.38.0 // indirect
 	golang.org/x/exp v0.0.0-20241217172543-b2144cdd0a67 // indirect
 	golang.org/x/net v0.40.0 // indirect
@@ -178,16 +181,16 @@ require (
 	k8s.io/apiextensions-apiserver v0.33.0 // indirect
 	k8s.io/apimachinery v0.33.2 // indirect
 	k8s.io/apiserver v0.33.0 // indirect
-	k8s.io/cli-runtime v0.33.1 // indirect
-	k8s.io/client-go v0.33.1 // indirect
+	k8s.io/cli-runtime v0.33.2 // indirect
+	k8s.io/client-go v0.33.2 // indirect
 	k8s.io/cluster-bootstrap v0.33.0 // indirect
-	k8s.io/component-base v0.33.1 // indirect
+	k8s.io/component-base v0.33.2 // indirect
 	k8s.io/klog/v2 v2.130.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20250318190949-c8a335a9a2ff // indirect
-	k8s.io/kubectl v0.33.1 // indirect
+	k8s.io/kubectl v0.33.2 // indirect
 	k8s.io/utils v0.0.0-20250321185631-1f6e0b77f77e // indirect
 	oras.land/oras-go v1.2.6 // indirect
-	sigs.k8s.io/cluster-api v1.10.2 // indirect
+	sigs.k8s.io/cluster-api v1.10.3 // indirect
 	sigs.k8s.io/e2e-framework v0.6.0 // indirect
 	sigs.k8s.io/gateway-api v1.3.0 // indirect
 	sigs.k8s.io/json v0.0.0-20241014173422-cfa47c3a1cc8 // indirect
@@ -195,5 +198,5 @@ require (
 	sigs.k8s.io/kustomize/kyaml v0.19.0 // indirect
 	sigs.k8s.io/randfill v1.0.0 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.7.0 // indirect
-	sigs.k8s.io/yaml v1.4.0 // indirect
+	sigs.k8s.io/yaml v1.5.0 // indirect
 )
