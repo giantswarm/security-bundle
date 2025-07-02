@@ -13,7 +13,6 @@ metadata:
     application.giantswarm.io/team: shield
     app.kubernetes.io/managed-by: {{ $.Release.Service }}
     app.kubernetes.io/instance: {{ $.Release.Name }}
-    helm.sh/chart: {{ include "labels.common" $ }}
     security.giantswarm.io/component: {{ $componentName }}
     security.giantswarm.io/log-level: {{ $config.logLevel }}
     security.giantswarm.io/data-sensitivity: {{ $config.dataSensitivity }}
@@ -21,8 +20,8 @@ metadata:
     meta.helm.sh/release-name: {{ $.Release.Name }}
     meta.helm.sh/release-namespace: {{ $.Release.Namespace }}
     giantswarm.io/notes: {{ $config.description | quote }}
-    security.giantswarm.io/implemented-by: {{ $.Values.securityObservability.metadata.implementedBy }}
-    security.giantswarm.io/implemented-date: {{ $.Values.securityObservability.metadata.implementedDate }}
+    security.giantswarm.io/implemented-by: "easamoah7"
+    security.giantswarm.io/implemented-date: "2025-07-02"
     {{- if $config.reasonForFiltering }}
     security.giantswarm.io/filtering-reason: {{ $config.reasonForFiltering | quote }}
     {{- end }}
