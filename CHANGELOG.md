@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add PodLogs configuration for security component observability
+
+### Changed
+
 - Update `cloudnative-pg` (app) to v0.0.10.
 
 ## [1.11.0] - 2025-05-28

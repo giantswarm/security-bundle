@@ -231,10 +231,10 @@ apps:
 securityObservability:
   # Enable centralized log collection for security platform components
   enabled: true
-  
+
   # Components already covered by default (in giantswarm namespace):
   # athena, dex, falco-exporter, falco-sidekick
-  
+
   podLogs:
     # Kyverno Policy Engine - ALL COMPONENTS (all logs - safe, no sensitive data)
     # Includes: admission-controller, background-controller, cleanup-controller, reports-controller
