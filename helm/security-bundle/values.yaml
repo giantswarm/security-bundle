@@ -226,3 +226,243 @@ apps:
     # used by renovate
     # repo: giantswarm/trivy-operator-app
     version: 0.10.3
+
+# Security Platform Log Collection Configuration
+securityObservability:
+  # Enable centralized log collection for security platform components
+  enabled: true
+  
+  # Components already covered by default (in giantswarm namespace):
+  # athena, dex, falco-exporter, falco-sidekick
+  
+  podLogs:
+    # Kyverno Policy Engine - ALL COMPONENTS (all logs - safe, no sensitive data)
+    # Includes: admission-controller, background-controller, cleanup-controller, reports-controller
+    kyverno:
+      enabled: true
+      name: kyverno-logs
+      namespace: kyverno
+      description: "Log collection for all Kyverno policy engine components (admission, background, cleanup, reports controllers)"
+      logLevel: "all"
+      dataSensitivity: "safe"
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kyverno
+      selector:
+        matchExpressions:
+        - key: app.kubernetes.io/part-of
+          operator: In
+          values: ["kyverno"]
+      relabelings:
+      - action: replace
+        replacement: giantswarm
+        targetLabel: giantswarm_observability_tenant
+      - action: replace
+        sourceLabels: [__meta_kubernetes_pod_node_name]
+        targetLabel: node_name
+      - action: replace
+        replacement: kyverno
+        targetLabel: component
+      - action: replace
+        sourceLabels: [__meta_kubernetes_pod_label_app_kubernetes_io_component]
+        targetLabel: kyverno_component
+
+    # cert-manager (all logs - safe, certificate management only)
+    certManager:
+      enabled: true
+      name: cert-manager-logs
+      namespace: kube-system
+      description: "Log collection for cert-manager certificate management components"
+      logLevel: "all"
+      dataSensitivity: "safe"
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      selector:
+        matchExpressions:
+        - key: app.kubernetes.io/name
+          operator: In
+          values: ["cert-manager"]
+      relabelings:
+      - action: replace
+        replacement: giantswarm
+        targetLabel: giantswarm_observability_tenant
+      - action: replace
+        sourceLabels: [__meta_kubernetes_pod_node_name]
+        targetLabel: node_name
+      - action: replace
+        replacement: cert-manager
+        targetLabel: component
+
+    # Kyverno Policy Operator (all logs - safe, policy metadata only)
+    kyvernoPolicyOperator:
+      enabled: true
+      name: kyverno-policy-operator-logs
+      namespace: security-bundle
+      description: "Log collection for Kyverno Policy Operator in security-bundle namespace"
+      logLevel: "all"
+      dataSensitivity: "safe"
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: security-bundle
+      selector:
+        matchLabels:
+          app.kubernetes.io/name: kyverno-policy-operator
+      relabelings:
+      - action: replace
+        replacement: giantswarm
+        targetLabel: giantswarm_observability_tenant
+      - action: replace
+        sourceLabels: [__meta_kubernetes_pod_node_name]
+        targetLabel: node_name
+      - action: replace
+        replacement: kyverno-policy-operator
+        targetLabel: component
+
+    # Falco - ERROR LOGS ONLY (contains sensitive customer runtime security data)
+    falcoErrors:
+      enabled: true
+      name: falco-errors-logs
+      namespace: giantswarm
+      description: "ERROR-ONLY log collection for Falco (filters sensitive runtime data)"
+      logLevel: "errors-only"
+      dataSensitivity: "high"
+      reasonForFiltering: "Falco detects runtime security threats and logs contain sensitive customer workload information"
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: giantswarm
+      selector:
+        matchLabels:
+          app.kubernetes.io/name: falco
+      pipelineStages:
+      - match:
+          selector: '{job="giantswarm/falco-errors"}'
+          stages:
+          - regex:
+              expression: '.*(?P<level>ERROR|FATAL|WARN|WARNING).*'
+          - labels:
+              level:
+          - drop:
+              expression: '(?i).*(info|debug|notice).*'
+              dropReason: "Filtering out non-error logs - Falco contains sensitive runtime security data"
+      relabelings:
+      - action: replace
+        replacement: giantswarm
+        targetLabel: giantswarm_observability_tenant
+      - action: replace
+        sourceLabels: [__meta_kubernetes_pod_node_name]
+        targetLabel: node_name
+      - action: replace
+        replacement: falco-errors-only
+        targetLabel: component
+
+    # Trivy Operator - ERROR LOGS ONLY (contains sensitive vulnerability scan data)
+    trivyOperatorErrors:
+      enabled: true
+      name: trivy-operator-errors-logs
+      namespace: giantswarm
+      description: "ERROR-ONLY log collection for Trivy Operator (filters sensitive vulnerability data)"
+      logLevel: "errors-only"
+      dataSensitivity: "high"
+      reasonForFiltering: "Trivy Operator scans container images for vulnerabilities and logs contain sensitive security findings"
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: giantswarm
+      selector:
+        matchLabels:
+          app.kubernetes.io/name: trivy-operator
+      pipelineStages:
+      - match:
+          selector: '{job="giantswarm/trivy-operator-errors"}'
+          stages:
+          - regex:
+              expression: '.*(?P<level>ERROR|FATAL|WARN|WARNING).*'
+          - labels:
+              level:
+          - drop:
+              expression: '(?i).*(info|debug|notice).*'
+              dropReason: "Filtering out non-error logs - Trivy Operator contains sensitive vulnerability scan data"
+      relabelings:
+      - action: replace
+        replacement: giantswarm
+        targetLabel: giantswarm_observability_tenant
+      - action: replace
+        sourceLabels: [__meta_kubernetes_pod_node_name]
+        targetLabel: node_name
+      - action: replace
+        replacement: trivy-operator-errors-only
+        targetLabel: component
+
+    # Trivy Scanner - ERROR LOGS ONLY (contains sensitive scan results)
+    trivyErrors:
+      enabled: true
+      name: trivy-errors-logs
+      namespace: giantswarm
+      description: "ERROR-ONLY log collection for Trivy Scanner (filters sensitive scan content)"
+      logLevel: "errors-only"
+      dataSensitivity: "high"
+      reasonForFiltering: "Trivy scanner processes container images and logs contain detailed vulnerability scan results"
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: giantswarm
+      selector:
+        matchLabels:
+          app.kubernetes.io/name: trivy
+      pipelineStages:
+      - match:
+          selector: '{job="giantswarm/trivy-errors"}'
+          stages:
+          - regex:
+              expression: '.*(?P<level>ERROR|FATAL|WARN|WARNING).*'
+          - labels:
+              level:
+          - drop:
+              expression: '(?i).*(info|debug|notice).*'
+              dropReason: "Filtering out non-error logs - Trivy contains sensitive vulnerability scan content"
+      relabelings:
+      - action: replace
+        replacement: giantswarm
+        targetLabel: giantswarm_observability_tenant
+      - action: replace
+        sourceLabels: [__meta_kubernetes_pod_node_name]
+        targetLabel: node_name
+      - action: replace
+        replacement: trivy-errors-only
+        targetLabel: component
+
+    # Starboard Exporter - ERROR LOGS ONLY (contains sensitive security scan data)
+    starboardExporterErrors:
+      enabled: true
+      name: starboard-exporter-errors-logs
+      namespace: security-bundle
+      description: "ERROR-ONLY log collection for Starboard Exporter (filters sensitive security scan results)"
+      logLevel: "errors-only"
+      dataSensitivity: "high"
+      reasonForFiltering: "Starboard Exporter processes and exports security scan results containing sensitive vulnerability information"
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: security-bundle
+      selector:
+        matchLabels:
+          app.kubernetes.io/name: starboard-exporter
+      pipelineStages:
+      - match:
+          selector: '{job="security-bundle/starboard-exporter-errors"}'
+          stages:
+          - regex:
+              expression: '.*(?P<level>ERROR|FATAL|WARN|WARNING).*'
+          - labels:
+              level:
+          - drop:
+              expression: '(?i).*(info|debug|notice).*'
+              dropReason: "Filtering out non-error logs - Starboard Exporter contains sensitive security scan results"
+      relabelings:
+      - action: replace
+        replacement: giantswarm
+        targetLabel: giantswarm_observability_tenant
+      - action: replace
+        sourceLabels: [__meta_kubernetes_pod_node_name]
+        targetLabel: node_name
+      - action: replace
+        replacement: starboard-exporter-errors-only
+        targetLabel: component

@@ -1,0 +1,42 @@
+{{- if .Values.securityObservability.enabled }}
+{{- range $componentName, $config := .Values.securityObservability.podLogs }}
+{{- if $config.enabled }}
+---
+apiVersion: monitoring.grafana.com/v1alpha2
+kind: PodLogs
+metadata:
+  name: {{ $config.name }}
+  namespace: {{ $config.namespace }}
+  labels:
+    giantswarm.io/managed-by: security-team
+    giantswarm.io/service-type: managed
+    application.giantswarm.io/team: shield
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ include "labels.common" $ }}
+    security.giantswarm.io/component: {{ $componentName }}
+    security.giantswarm.io/log-level: {{ $config.logLevel }}
+    security.giantswarm.io/data-sensitivity: {{ $config.dataSensitivity }}
+  annotations:
+    meta.helm.sh/release-name: {{ $.Release.Name }}
+    meta.helm.sh/release-namespace: {{ $.Release.Namespace }}
+    giantswarm.io/notes: {{ $config.description | quote }}
+    security.giantswarm.io/implemented-by: {{ $.Values.securityObservability.metadata.implementedBy }}
+    security.giantswarm.io/implemented-date: {{ $.Values.securityObservability.metadata.implementedDate }}
+    {{- if $config.reasonForFiltering }}
+    security.giantswarm.io/filtering-reason: {{ $config.reasonForFiltering | quote }}
+    {{- end }}
+spec:
+  namespaceSelector:
+    {{- toYaml $config.namespaceSelector | nindent 4 }}
+  selector:
+    {{- toYaml $config.selector | nindent 4 }}
+  {{- if $config.pipelineStages }}
+  pipelineStages:
+    {{- toYaml $config.pipelineStages | nindent 4 }}
+  {{- end }}
+  relabelings:
+    {{- toYaml $config.relabelings | nindent 4 }}
+{{- end }}
+{{- end }}
+{{- end }}
