@@ -150,6 +150,78 @@ func TestBasic(t *testing.T) {
 						Should(BeTrue(), fmt.Sprintf("%s %s should be ready", component, config.kind))
 				}
 			})
+
+			It("should have observability labels on security components", func() {
+				wcClient, err := state.GetFramework().WC(state.GetCluster().Name)
+				Expect(err).NotTo(HaveOccurred(), "should get workload cluster client")
+
+				observabilityComponents := map[string]struct {
+					namespace string
+					kind      string
+					name      string
+				}{
+					// Components that should have observability labels
+					"kyverno-admission-controller":  {namespace: "kyverno", kind: "Deployment", name: "kyverno-admission-controller"},
+					"kyverno-background-controller": {namespace: "kyverno", kind: "Deployment", name: "kyverno-background-controller"},
+					"kyverno-cleanup-controller":    {namespace: "kyverno", kind: "Deployment", name: "kyverno-cleanup-controller"},
+					"kyverno-policy-reporter":       {namespace: "kyverno", kind: "Deployment", name: "kyverno-policy-reporter"},
+					"kyverno-reports-controller":    {namespace: "kyverno", kind: "Deployment", name: "kyverno-reports-controller"},
+					"kyverno-policy-operator":       {namespace: "security-bundle", kind: "Deployment", name: "kyverno-policy-operator"},
+					"falco-exporter":                {namespace: "giantswarm", kind: "DaemonSet", name: "falco-falco-exporter"},
+					"falco-sidekick":                {namespace: "giantswarm", kind: "Deployment", name: "falco-falcosidekick"},
+					"falco-k8s-metacollector":       {namespace: "giantswarm", kind: "Deployment", name: "falco-k8s-metacollector"},
+					"trivy":                         {namespace: "giantswarm", kind: "StatefulSet", name: "trivy"},
+					"trivy-operator":                {namespace: "giantswarm", kind: "Deployment", name: "trivy-operator"},
+				}
+
+				for component, config := range observabilityComponents {
+					By(fmt.Sprintf("Checking observability label on %s %s", component, config.kind))
+					Eventually(func() bool {
+						switch config.kind {
+						case "Deployment":
+							deployment := &appsv1.Deployment{}
+							err := wcClient.Get(context.Background(), client.ObjectKey{Namespace: config.namespace, Name: config.name}, deployment)
+							if err != nil {
+								return false
+							}
+							// Check if the observability label is present
+							labels := deployment.GetLabels()
+							if labels == nil {
+								return false
+							}
+							return labels["app.kubernetes.io/part-of"] == "observability"
+						case "DaemonSet":
+							ds := &appsv1.DaemonSet{}
+							err := wcClient.Get(context.Background(), client.ObjectKey{Namespace: config.namespace, Name: config.name}, ds)
+							if err != nil {
+								return false
+							}
+							// Check if the observability label is present
+							labels := ds.GetLabels()
+							if labels == nil {
+								return false
+							}
+							return labels["app.kubernetes.io/part-of"] == "observability"
+						case "StatefulSet":
+							sts := &appsv1.StatefulSet{}
+							err := wcClient.Get(context.Background(), client.ObjectKey{Namespace: config.namespace, Name: config.name}, sts)
+							if err != nil {
+								return false
+							}
+							// Check if the observability label is present
+							labels := sts.GetLabels()
+							if labels == nil {
+								return false
+							}
+							return labels["app.kubernetes.io/part-of"] == "observability"
+						}
+						return false
+					}).
+						WithTimeout(appReadyTimeout).
+						WithPolling(appReadyInterval).
+						Should(BeTrue(), fmt.Sprintf("%s %s should have observability label", component, config.kind))
+				}
+			})
 		}).
 		Run(t, "Basic Test")
 }

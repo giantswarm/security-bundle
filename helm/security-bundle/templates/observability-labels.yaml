@@ -1,0 +1,272 @@
+{{/*
+This template creates manifests to add the observability label to security components
+for log collection in Loki. The label app.kubernetes.io/part-of: "observability"
+enables log collection according to the documentation at:
+https://docs.giantswarm.io/tutorials/observability/data-ingestion/logs/
+
+Components that should have log collection enabled:
+- kyverno namespace: kyverno-admission-controller, kyverno-background-controller, 
+  kyverno-cleanup-controller, kyverno-policy-reporter, kyverno-policy-reporter-kyverno-plugin,
+  kyverno-policy-reporter-ui, kyverno-reports-controller
+- security-bundle namespace: kyverno-policy-operator
+- giantswarm namespace: athena, dex, falco-exporter, falco-sidekick, falco-k8s-metacollector,
+  trivy, trivy-operator
+
+Components that should NOT have log collection (excluded):
+- Falco itself (contains customer security data)
+- Starboard-exporter (sensitive data)
+*/}}
+
+{{- if .Values.global.observability.enabled }}
+{{- $observabilityComponents := .Values.global.observability.components }}
+
+{{/* Create a ConfigMap with the observability label configuration */}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "name" . }}-observability-labels
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+    app.kubernetes.io/part-of: "observability"
+data:
+  config.yaml: |
+    # Configuration for adding observability labels to security components
+    # This ConfigMap serves as documentation and can be used by external tools
+    # to understand which components should have log collection enabled
+    
+    components:
+      kyverno:
+        namespace: "kyverno"
+        resources:
+          - name: "kyverno-admission-controller"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.kyverno.admissionController }}
+          - name: "kyverno-background-controller"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.kyverno.backgroundController }}
+          - name: "kyverno-cleanup-controller"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.kyverno.cleanupController }}
+          - name: "kyverno-policy-reporter"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.kyverno.policyReporter }}
+          - name: "kyverno-policy-reporter-kyverno-plugin"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.kyverno.policyReporterPlugin }}
+          - name: "kyverno-policy-reporter-ui"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.kyverno.policyReporterUI }}
+          - name: "kyverno-reports-controller"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.kyverno.reportsController }}
+      
+      security-bundle:
+        namespace: "security-bundle"
+        resources:
+          - name: "kyverno-policy-operator"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.securityBundle.policyOperator }}
+      
+      giantswarm:
+        namespace: "giantswarm"
+        resources:
+          - name: "athena"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.giantswarm.athena }}
+          - name: "dex"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.giantswarm.dex }}
+          - name: "falco-exporter"
+            kind: "DaemonSet"
+            enabled: {{ $observabilityComponents.giantswarm.falcoExporter }}
+          - name: "falco-sidekick"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.giantswarm.falcoSidekick }}
+          - name: "falco-k8s-metacollector"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.giantswarm.falcoMetacollector }}
+          - name: "trivy"
+            kind: "StatefulSet"
+            enabled: {{ $observabilityComponents.giantswarm.trivy }}
+          - name: "trivy-operator"
+            kind: "Deployment"
+            enabled: {{ $observabilityComponents.giantswarm.trivyOperator }}
+    
+    excluded_components:
+      - name: "falco"
+        namespace: "security-bundle"
+        reason: "Contains customer security data"
+      - name: "starboard-exporter"
+        namespace: "security-bundle"
+        reason: "Contains sensitive data"
+
+{{/* Generate Job to apply observability labels */}}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "name" . }}-add-observability-labels
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+    app.kubernetes.io/part-of: "observability"
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/part-of: "observability"
+    spec:
+      restartPolicy: OnFailure
+      serviceAccountName: {{ include "name" . }}-observability-labels
+      containers:
+      - name: add-labels
+        image: quay.io/giantswarm/kubectl:1.27.1
+        command:
+        - /bin/sh
+        - -c
+        - |
+          set -e
+          echo "Adding observability labels to security components..."
+          
+          # Function to add label to a resource
+          add_label() {
+            local namespace=$1
+            local kind=$2
+            local name=$3
+            local enabled=$4
+            
+            if [ "$enabled" = "true" ]; then
+              echo "Adding observability label to $kind/$name in namespace $namespace"
+              if kubectl get $kind $name -n $namespace >/dev/null 2>&1; then
+                kubectl label $kind $name -n $namespace app.kubernetes.io/part-of=observability --overwrite
+                echo "Successfully labeled $kind/$name in namespace $namespace"
+              else
+                echo "Warning: $kind/$name not found in namespace $namespace, skipping..."
+              fi
+            else
+              echo "Skipping $kind/$name in namespace $namespace (disabled)"
+            fi
+          }
+          
+          # Wait for resources to be ready
+          echo "Waiting for resources to be available..."
+          sleep 30
+          
+          # Add labels to kyverno namespace components
+          {{- if $observabilityComponents.kyverno.admissionController }}
+          add_label "kyverno" "deployment" "kyverno-admission-controller" "true"
+          {{- end }}
+          {{- if $observabilityComponents.kyverno.backgroundController }}
+          add_label "kyverno" "deployment" "kyverno-background-controller" "true"
+          {{- end }}
+          {{- if $observabilityComponents.kyverno.cleanupController }}
+          add_label "kyverno" "deployment" "kyverno-cleanup-controller" "true"
+          {{- end }}
+          {{- if $observabilityComponents.kyverno.policyReporter }}
+          add_label "kyverno" "deployment" "kyverno-policy-reporter" "true"
+          {{- end }}
+          {{- if $observabilityComponents.kyverno.policyReporterPlugin }}
+          add_label "kyverno" "deployment" "kyverno-policy-reporter-kyverno-plugin" "true"
+          {{- end }}
+          {{- if $observabilityComponents.kyverno.policyReporterUI }}
+          add_label "kyverno" "deployment" "kyverno-policy-reporter-ui" "true"
+          {{- end }}
+          {{- if $observabilityComponents.kyverno.reportsController }}
+          add_label "kyverno" "deployment" "kyverno-reports-controller" "true"
+          {{- end }}
+          
+          # Add labels to security-bundle namespace components
+          {{- if $observabilityComponents.securityBundle.policyOperator }}
+          add_label "security-bundle" "deployment" "kyverno-policy-operator" "true"
+          {{- end }}
+          
+          # Add labels to giantswarm namespace components
+          {{- if $observabilityComponents.giantswarm.athena }}
+          add_label "giantswarm" "deployment" "athena" "true"
+          {{- end }}
+          {{- if $observabilityComponents.giantswarm.dex }}
+          add_label "giantswarm" "deployment" "dex" "true"
+          {{- end }}
+          {{- if $observabilityComponents.giantswarm.falcoExporter }}
+          add_label "giantswarm" "daemonset" "falco-falco-exporter" "true"
+          {{- end }}
+          {{- if $observabilityComponents.giantswarm.falcoSidekick }}
+          add_label "giantswarm" "deployment" "falco-falcosidekick" "true"
+          {{- end }}
+          {{- if $observabilityComponents.giantswarm.falcoMetacollector }}
+          add_label "giantswarm" "deployment" "falco-k8s-metacollector" "true"
+          {{- end }}
+          {{- if $observabilityComponents.giantswarm.trivy }}
+          add_label "giantswarm" "statefulset" "trivy" "true"
+          {{- end }}
+          {{- if $observabilityComponents.giantswarm.trivyOperator }}
+          add_label "giantswarm" "deployment" "trivy-operator" "true"
+          {{- end }}
+          
+          echo "Observability labels added successfully!"
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "name" . }}-observability-labels
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+    app.kubernetes.io/part-of: "observability"
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": before-hook-creation
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "name" . }}-observability-labels
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+    app.kubernetes.io/part-of: "observability"
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": before-hook-creation
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "patch"]
+- apiGroups: ["apps"]
+  resources: ["deployments", "daemonsets", "statefulsets"]
+  verbs: ["get", "list", "patch"]
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["get", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "name" . }}-observability-labels
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+    app.kubernetes.io/part-of: "observability"
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "2"
+    "helm.sh/hook-delete-policy": before-hook-creation
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "name" . }}-observability-labels
+subjects:
+- kind: ServiceAccount
+  name: {{ include "name" . }}-observability-labels
+  namespace: {{ .Release.Namespace }}
+
+{{- end }}

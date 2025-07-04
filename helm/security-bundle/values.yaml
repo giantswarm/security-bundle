@@ -4,6 +4,29 @@ organization: ""
 global:
   # All Apps will be installed in this namespace unless overridden below.
   namespace: "security-bundle"
+  
+  # Observability configuration for log collection
+  observability:
+    enabled: true
+    components:
+      kyverno:
+        admissionController: true
+        backgroundController: true
+        cleanupController: true
+        policyReporter: true
+        policyReporterPlugin: true
+        policyReporterUI: true
+        reportsController: true
+      securityBundle:
+        policyOperator: true
+      giantswarm:
+        athena: true
+        dex: true
+        falcoExporter: true
+        falcoSidekick: true
+        falcoMetacollector: true
+        trivy: true
+        trivyOperator: true
 
 # User values can be provided via a ConfigMap or Secret for each individual app
 # using the structure shown below.

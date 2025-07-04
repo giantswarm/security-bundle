@@ -1,0 +1,50 @@
+clusterID: "demo01" # Replace with cluster ID
+organization: "org-demo" # Replace with organization name
+
+# Enable observability logging for security components
+global:
+  observability:
+    enabled: true
+    components:
+      kyverno:
+        admissionController: true
+        backgroundController: true
+        cleanupController: true
+        policyReporter: true
+        policyReporterPlugin: true
+        policyReporterUI: true
+        reportsController: true
+      securityBundle:
+        policyOperator: true
+      giantswarm:
+        athena: true
+        dex: true
+        falcoExporter: true
+        falcoSidekick: true
+        falcoMetacollector: true
+        trivy: true
+        trivyOperator: true
+
+# Enable security apps
+apps:
+  kyverno:
+    enabled: true
+  
+  kyvernoPolicies:
+    enabled: true
+    
+  kyvernoPolicyOperator:
+    enabled: true
+    
+  falco:
+    enabled: true
+    
+  trivy:
+    enabled: true
+    
+  trivyOperator:
+    enabled: true
+
+# Falco should NOT have observability labels (contains sensitive data)
+# Starboard-exporter should NOT have observability labels (contains sensitive data)
+# This is handled automatically by the template
