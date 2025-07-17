@@ -6,7 +6,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/giantswarm/apptest-framework/pkg/config"
 	"github.com/giantswarm/apptest-framework/pkg/state"
 	"github.com/giantswarm/apptest-framework/pkg/suite"
 	"github.com/giantswarm/clustertest/pkg/wait"
@@ -39,7 +38,7 @@ var components = []string{
 }
 
 func TestBasic(t *testing.T) {
-	suite.New(config.MustLoad("../../config.yaml")).
+	suite.New().
 		WithIsUpgrade(isUpgrade).
 		WithValuesFile("./values.yaml").
 		Tests(func() {
