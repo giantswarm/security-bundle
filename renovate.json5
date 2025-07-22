@@ -4,5 +4,11 @@
     "github>giantswarm/renovate-presets:default.json5",
   ],
   "baseBranches": ["main"],
-  "automerge": true
+  "automerge": true,
+  "packageRules": [
+    {
+      "matchManagers": ["gomod"],
+      "groupName": "Go dependencies"
+    }
+  ]
 }
