@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated E2E tests to use apptest-framework v1.14.0
 - Update `starboard-exporter` (app) to v0.8.2.
 - Update `trivy-operator` (app) to v0.11.0.
+- Update `trivy` (app) to v0.14.0.
 
 ## [1.11.0] - 2025-05-28
 
