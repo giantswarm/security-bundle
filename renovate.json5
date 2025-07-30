@@ -1,14 +1,17 @@
 {
-  "extends": [
-    // Base config - https://github.com/giantswarm/renovate-presets/blob/main/default.json5
-    "github>giantswarm/renovate-presets:default.json5",
+  extends: [
+    'github>giantswarm/renovate-presets:default.json5',
   ],
-  "baseBranches": ["main"],
-  "automerge": true,
-  "packageRules": [
+  baseBranchPatterns: [
+    'main',
+  ],
+  automerge: true,
+  packageRules: [
     {
-      "matchManagers": ["gomod"],
-      "groupName": "Go dependencies"
-    }
-  ]
+      matchManagers: [
+        'gomod',
+      ],
+      groupName: 'Go dependencies',
+    },
+  ],
 }
