@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `kyverno-policy-operator` (app) to v0.1.5.
+- Update `trivy-operator` (app) to v0.12.1.
+- Update `trivy` (app) to v0.14.1.
+- Update `falco` (app) to v0.11.0.
+
 ## [1.12.0] - 2025-07-30
 
 ### Changed
