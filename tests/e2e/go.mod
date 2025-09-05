@@ -11,7 +11,7 @@ replace github.com/alessio/shellescape => github.com/alessio/shellescape v1.6.0
 require (
 	github.com/giantswarm/apptest-framework v1.15.3
 	github.com/giantswarm/clustertest v1.40.0
-	github.com/onsi/ginkgo/v2 v2.25.2
+	github.com/onsi/ginkgo/v2 v2.25.3
 	github.com/onsi/gomega v1.38.2
 	k8s.io/api v0.34.0
 	sigs.k8s.io/controller-runtime v0.22.0
