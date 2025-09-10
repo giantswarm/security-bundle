@@ -11,10 +11,10 @@ replace github.com/alessio/shellescape => github.com/alessio/shellescape v1.6.0
 require (
 	github.com/giantswarm/apptest-framework v1.15.3
 	github.com/giantswarm/clustertest v1.40.0
-	github.com/onsi/ginkgo/v2 v2.25.2
+	github.com/onsi/ginkgo/v2 v2.25.3
 	github.com/onsi/gomega v1.38.2
-	k8s.io/api v0.34.0
-	sigs.k8s.io/controller-runtime v0.22.0
+	k8s.io/api v0.34.1
+	sigs.k8s.io/controller-runtime v0.22.1
 )
 
 require (
@@ -157,7 +157,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.18.6 // indirect
 	k8s.io/apiextensions-apiserver v0.34.0 // indirect
-	k8s.io/apimachinery v0.34.0 // indirect
+	k8s.io/apimachinery v0.34.1 // indirect
 	k8s.io/apiserver v0.34.0 // indirect
 	k8s.io/cli-runtime v0.34.0 // indirect
 	k8s.io/client-go v0.34.0 // indirect
