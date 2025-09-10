@@ -9,39 +9,7 @@ global:
 # using the structure shown below.
 
 userConfig:
-  exceptionRecommender:
-    configMap:
-      values:
-        global:
-          podSecurityStandards:
-            enforced: true
-        recommender:
-          createNamespace: false
-  falco:
-    configMap:
-      values:
-        global:
-          podSecurityStandards:
-            enforced: true
-        falco:
-          falco-exporter:
-            podSecurityPolicy:
-              create: false
   jiralert:
-    configMap:
-      values:
-        global:
-          podSecurityStandards:
-            enforced: true
-  kyverno:
-    configMap:
-      values:
-        global:
-          podSecurityStandards:
-            enforced: true
-        crds:
-          install: false
-  kyvernoCrds:
     configMap:
       values:
         global:
@@ -55,20 +23,8 @@ userConfig:
   kyvernoPolicyOperator:
     configMap:
       values:
-        global:
-          podSecurityStandards:
-            enforced: true
-  trivy:
-    configMap:
-      values:
-        trivy:
-          rbac:
-            pspEnabled: false
-  trivyOperator:
-    configMap:
-      values:
-        rbac:
-          pspEnabled: false
+        crds:
+          install: true
 
 apps:
   cloudnativePG:
