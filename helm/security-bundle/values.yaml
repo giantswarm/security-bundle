@@ -20,6 +20,11 @@ userConfig:
       values:
         kyverno-policies:
           validationFailureAction: Enforce
+  kyvernoPolicyOperator:
+    configMap:
+      values:
+        crds:
+          install: true
 
 apps:
   cloudnativePG:
