@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `trivy` (app) to v0.14.1.
 - Update `falco` (app) to v0.11.0.
 - Update `kyverno` (app) to v0.20.0.
+- Update `kyverno-crds` (app) to v1.14.0.
 
 ## [1.12.0] - 2025-07-30
 
