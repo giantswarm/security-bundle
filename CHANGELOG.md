@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Revert previous `kyverno` update ([#536](https://github.com/giantswarm/security-bundle/pull/536), [#531](https://github.com/giantswarm/security-bundle/pull/531), [#538](https://github.com/giantswarm/security-bundle/pull/538)).
+- Update `kyverno-policy-operator` (app) to v0.1.6.
+
+### Notes
+
+This release reverts the Kyverno update performed in [1.13.0], but keeps the following app updates:
+
+- Update `trivy-operator` (app) to v0.12.1.
+- Update `trivy` (app) to v0.14.1.
+- Update `falco` (app) to v0.11.0.
 
 ## [1.13.0] - 2025-10-08
 
@@ -26,10 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Notes
 
 This release includes a Kyverno upstream update. Please refer to the following Release Notes from upstream for the latest changes:
-
-- [v1.14.0](https://github.com/kyverno/kyverno/releases/tag/v1.14.0)
-- [v1.14.1](https://github.com/kyverno/kyverno/releases/tag/v1.14.1)
-- [v1.14.2](https://github.com/kyverno/kyverno/releases/tag/v1.14.2)
 
 ## [1.12.0] - 2025-07-30
 
@@ -510,6 +515,9 @@ This release includes a Kyverno upstream update. Please refer to the following R
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
+- [v1.14.0](https://github.com/kyverno/kyverno/releases/tag/v1.14.0)
+- [v1.14.1](https://github.com/kyverno/kyverno/releases/tag/v1.14.1)
+- [v1.14.2](https://github.com/kyverno/kyverno/releases/tag/v1.14.2)
 [Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.13.0...HEAD
 [1.13.0]: https://github.com/giantswarm/security-bundle/compare/v1.12.0...v1.13.0
 [1.12.0]: https://github.com/giantswarm/security-bundle/compare/v1.11.0...v1.12.0
