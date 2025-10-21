@@ -95,7 +95,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.20.0
+    version: 0.19.0
 
   kyvernoCrds:
     appName: kyverno-crds
@@ -105,7 +105,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.14.0
+    version: 1.13.1
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
@@ -129,7 +129,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.24.0
+    version: 0.23.0
 
   policyApiCrds:
     appName: policy-api-crds
