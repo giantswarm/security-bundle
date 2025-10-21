@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.13.1] - 2025-10-21
+
 ### Changed
 
 - Revert previous `kyverno` update ([#536](https://github.com/giantswarm/security-bundle/pull/536), [#531](https://github.com/giantswarm/security-bundle/pull/531), [#538](https://github.com/giantswarm/security-bundle/pull/538)).
@@ -518,7 +520,8 @@ This release includes a Kyverno upstream update. Please refer to the following R
 - [v1.14.0](https://github.com/kyverno/kyverno/releases/tag/v1.14.0)
 - [v1.14.1](https://github.com/kyverno/kyverno/releases/tag/v1.14.1)
 - [v1.14.2](https://github.com/kyverno/kyverno/releases/tag/v1.14.2)
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.13.0...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.13.1...HEAD
+[1.13.1]: https://github.com/giantswarm/security-bundle/compare/v1.13.0...v1.13.1
 [1.13.0]: https://github.com/giantswarm/security-bundle/compare/v1.12.0...v1.13.0
 [1.12.0]: https://github.com/giantswarm/security-bundle/compare/v1.11.0...v1.12.0
 [1.11.0]: https://github.com/giantswarm/security-bundle/compare/v1.10.1...v1.11.0
