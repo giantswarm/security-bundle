@@ -12,6 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Revert previous `kyverno` update ([#536](https://github.com/giantswarm/security-bundle/pull/536), [#531](https://github.com/giantswarm/security-bundle/pull/531), [#538](https://github.com/giantswarm/security-bundle/pull/538)).
 - Update `kyverno-policy-operator` (app) to v0.1.6.
 
+### Notes
+
+This release reverts the Kyverno update performed in [1.13.0], but keeps the following app updates:
+
+- Update `trivy-operator` (app) to v0.12.1.
+- Update `trivy` (app) to v0.14.1.
+- Update `falco` (app) to v0.11.0.
+
 ## [1.13.0] - 2025-10-08
 
 ### Changed
