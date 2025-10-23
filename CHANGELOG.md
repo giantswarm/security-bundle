@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `reports-server` (app) to v0.0.3.
+
 ## [1.13.1] - 2025-10-21
 
 ### Changed
@@ -17,7 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Notes
 
 This release reverts the Kyverno update performed in [1.13.0], but keeps the following app updates:
-
 - Update `trivy-operator` (app) to v0.12.1.
 - Update `trivy` (app) to v0.14.1.
 - Update `falco` (app) to v0.11.0.
