@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `kyverno` (app) to v0.20.1.
+- Update `kyverno-crds` (app) to v1.14.0.
+- Update `kyverno-policies` (app) to v0.24.0.
+- Update `reports-server` (app) to v0.0.3.
+
+### Notes
+
+This release includes a Kyverno upstream update. Please refer to the following Release Notes from upstream for the latest changes:
+- [v1.14.0](https://github.com/kyverno/kyverno/releases/tag/v1.14.0)
+- [v1.14.1](https://github.com/kyverno/kyverno/releases/tag/v1.14.1)
+- [v1.14.2](https://github.com/kyverno/kyverno/releases/tag/v1.14.2)
+
 ## [1.13.1] - 2025-10-21
 
 ### Changed
@@ -17,7 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Notes
 
 This release reverts the Kyverno update performed in [1.13.0], but keeps the following app updates:
-
 - Update `trivy-operator` (app) to v0.12.1.
 - Update `trivy` (app) to v0.14.1.
 - Update `falco` (app) to v0.11.0.
