@@ -79,6 +79,16 @@ apps:
     # repo: giantswarm/jiralert-app
     version: 0.1.3
 
+  kubescape:
+    appName: kubescape
+    chartName: kubescape
+    catalog: giantswarm
+    enabled: false
+    namespace: kubescape
+    # used by renovate
+    # repo: giantswarm/kubescape-app
+    version: 0.0.2
+
   kyverno:
     appName: kyverno
     chartName: kyverno
