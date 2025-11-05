@@ -83,6 +83,7 @@ apps:
     appName: kubescape
     chartName: kubescape
     catalog: giantswarm
+    dependsOn: kyverno-crds
     enabled: false
     namespace: kubescape
     # used by renovate
