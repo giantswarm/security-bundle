@@ -88,7 +88,7 @@ apps:
     namespace: kubescape
     # used by renovate
     # repo: giantswarm/kubescape-app
-    version: 0.0.2
+    version: 0.0.4
 
   kyverno:
     appName: kyverno
