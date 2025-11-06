@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `kubescape` (app) version v0.0.4.
 
+### Changed
+
+- Update `kyverno-crds` (app) to v1.15.0.
+
 ## [1.14.0] - 2025-10-28
 
 ### Changed
@@ -23,9 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Notes
 
 This release includes a Kyverno upstream update. Please refer to the following Release Notes from upstream for the latest changes:
-- [v1.14.0](https://github.com/kyverno/kyverno/releases/tag/v1.14.0)
-- [v1.14.1](https://github.com/kyverno/kyverno/releases/tag/v1.14.1)
-- [v1.14.2](https://github.com/kyverno/kyverno/releases/tag/v1.14.2)
 
 ## [1.13.1] - 2025-10-21
 
@@ -56,9 +57,6 @@ This release reverts the Kyverno update performed in [1.13.0], but keeps the fol
 ### Notes
 
 This release includes a Kyverno upstream update. Please refer to the following Release Notes from upstream for the latest changes:
-- [v1.14.0](https://github.com/kyverno/kyverno/releases/tag/v1.14.0)
-- [v1.14.1](https://github.com/kyverno/kyverno/releases/tag/v1.14.1)
-- [v1.14.2](https://github.com/kyverno/kyverno/releases/tag/v1.14.2)
 
 ## [1.12.0] - 2025-07-30
 
@@ -539,6 +537,12 @@ This release includes a Kyverno upstream update. Please refer to the following R
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
+- [v1.14.0](https://github.com/kyverno/kyverno/releases/tag/v1.14.0)
+- [v1.14.1](https://github.com/kyverno/kyverno/releases/tag/v1.14.1)
+- [v1.14.2](https://github.com/kyverno/kyverno/releases/tag/v1.14.2)
+- [v1.14.0](https://github.com/kyverno/kyverno/releases/tag/v1.14.0)
+- [v1.14.1](https://github.com/kyverno/kyverno/releases/tag/v1.14.1)
+- [v1.14.2](https://github.com/kyverno/kyverno/releases/tag/v1.14.2)
 [Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.14.0...HEAD
 [1.14.0]: https://github.com/giantswarm/security-bundle/compare/v1.13.1...v1.14.0
 [1.13.1]: https://github.com/giantswarm/security-bundle/compare/v1.13.0...v1.13.1
