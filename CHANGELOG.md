@@ -11,6 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `kubescape` (app) version v0.0.4.
 
+### Changed
+
+- Update `kyverno` (app) to v0.21.1.
+- Update `kyverno-crds` (app) to v1.15.0.
+
+### Notes
+
+This release includes a Kyverno upstream update. Please refer to the following Release Notes from upstream for the latest changes:
+- [v1.15.0](https://github.com/kyverno/kyverno/releases/tag/v1.15.0)
+- [v1.15.1](https://github.com/kyverno/kyverno/releases/tag/v1.15.1)
+- [v1.15.2](https://github.com/kyverno/kyverno/releases/tag/v1.15.2)
+
 ## [1.14.0] - 2025-10-28
 
 ### Changed
@@ -23,9 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Notes
 
 This release includes a Kyverno upstream update. Please refer to the following Release Notes from upstream for the latest changes:
-- [v1.14.0](https://github.com/kyverno/kyverno/releases/tag/v1.14.0)
-- [v1.14.1](https://github.com/kyverno/kyverno/releases/tag/v1.14.1)
-- [v1.14.2](https://github.com/kyverno/kyverno/releases/tag/v1.14.2)
 
 ## [1.13.1] - 2025-10-21
 
@@ -56,9 +65,6 @@ This release reverts the Kyverno update performed in [1.13.0], but keeps the fol
 ### Notes
 
 This release includes a Kyverno upstream update. Please refer to the following Release Notes from upstream for the latest changes:
-- [v1.14.0](https://github.com/kyverno/kyverno/releases/tag/v1.14.0)
-- [v1.14.1](https://github.com/kyverno/kyverno/releases/tag/v1.14.1)
-- [v1.14.2](https://github.com/kyverno/kyverno/releases/tag/v1.14.2)
 
 ## [1.12.0] - 2025-07-30
 
