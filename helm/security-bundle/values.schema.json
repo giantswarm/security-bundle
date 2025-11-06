@@ -117,6 +117,32 @@
                         }
                     }
                 },
+                "kubescape": {
+                    "type": "object",
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "catalog": {
+                            "type": "string"
+                        },
+                        "chartName": {
+                            "type": "string"
+                        },
+                        "dependsOn": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "namespace": {
+                            "type": "string"
+                        },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "kyverno": {
                     "type": "object",
                     "properties": {
@@ -236,6 +262,32 @@
                         }
                     }
                 },
+                "policyApiCrds": {
+                    "type": "object",
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "catalog": {
+                            "type": "string"
+                        },
+                        "chartName": {
+                            "type": "string"
+                        },
+                        "dependsOn": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "namespace": {
+                            "type": "string"
+                        },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "reportsServer": {
                     "type": "object",
                     "properties": {
@@ -342,7 +394,83 @@
             "type": "string"
         },
         "userConfig": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "jiralert": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "global": {
+                                            "type": "object",
+                                            "properties": {
+                                                "podSecurityStandards": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "enforced": {
+                                                            "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "kyvernoPolicies": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "kyverno-policies": {
+                                            "type": "object",
+                                            "properties": {
+                                                "validationFailureAction": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "kyvernoPolicyOperator": {
+                    "type": "object",
+                    "properties": {
+                        "configMap": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "object",
+                                    "properties": {
+                                        "crds": {
+                                            "type": "object",
+                                            "properties": {
+                                                "install": {
+                                                    "type": "boolean"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
