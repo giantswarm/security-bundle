@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `cloudnative-pg` (app) to v0.0.12.
+
 ## [1.15.0] - 2025-11-06
 
 ### Added
@@ -21,9 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Notes
 
 This release includes a Kyverno upstream update. Please refer to the following Release Notes from upstream for the latest changes:
-- [v1.15.0](https://github.com/kyverno/kyverno/releases/tag/v1.15.0)
-- [v1.15.1](https://github.com/kyverno/kyverno/releases/tag/v1.15.1)
-- [v1.15.2](https://github.com/kyverno/kyverno/releases/tag/v1.15.2)
 
 ## [1.14.0] - 2025-10-28
 
@@ -547,6 +548,9 @@ This release includes a Kyverno upstream update. Please refer to the following R
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
+- [v1.15.0](https://github.com/kyverno/kyverno/releases/tag/v1.15.0)
+- [v1.15.1](https://github.com/kyverno/kyverno/releases/tag/v1.15.1)
+- [v1.15.2](https://github.com/kyverno/kyverno/releases/tag/v1.15.2)
 [Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.15.0...HEAD
 [1.15.0]: https://github.com/giantswarm/security-bundle/compare/v1.14.0...v1.15.0
 [1.14.0]: https://github.com/giantswarm/security-bundle/compare/v1.13.1...v1.14.0
