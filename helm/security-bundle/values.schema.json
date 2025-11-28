@@ -28,7 +28,7 @@
                         }
                     }
                 },
-                "edgedb": {
+                "gel": {
                     "type": "object",
                     "properties": {
                         "appName": {

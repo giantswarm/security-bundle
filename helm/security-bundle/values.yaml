@@ -37,16 +37,16 @@ apps:
     # repo: giantswarm/cloudnative-pg-app
     version: 0.0.12
 
-  edgedb:
-    appName: edgedb
-    chartName: edgedb
+  gel:
+    appName: gel
+    chartName: gel
     catalog: giantswarm-operations-platform
     dependsOn: cloudnative-pg
     enabled: false
     namespace: policy-system
     # used by renovate
-    # repo: giantswarm/edgedb-app
-    version: 0.1.0
+    # repo: giantswarm/gel-app
+    version: 1.0.0
 
   exceptionRecommender:
     appName: exception-recommender
