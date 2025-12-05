@@ -46,7 +46,7 @@ apps:
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/gel-app
-    version: 1.0.0
+    version: 1.0.1
 
   exceptionRecommender:
     appName: exception-recommender
