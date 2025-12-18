@@ -99,6 +99,7 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-crds
+      - prometheus-operator-crd
       - alloy-logs
     enabled: true
     namespace: kyverno
