@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Allow to set multiple dependencies on the depends-on annotation.
 - Rename `edgedb` to `gel`.
 
 ## [1.15.0] - 2025-11-06
