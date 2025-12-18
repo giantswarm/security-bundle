@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Add missing dependency to Kyverno app.
+- Add missing dependency to all apps.
 
 ## [1.16.0] - 2025-12-18
 
