@@ -28,7 +28,7 @@
                         }
                     }
                 },
-                "edgedb": {
+                "gel": {
                     "type": "object",
                     "properties": {
                         "appName": {
@@ -41,7 +41,7 @@
                             "type": "string"
                         },
                         "dependsOn": {
-                            "type": "string"
+                            "type": "array"
                         },
                         "enabled": {
                             "type": "boolean"
@@ -67,7 +67,7 @@
                             "type": "string"
                         },
                         "dependsOn": {
-                            "type": "string"
+                            "type": "array"
                         },
                         "enabled": {
                             "type": "boolean"
@@ -130,7 +130,7 @@
                             "type": "string"
                         },
                         "dependsOn": {
-                            "type": "string"
+                            "type": "array"
                         },
                         "enabled": {
                             "type": "boolean"
@@ -156,7 +156,7 @@
                             "type": "string"
                         },
                         "dependsOn": {
-                            "type": "string"
+                            "type": "array"
                         },
                         "enabled": {
                             "type": "boolean"
@@ -226,7 +226,7 @@
                             "type": "string"
                         },
                         "dependsOn": {
-                            "type": "string"
+                            "type": "array"
                         },
                         "enabled": {
                             "type": "boolean"
@@ -252,7 +252,7 @@
                             "type": "string"
                         },
                         "dependsOn": {
-                            "type": "string"
+                            "type": "array"
                         },
                         "enabled": {
                             "type": "boolean"
@@ -275,7 +275,7 @@
                             "type": "string"
                         },
                         "dependsOn": {
-                            "type": "string"
+                            "type": "array"
                         },
                         "enabled": {
                             "type": "boolean"
@@ -301,7 +301,7 @@
                             "type": "string"
                         },
                         "dependsOn": {
-                            "type": "string"
+                            "type": "array"
                         },
                         "enabled": {
                             "type": "boolean"

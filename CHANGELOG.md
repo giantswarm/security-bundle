@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Allow to set multiple dependencies on the depends-on annotation.
+- Rename `edgedb` to `gel`.
 - Update `cloudnative-pg` (app) to v0.0.12.
 - Update `gel` (app) to v1.0.1.
 

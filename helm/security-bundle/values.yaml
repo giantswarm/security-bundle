@@ -37,22 +37,24 @@ apps:
     # repo: giantswarm/cloudnative-pg-app
     version: 0.0.12
 
-  edgedb:
-    appName: edgedb
-    chartName: edgedb
+  gel:
+    appName: gel
+    chartName: gel
     catalog: giantswarm-operations-platform
-    dependsOn: cloudnative-pg
+    dependsOn:
+      - cloudnative-pg
     enabled: false
     namespace: policy-system
     # used by renovate
-    # repo: giantswarm/edgedb-app
-    version: 0.1.0
+    # repo: giantswarm/gel-app
+    version: 1.0.1
 
   exceptionRecommender:
     appName: exception-recommender
     chartName: exception-recommender
     catalog: giantswarm
-    dependsOn: kyverno-crds
+    dependsOn:
+      - kyverno-crds
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -83,7 +85,8 @@ apps:
     appName: kubescape
     chartName: kubescape
     catalog: giantswarm
-    dependsOn: kyverno-crds
+    dependsOn:
+      - kyverno-crds
     enabled: false
     namespace: kubescape
     # used by renovate
@@ -94,7 +97,9 @@ apps:
     appName: kyverno
     chartName: kyverno
     catalog: giantswarm
-    dependsOn: kyverno-crds
+    dependsOn:
+      - kyverno-crds
+      - alloy-logs
     enabled: true
     namespace: kyverno
     # Options allow to configure timeouts:
@@ -122,7 +127,9 @@ apps:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
     catalog: giantswarm
-    dependsOn: kyverno-crds
+    dependsOn:
+      - kyverno-crds
+      - alloy-logs
     enabled: true
     # namespace: security-bundle
     # used by renovate
@@ -135,7 +142,8 @@ apps:
     appName: kyverno-policies
     chartName: kyverno-policies
     catalog: giantswarm
-    dependsOn: kyverno-crds
+    dependsOn:
+      - kyverno-crds
     enabled: true
     namespace: kyverno
     # used by renovate
@@ -146,7 +154,8 @@ apps:
     appName: policy-api-crds
     chartName: policy-api-crds
     catalog: giantswarm
-    dependsOn: kyverno-policy-operator
+    dependsOn:
+      - kyverno-policy-operator
     enabled: false
     namespace: policy-system
     # used by renovate
@@ -157,7 +166,8 @@ apps:
     appName: reports-server
     chartName: reports-server
     catalog: giantswarm-operations-platform
-    dependsOn: cloudnative-pg
+    dependsOn:
+      - cloudnative-pg
     enabled: false
     namespace: kyverno
     # used by renovate
