@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `reports-server` (app) to v0.1.0.
+
 ## [1.16.1] - 2025-12-18
 
 ### Changed
