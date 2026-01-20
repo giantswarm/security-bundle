@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update `reports-server` (app) to v0.1.0.
+- Update `cloudnative-pg` (app) to v0.0.13.
 
 ## [1.16.1] - 2025-12-18
 
