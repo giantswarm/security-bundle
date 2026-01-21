@@ -7,9 +7,9 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.16
 replace github.com/alessio/shellescape => github.com/alessio/shellescape v1.6.0
 
 require (
-	github.com/giantswarm/apptest-framework v1.16.1
 	github.com/giantswarm/apptest-framework/v3 v3.0.1
-	github.com/giantswarm/clustertest v1.41.0
+	github.com/giantswarm/apptest-framework/v3 v3.0.1
+	github.com/giantswarm/clustertest/v3 v3.1.1
 	github.com/giantswarm/clustertest/v3 v3.1.1
 	github.com/onsi/ginkgo/v2 v2.27.5
 	github.com/onsi/gomega v1.39.0
