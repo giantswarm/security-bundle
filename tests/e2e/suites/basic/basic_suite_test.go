@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/giantswarm/apptest-framework/pkg/state"
-	"github.com/giantswarm/apptest-framework/pkg/suite"
-	"github.com/giantswarm/clustertest/pkg/wait"
+	"github.com/giantswarm/apptest-framework/v3/pkg/state"
+	"github.com/giantswarm/apptest-framework/v3/pkg/suite"
+	"github.com/giantswarm/clustertest/v3/pkg/wait"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	admissionregistrationv1 "k8s.io/api/admissionregistration/v1"
