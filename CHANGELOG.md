@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `reports-server` (app) to v0.1.0.
 - Update `cloudnative-pg` (app) to v0.0.13.
 - Update `kubescape` (app) to v0.0.5.
+- Update `starboard-exporter` (app) to v1.0.2.
 
 ## [1.16.1] - 2025-12-18
 
