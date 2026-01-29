@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `kubescape` (app) to v0.0.5.
 - Update `starboard-exporter` (app) to v1.0.2.
 - Update `kyverno-crds` (app) to v1.16.0.
+- Update `kyverno` (app) to v0.23.0.
 
 ## [1.16.1] - 2025-12-18
 
