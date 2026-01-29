@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Update `kyverno` (app) to v0.23.0.
+- Update `kyverno-crds` (app) to v1.16.0.
 - Update `reports-server` (app) to v0.1.0.
 - Update `cloudnative-pg` (app) to v0.0.13.
 - Update `kubescape` (app) to v0.0.5.
@@ -566,9 +568,6 @@ This release includes a Kyverno upstream update. Please refer to the following R
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-- [v1.15.0](https://github.com/kyverno/kyverno/releases/tag/v1.15.0)
-- [v1.15.1](https://github.com/kyverno/kyverno/releases/tag/v1.15.1)
-- [v1.15.2](https://github.com/kyverno/kyverno/releases/tag/v1.15.2)
 [Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.16.1...HEAD
 [1.16.1]: https://github.com/giantswarm/security-bundle/compare/v1.16.0...v1.16.1
 [1.16.0]: https://github.com/giantswarm/security-bundle/compare/v1.15.0...v1.16.0
