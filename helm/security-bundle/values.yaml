@@ -149,7 +149,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.24.0
+    version: 0.25.0
 
   policyApiCrds:
     appName: policy-api-crds
