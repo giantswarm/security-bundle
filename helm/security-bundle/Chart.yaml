@@ -11,3 +11,5 @@ annotations:
   application.giantswarm.io/in-cluster-app: "true"
   application.giantswarm.io/team: "shield"
   application.giantswarm.io/app-type: "bundle"
+  io.giantswarm.application.audience: all
+  io.giantswarm.application.managed: "true"
