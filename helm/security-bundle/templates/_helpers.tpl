@@ -34,6 +34,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 giantswarm.io/managed-by: {{ .Release.Name | quote }}
 giantswarm.io/cluster: {{ .Values.clusterID | quote }}
 giantswarm.io/organization: {{ .Values.organization | quote }}
-application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
+application.giantswarm.io/team: {{ index .Chart.Annotations "io.giantswarm.application.team" | quote }}
 helm.sh/chart: {{ include "chart" . | quote }}
 {{- end -}}
