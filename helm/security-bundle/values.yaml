@@ -112,7 +112,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.23.0
+    version: 0.24.0
 
   kyvernoCrds:
     appName: kyverno-crds
