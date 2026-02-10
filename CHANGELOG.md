@@ -18,8 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - https://github.com/kyverno/kyverno/releases/tag/v1.17.0
 - Update `kyverno-crds` (app) to v1.17.0.
 - Update `kyverno-policies` (app) to v0.25.0.
-- Migrate chart annotations to OCI-compatible format (change `application.giantswarm.io/team` to `io.giantswarm.application.team`, `application.giantswarm.io/app-type` to `io.giantswarm.application.app-type`).
 - Update `kubescape` (app) to v0.0.6.
+- Migrate chart annotations to OCI-compatible format (change `application.giantswarm.io/team` to `io.giantswarm.application.team`, `application.giantswarm.io/app-type` to `io.giantswarm.application.app-type`).
 
 ## [1.17.0] - 2026-01-29
 
