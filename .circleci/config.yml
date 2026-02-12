@@ -8,15 +8,14 @@ workflows:
     - architect/push-to-app-catalog:
         context: architect
         executor: app-build-suite
-        name: push-security-bundle-to-giantswarm-catalog
-        app_catalog: giantswarm-catalog
-        app_catalog_test: giantswarm-test-catalog
+        name: push-security-bundle-to-default-catalog
+        app_catalog: default-catalog
+        app_catalog_test: default-test-catalog
         chart: security-bundle
           # Trigger job on git tag.
         filters:
           tags:
             only: /^v.*/
-
           branches:
             ignore:
             - main
