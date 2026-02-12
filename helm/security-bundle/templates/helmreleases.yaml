@@ -14,9 +14,6 @@ spec:
   {{- $appNamespace := required "A valid .Values.global.namespace or .Values.apps.{APP_NAME}.namespace entry is required" (default ($.Values.global).namespace .namespace) }}
   targetNamespace: {{ $appNamespace }}
   storageNamespace: {{ $appNamespace }}
-  {{- if .createNamespace }}
-  createNamespace: true
-  {{- end }}
   chart:
     spec:
       chart: {{ .chartName }}
@@ -41,6 +38,9 @@ spec:
   timeout: 10m
   {{- end }}
   install:
+    {{- if .createNamespace }}
+    createNamespace: true
+    {{- end }}
     remediation:
       retries: -1
   upgrade:
