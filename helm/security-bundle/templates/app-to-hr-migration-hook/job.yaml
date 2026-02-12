@@ -1,0 +1,118 @@
+{{/*
+Pre-upgrade hook to safely migrate sub-apps from App CRs to HelmReleases.
+
+This Job removes chart-operator finalizers from Chart CRs and deletes them,
+so that when Helm deletes the App CRs during the upgrade, chart-operator
+does NOT uninstall the corresponding Helm releases in the workload cluster.
+Flux then adopts the existing releases via the new HelmRelease CRs.
+
+All sub-apps in this bundle are remote (deployed to WC via kubeconfig),
+so their Chart CRs live on the WC in the giantswarm namespace.
+*/}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $.Values.clusterID }}-migrate-security-apps
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/no-read-only-root-fs: "Need to store kubeconfig files"
+    helm.sh/hook: pre-upgrade
+    helm.sh/hook-weight: "-10"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 300
+  template:
+    metadata:
+      labels:
+        {{- include "labels.common" $ | nindent 8 }}
+    spec:
+      serviceAccountName: {{ $.Values.clusterID }}-migrate-security-apps
+      restartPolicy: Never
+      containers:
+      - name: kubectl
+        image: gsoci.azurecr.io/giantswarm/kubectl:1.30.8
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+            - ALL
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 256Mi
+        command:
+        - /bin/sh
+        - -c
+        - |
+          set -eu
+          CLUSTER_NAME="{{ $.Values.clusterID }}"
+          NAMESPACE="{{ $.Release.Namespace }}"
+          CHART_NAMESPACE="giantswarm"
+
+          # Fetch WC kubeconfig (all sub-apps are remote, Chart CRs on WC)
+          echo "Fetching WC kubeconfig for $CLUSTER_NAME"
+          kubectl get secret -n "$NAMESPACE" "${CLUSTER_NAME}-kubeconfig" \
+            -o jsonpath='{.data.value}' | base64 -d > /tmp/wc-kubeconfig
+
+          WC="--kubeconfig /tmp/wc-kubeconfig"
+
+          # Helper: remove finalizers and delete a Chart CR
+          cleanup_chart() {
+            local target="$1"
+            local chart_name="$2"
+            local location="$3"
+
+            if ! kubectl $target get chart "$chart_name" -n "$CHART_NAMESPACE" > /dev/null 2>&1; then
+              echo "  Chart CR $chart_name not found on $location, skipping"
+              return
+            fi
+
+            echo "  Removing finalizers from Chart CR $chart_name on $location"
+            kubectl $target patch chart "$chart_name" -n "$CHART_NAMESPACE" --type=json \
+              -p='[{"op": "remove", "path": "/metadata/finalizers"}]' 2>/dev/null || \
+              echo "  No finalizers to remove or already deleted"
+
+            echo "  Deleting Chart CR $chart_name on $location"
+            kubectl $target delete chart "$chart_name" -n "$CHART_NAMESPACE" --ignore-not-found=true
+          }
+
+          # --- Remote apps (Chart CRs on WC) ---
+          # Chart CR name = app name (cluster prefix stripped by app-operator)
+          REMOTE_APPS="
+            cloudnative-pg
+            exception-recommender
+            falco
+            gel
+            jiralert
+            kubescape
+            kyverno
+            kyverno-crds
+            kyverno-policies
+            kyverno-policy-operator
+            policy-api-crds
+            reports-server
+            starboard-exporter
+            trivy
+            trivy-operator
+          "
+
+          for APP in $REMOTE_APPS; do
+            APP=$(echo "$APP" | tr -d '[:space:]')
+            [ -z "$APP" ] && continue
+
+            echo "Processing remote app: $APP"
+            cleanup_chart "$WC" "$APP" "WC"
+          done
+
+          echo "Security bundle migration hook completed successfully"
