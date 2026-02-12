@@ -23,6 +23,9 @@
                         "namespace": {
                             "type": "string"
                         },
+                        "createNamespace": {
+                            "type": "boolean"
+                        },
                         "version": {
                             "type": "string"
                         }
@@ -49,6 +52,9 @@
                         "namespace": {
                             "type": "string"
                         },
+                        "createNamespace": {
+                            "type": "boolean"
+                        },
                         "version": {
                             "type": "string"
                         }
@@ -68,6 +74,9 @@
                         },
                         "dependsOn": {
                             "type": "array"
+                        },
+                        "createNamespace": {
+                            "type": "boolean"
                         },
                         "enabled": {
                             "type": "boolean"
@@ -92,6 +101,9 @@
                         "enabled": {
                             "type": "boolean"
                         },
+                        "createNamespace": {
+                            "type": "boolean"
+                        },
                         "version": {
                             "type": "string"
                         }
@@ -110,6 +122,9 @@
                             "type": "string"
                         },
                         "enabled": {
+                            "type": "boolean"
+                        },
+                        "createNamespace": {
                             "type": "boolean"
                         },
                         "version": {
@@ -131,6 +146,9 @@
                         },
                         "dependsOn": {
                             "type": "array"
+                        },
+                        "createNamespace": {
+                            "type": "boolean"
                         },
                         "enabled": {
                             "type": "boolean"
@@ -154,6 +172,9 @@
                         },
                         "chartName": {
                             "type": "string"
+                        },
+                        "createNamespace": {
+                            "type": "boolean"
                         },
                         "dependsOn": {
                             "type": "array"
@@ -208,6 +229,9 @@
                         "namespace": {
                             "type": "string"
                         },
+                        "createNamespace": {
+                            "type": "boolean"
+                        },
                         "version": {
                             "type": "string"
                         }
@@ -234,6 +258,9 @@
                         "namespace": {
                             "type": "string"
                         },
+                        "createNamespace": {
+                            "type": "boolean"
+                        },
                         "version": {
                             "type": "string"
                         }
@@ -253,6 +280,9 @@
                         },
                         "dependsOn": {
                             "type": "array"
+                        },
+                        "createNamespace": {
+                            "type": "boolean"
                         },
                         "enabled": {
                             "type": "boolean"
@@ -283,6 +313,9 @@
                         "namespace": {
                             "type": "string"
                         },
+                        "createNamespace": {
+                            "type": "boolean"
+                        },
                         "version": {
                             "type": "string"
                         }
@@ -308,6 +341,9 @@
                         },
                         "namespace": {
                             "type": "string"
+                        },
+                        "createNamespace": {
+                            "type": "boolean"
                         },
                         "version": {
                             "type": "string"
@@ -335,6 +371,9 @@
                         "namespace": {
                             "type": "string"
                         },
+                        "createNamespace": {
+                            "type": "boolean"
+                        },
                         "version": {
                             "type": "string"
                         }
@@ -355,6 +394,9 @@
                         "enabled": {
                             "type": "boolean"
                         },
+                        "createNamespace": {
+                            "type": "boolean"
+                        },
                         "version": {
                             "type": "string"
                         }
@@ -373,6 +415,9 @@
                             "type": "string"
                         },
                         "enabled": {
+                            "type": "boolean"
+                        },
+                        "createNamespace": {
                             "type": "boolean"
                         },
                         "version": {
