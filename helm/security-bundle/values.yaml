@@ -134,6 +134,7 @@ apps:
       - kyverno-crds
       - alloy-logs
     enabled: true
+    createNamespace: true
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
