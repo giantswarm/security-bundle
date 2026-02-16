@@ -1,10 +1,13 @@
 {{/*
 Pre-upgrade hook to safely migrate sub-apps from App CRs to HelmReleases.
 
-This Job removes chart-operator finalizers from Chart CRs and deletes them,
-so that when Helm deletes the App CRs during the upgrade, chart-operator
-does NOT uninstall the corresponding Helm releases in the workload cluster.
-Flux then adopts the existing releases via the new HelmRelease CRs.
+Uses operatorkit's paused annotation to prevent race conditions with both
+app-operator and chart-operator during the migration:
+
+Phase 1: Pause all App CRs (prevents app-operator from recreating Chart CRs)
+Phase 2: Pause + remove finalizers + delete Chart CRs (prevents chart-operator
+         from re-adding finalizers or uninstalling Helm releases)
+Phase 3: Remove finalizers + delete App CRs
 
 All sub-apps in this bundle are remote (deployed to WC via kubeconfig),
 so their Chart CRs live on the WC in the giantswarm namespace.
@@ -87,7 +90,9 @@ spec:
             kubectl delete apps.application.giantswarm.io "$app_name" -n "$NAMESPACE" --ignore-not-found=true
           }
 
-          # Helper: remove finalizers and delete a Chart CR
+          # Helper: pause, remove finalizers, and delete a Chart CR.
+          # The paused annotation prevents chart-operator from re-adding
+          # its finalizer (race condition) and from uninstalling the Helm release.
           cleanup_chart() {
             local target="$1"
             local chart_name="$2"
@@ -98,6 +103,11 @@ spec:
               return
             fi
 
+            echo "  Pausing chart-operator reconciliation for $chart_name on $location"
+            kubectl $target annotate chart "$chart_name" -n "$CHART_NAMESPACE" \
+              "operatorkit.giantswarm.io/paused=true" --overwrite 2>/dev/null || \
+              echo "  Failed to pause, continuing anyway"
+
             echo "  Removing finalizers from Chart CR $chart_name on $location"
             kubectl $target patch chart "$chart_name" -n "$CHART_NAMESPACE" --type=json \
               -p='[{"op": "remove", "path": "/metadata/finalizers"}]' 2>/dev/null || \
@@ -106,6 +116,39 @@ spec:
             echo "  Deleting Chart CR $chart_name on $location"
             kubectl $target delete chart "$chart_name" -n "$CHART_NAMESPACE" --ignore-not-found=true
           }
+
+          # --- Phase 1: Pause all App CRs ---
+          # Prevents app-operator from reconciling and recreating Chart CRs
+          # during cleanup. Uses operatorkit's paused annotation.
+          ALL_APPS="
+            ${CLUSTER_NAME}-cloudnative-pg
+            ${CLUSTER_NAME}-exception-recommender
+            ${CLUSTER_NAME}-falco
+            ${CLUSTER_NAME}-gel
+            ${CLUSTER_NAME}-jiralert
+            ${CLUSTER_NAME}-kubescape
+            ${CLUSTER_NAME}-kyverno
+            ${CLUSTER_NAME}-kyverno-crds
+            ${CLUSTER_NAME}-kyverno-policies
+            ${CLUSTER_NAME}-kyverno-policy-operator
+            ${CLUSTER_NAME}-policy-api-crds
+            ${CLUSTER_NAME}-reports-server
+            ${CLUSTER_NAME}-starboard-exporter
+            ${CLUSTER_NAME}-trivy
+            ${CLUSTER_NAME}-trivy-operator
+          "
+          echo "Phase 1: Pausing all App CRs to prevent app-operator reconciliation"
+          for APP_CR in $ALL_APPS; do
+            APP_CR=$(echo "$APP_CR" | tr -d '[:space:]')
+            [ -z "$APP_CR" ] && continue
+            if kubectl get apps.application.giantswarm.io "$APP_CR" -n "$NAMESPACE" > /dev/null 2>&1; then
+              echo "  Pausing App CR $APP_CR"
+              kubectl annotate apps.application.giantswarm.io "$APP_CR" -n "$NAMESPACE" \
+                "operatorkit.giantswarm.io/paused=true" --overwrite 2>/dev/null || true
+            fi
+          done
+
+          # --- Phase 2: Clean up Chart CRs ---
 
           # --- Remote apps (Chart CRs on WC) ---
           # Chart CR name = app name (cluster prefix stripped by app-operator)
@@ -135,15 +178,14 @@ spec:
             cleanup_chart "$WC" "$APP" "WC"
           done
 
-          # --- Delete App CRs to prevent race condition ---
-          # app-operator could reconcile and recreate Chart CRs between
-          # the Chart CR cleanup above and the Helm upgrade completing.
-          # Deleting the App CRs eliminates this race.
-          echo "Deleting App CRs to prevent recreation of Chart CRs"
-          for APP in $REMOTE_APPS; do
-            APP=$(echo "$APP" | tr -d '[:space:]')
-            [ -z "$APP" ] && continue
-            delete_app "${CLUSTER_NAME}-${APP}"
+          # --- Phase 3: Delete App CRs ---
+          # App CRs were already paused in Phase 1, so app-operator won't
+          # interfere. Removing finalizers and deleting completes the cleanup.
+          echo "Phase 3: Deleting App CRs"
+          for APP_CR in $ALL_APPS; do
+            APP_CR=$(echo "$APP_CR" | tr -d '[:space:]')
+            [ -z "$APP_CR" ] && continue
+            delete_app "$APP_CR"
           done
 
           echo "Security bundle migration hook completed successfully"
