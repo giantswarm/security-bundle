@@ -67,6 +67,26 @@ spec:
 
           WC="--kubeconfig /tmp/wc-kubeconfig"
 
+          # Helper: remove finalizers and delete an App CR.
+          # This prevents app-operator from recreating Chart CRs
+          # between the Chart CR cleanup and the Helm upgrade.
+          delete_app() {
+            local app_name="$1"
+
+            if ! kubectl get apps.application.giantswarm.io "$app_name" -n "$NAMESPACE" > /dev/null 2>&1; then
+              echo "  App CR $app_name not found, skipping"
+              return
+            fi
+
+            echo "  Removing finalizers from App CR $app_name"
+            kubectl patch apps.application.giantswarm.io "$app_name" -n "$NAMESPACE" --type=json \
+              -p='[{"op": "remove", "path": "/metadata/finalizers"}]' 2>/dev/null || \
+              echo "  No finalizers to remove or already deleted"
+
+            echo "  Deleting App CR $app_name"
+            kubectl delete apps.application.giantswarm.io "$app_name" -n "$NAMESPACE" --ignore-not-found=true
+          }
+
           # Helper: remove finalizers and delete a Chart CR
           cleanup_chart() {
             local target="$1"
@@ -113,6 +133,17 @@ spec:
 
             echo "Processing remote app: $APP"
             cleanup_chart "$WC" "$APP" "WC"
+          done
+
+          # --- Delete App CRs to prevent race condition ---
+          # app-operator could reconcile and recreate Chart CRs between
+          # the Chart CR cleanup above and the Helm upgrade completing.
+          # Deleting the App CRs eliminates this race.
+          echo "Deleting App CRs to prevent recreation of Chart CRs"
+          for APP in $REMOTE_APPS; do
+            APP=$(echo "$APP" | tr -d '[:space:]')
+            [ -z "$APP" ] && continue
+            delete_app "${CLUSTER_NAME}-${APP}"
           done
 
           echo "Security bundle migration hook completed successfully"

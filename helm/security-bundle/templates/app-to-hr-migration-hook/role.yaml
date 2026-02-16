@@ -15,3 +15,6 @@ rules:
   verbs: ["get"]
   resourceNames:
   - {{ $.Values.clusterID }}-kubeconfig
+- apiGroups: ["application.giantswarm.io"]
+  resources: ["apps"]
+  verbs: ["get", "patch", "delete"]
