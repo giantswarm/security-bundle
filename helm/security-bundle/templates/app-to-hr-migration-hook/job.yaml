@@ -36,7 +36,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: kubectl
-        image: gsoci.azurecr.io/giantswarm/kubectl:1.33.4
+        image: gsoci.azurecr.io/giantswarm/kubectl:1.25.16
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000
