@@ -2,6 +2,20 @@
 {{- $appName := include "app.name" (dict "app" .appName "cluster" $.Values.clusterID "ns" $.Release.Namespace) }}
 {{- if .enabled }}
 ---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  name: {{ $appName }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  url: oci://gsoci.azurecr.io/charts/giantswarm/{{ .chartName }}
+  ref:
+    tag: "{{ .version }}"
+  interval: 1h
+  timeout: 60s
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -14,13 +28,9 @@ spec:
   {{- $appNamespace := required "A valid .Values.global.namespace or .Values.apps.{APP_NAME}.namespace entry is required" (default ($.Values.global).namespace .namespace) }}
   targetNamespace: {{ $appNamespace }}
   storageNamespace: {{ $appNamespace }}
-  chart:
-    spec:
-      chart: {{ .chartName }}
-      version: {{ .version }}
-      sourceRef:
-        kind: HelmRepository
-        name: {{ $.Values.clusterID }}-{{ .catalog }}
+  chartRef:
+    kind: OCIRepository
+    name: {{ $appName }}
   {{- if .dependsOn }}
   dependsOn:
   {{- range $_, $dependency := .dependsOn }}
