@@ -2,7 +2,7 @@
 {{- $appName := include "app.name" (dict "app" .appName "cluster" $.Values.clusterID "ns" $.Release.Namespace) }}
 {{- if .enabled }}
 ---
-apiVersion: source.toolkit.fluxcd.io/v1
+apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
   labels:
