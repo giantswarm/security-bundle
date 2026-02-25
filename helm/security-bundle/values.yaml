@@ -138,7 +138,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
-    version: 0.2.1
+    version: 0.2.1-a5048602c92c80504b6c2b22756aa2bd1aab23a9
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
