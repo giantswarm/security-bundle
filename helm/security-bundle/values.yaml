@@ -103,6 +103,7 @@ apps:
       - alloy-logs
     enabled: true
     namespace: kyverno
+    createNamespace: true
     # Options allow to configure timeouts:
     # https://docs.giantswarm.io/getting-started/app-platform/installation-configuration/
     options:
@@ -112,7 +113,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.24.0
+    version: 0.24.1
 
   kyvernoCrds:
     appName: kyverno-crds
@@ -120,6 +121,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: kyverno
+    createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-crds
     version: 1.17.0
@@ -132,10 +134,11 @@ apps:
       - kyverno-crds
       - alloy-logs
     enabled: true
+    createNamespace: true
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
-    version: 0.1.6
+    version: 0.2.1-a5048602c92c80504b6c2b22756aa2bd1aab23a9
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
@@ -147,6 +150,7 @@ apps:
       - kyverno-crds
     enabled: true
     namespace: kyverno
+    createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-policies
     version: 0.25.0

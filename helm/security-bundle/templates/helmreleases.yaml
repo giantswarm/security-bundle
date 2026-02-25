@@ -1,0 +1,120 @@
+{{- range $key, $value := .Values.apps }}
+{{- $appName := include "app.name" (dict "app" .appName "cluster" $.Values.clusterID "ns" $.Release.Namespace) }}
+{{- if .enabled }}
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  name: {{ $appName }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  url: oci://gsoci.azurecr.io/charts/giantswarm/{{ .chartName }}
+  ref:
+    tag: "{{ .version }}"
+  interval: 1h
+  timeout: 60s
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  name: {{ $appName }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  releaseName: {{ .appName }}
+  {{- $appNamespace := required "A valid .Values.global.namespace or .Values.apps.{APP_NAME}.namespace entry is required" (default ($.Values.global).namespace .namespace) }}
+  targetNamespace: {{ $appNamespace }}
+  storageNamespace: {{ $appNamespace }}
+  chartRef:
+    kind: OCIRepository
+    name: {{ $appName }}
+  {{- if .dependsOn }}
+  dependsOn:
+  {{- range $_, $dependency := .dependsOn }}
+  - name: {{ $.Values.clusterID }}-{{ $dependency }}
+    namespace: {{ $.Release.Namespace }}
+  {{- end }}
+  {{- end }}
+  kubeConfig:
+    secretRef:
+      name: {{ $.Values.clusterID }}-kubeconfig
+  interval: 5m
+  {{- if .options }}
+  timeout: {{ (.options.install).timeout | default (.options.upgrade).timeout | default "10m" }}
+  {{- else }}
+  timeout: 10m
+  {{- end }}
+  install:
+    {{- if .createNamespace }}
+    createNamespace: true
+    {{- end }}
+    remediation:
+      retries: -1
+  upgrade:
+    remediation:
+      retries: -1
+  valuesFrom:
+  - kind: ConfigMap
+    name: {{ $.Values.clusterID }}-cluster-values
+    valuesKey: values
+    optional: false
+  {{- range $extraConfig := .extraConfigs }}
+  {{- $kind := $extraConfig.kind }}
+  {{- if eq $kind "configMap" }}{{ $kind = "ConfigMap" }}{{ else if eq $kind "secret" }}{{ $kind = "Secret" }}{{ end }}
+  - kind: {{ $kind }}
+    name: {{ tpl $extraConfig.name $ }}
+    valuesKey: values
+    optional: false
+  {{- end }}
+  {{- if $.Values.userConfig }}
+  {{- with (get $.Values.userConfig $key) }}
+  {{- if .configMap }}
+  - kind: ConfigMap
+    name: {{ $appName }}-user-values
+    valuesKey: values
+    optional: false
+  {{- end }}
+  {{- if .secret }}
+  - kind: Secret
+    name: {{ $appName }}-user-secrets
+    valuesKey: values
+    optional: false
+  {{- end }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+
+{{- if $.Values.userConfig }}
+{{- with (get $.Values.userConfig $key) }}
+{{- if ((.configMap).values) }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  name: {{ $appName }}-user-values
+  namespace: {{ $.Release.Namespace }}
+data:
+  values: |
+  {{- (tpl (.configMap.values | toYaml | toString) $) | nindent 4 }}
+{{- end }}
+{{- if ((.secret).values) }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  name: {{ $appName }}-user-secrets
+  namespace: {{ $.Release.Namespace }}
+stringData:
+  values: |
+  {{- (tpl (.secret.values | toYaml | toString) $) | nindent 4 }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end -}}

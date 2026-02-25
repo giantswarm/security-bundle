@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Migrate sub-apps from App CRs to Flux HelmRelease CRs.
+- Add pre-upgrade migration hook to safely clean up Chart CRs during the transition.
 - Update `kyverno` (app) to v0.24.0.
   - This release includes a Kyverno upstream update. Please refer to the following Release Notes from upstream for the latest changes:
     - https://github.com/kyverno/kyverno/releases/tag/v1.17.0
