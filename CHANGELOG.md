@@ -13,17 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Update `kyverno` (app) to v0.24.0.
-  - This release includes a Kyverno upstream update. Please refer to the following Release Notes from upstream for the latest changes:
+- Update `falco` (app) to v0.11.2.
+- Update `kyverno` (app) to v0.24.1.
+  - This release includes a new Kyverno minor version. Please refer to the upstream release notes for the latest changes:
     - https://github.com/kyverno/kyverno/releases/tag/v1.17.0
 - Update `kyverno-crds` (app) to v1.17.0.
 - Update `kyverno-policies` (app) to v0.25.0.
 - Update `kubescape` (app) to v0.0.6.
-- Migrate chart annotations to OCI-compatible format (change `application.giantswarm.io/team` to `io.giantswarm.application.team`, `application.giantswarm.io/app-type` to `io.giantswarm.application.app-type`).
 - Update `trivy` (app) to v0.14.2.
-- Update `falco` (app) to v0.11.2.
 - Update `trivy-operator` (app) to v0.12.2.
-- Update `kyverno` (app) to v0.24.1.
+- Update `starboard-exporter` (app) to v1.0.3.
+- Migrate chart annotations to OCI-compatible format.
 
 ## [1.17.0] - 2026-01-29
 
