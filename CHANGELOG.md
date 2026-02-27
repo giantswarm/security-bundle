@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `trivy` (app) to v0.14.2.
 - Update `falco` (app) to v0.11.2.
 - Update `trivy-operator` (app) to v0.12.2.
+- Update `kyverno` (app) to v0.24.1.
 
 ## [1.17.0] - 2026-01-29
 
