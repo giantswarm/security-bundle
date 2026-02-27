@@ -14,7 +14,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update `falco` (app) to v0.11.2.
-- Update `kyverno` (app) to v0.24.1.
+- This release includes a new Kyverno minor version. Please refer to the upstream release notes for the latest changes:
+- https://github.com/kyverno/kyverno/releases/tag/v1.17.0
+- Update `kyverno-crds` (app) to v1.17.0.
+- Update `kyverno-policies` (app) to v0.25.0.
+- Update `kyverno-policy-operator` (app) to v0.2.2.
+- Update `kubescape` (app) to v0.0.6.
+- Update `trivy` (app) to v0.14.2.
+- Update `trivy-operator` (app) to v0.12.2.
+- Update `starboard-exporter` (app) to v1.0.3.
+- Migrate chart annotations to OCI-compatible format.
   - This release includes a new Kyverno minor version. Please refer to the upstream release notes for the latest changes:
     - https://github.com/kyverno/kyverno/releases/tag/v1.17.0
 - Update `kyverno-crds` (app) to v1.17.0.
