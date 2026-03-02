@@ -4,12 +4,23 @@ import (
 	"flag"
 	"log"
 	"os"
+	"path/filepath"
+	"slices"
 	"strings"
 )
 
 var logger *log.Logger
-var addChangedLine string
-var changelogPath string
+
+type multiFlag []string
+
+func (m *multiFlag) String() string {
+	return strings.Join(*m, ", ")
+}
+
+func (m *multiFlag) Set(value string) error {
+	*m = append(*m, value)
+	return nil
+}
 
 type Changelog struct {
 	Title    string    `json:"title"`
@@ -29,12 +40,26 @@ type Version struct {
 }
 
 func init() {
-	logger = log.New(os.Stdout, "", 644)
+	logger = log.New(os.Stdout, "", 0)
 }
 
 func main() {
-	// Flags
-	flag.StringVar(&addChangedLine, "add-changed", "", "Adds a new Changed entry to the Unreleased section of the changelog")
+	var (
+		addAdded     multiFlag
+		addChanged   multiFlag
+		addFixed     multiFlag
+		addRemoved   multiFlag
+		addNotes     multiFlag
+		addBreaking  multiFlag
+		changelogPath string
+	)
+
+	flag.Var(&addAdded, "add-added", "Adds a new Added entry to the Unreleased section of the changelog")
+	flag.Var(&addChanged, "add-changed", "Adds a new Changed entry to the Unreleased section of the changelog")
+	flag.Var(&addFixed, "add-fixed", "Adds a new Fixed entry to the Unreleased section of the changelog")
+	flag.Var(&addRemoved, "add-removed", "Adds a new Removed entry to the Unreleased section of the changelog")
+	flag.Var(&addNotes, "add-notes", "Adds a new Notes entry to the Unreleased section of the changelog")
+	flag.Var(&addBreaking, "add-breaking", "Adds a new Breaking Changes entry to the Unreleased section of the changelog")
 	flag.StringVar(&changelogPath, "changelog-path", "CHANGELOG.md", "Path to the changelog file")
 	flag.Parse()
 
@@ -47,11 +72,17 @@ func main() {
 	// Convert the markdown file into a changelog struct
 	changelog := parseMarkdown(lines)
 
-	if addChangedLine != "" {
-		// Add a new Changed entry to the Unreleased section
-		logger.Println("Adding new Changed entry to the Unreleased section")
-		addChangedEntry(&changelog.Versions[0], addChangedLine)
+	if len(changelog.Versions) == 0 {
+		logger.Fatal("No versions found in changelog; cannot add entries")
 	}
+
+	v := &changelog.Versions[0]
+	addEntries(&v.Added, addAdded, "Added")
+	addEntries(&v.Changed, addChanged, "Changed")
+	addEntries(&v.Fixed, addFixed, "Fixed")
+	addEntries(&v.Removed, addRemoved, "Removed")
+	addEntries(&v.Notes, addNotes, "Notes")
+	addEntries(&v.BreakingChanges, addBreaking, "Breaking Changes")
 
 	// Write the new changelog file
 	err = writeChangelogFile(changelog, changelogPath)
@@ -60,8 +91,15 @@ func main() {
 	logger.Println("Changelog updated successfully")
 }
 
-func addChangedEntry(version *Version, entry string) {
-	version.Changed = append(version.Changed, entry)
+func addEntries(dest *[]string, entries []string, sectionName string) {
+	for _, entry := range entries {
+		if slices.Contains(*dest, entry) {
+			logger.Printf("Skipping duplicate entry in %s: %s", sectionName, entry)
+			continue
+		}
+		logger.Printf("Adding entry to %s: %s", sectionName, entry)
+		*dest = append(*dest, entry)
+	}
 }
 
 func writeChangelogFile(newChangelog Changelog, path string) error {
@@ -75,38 +113,32 @@ func writeChangelogFile(newChangelog Changelog, path string) error {
 		lines = append(lines, version.Name+"\n")
 
 		if len(version.Added) != 0 {
-			header := "### Added\n"
-			lines = append(lines, header)
+			lines = append(lines, "### Added\n")
 			lines = append(lines, version.Added...)
 			lines = append(lines, "")
 		}
 		if len(version.Changed) != 0 {
-			header := "### Changed\n"
-			lines = append(lines, header)
+			lines = append(lines, "### Changed\n")
 			lines = append(lines, version.Changed...)
 			lines = append(lines, "")
 		}
 		if len(version.Fixed) != 0 {
-			header := "### Fixed\n"
-			lines = append(lines, header)
+			lines = append(lines, "### Fixed\n")
 			lines = append(lines, version.Fixed...)
 			lines = append(lines, "")
 		}
 		if len(version.Removed) != 0 {
-			header := "### Removed\n"
-			lines = append(lines, header)
+			lines = append(lines, "### Removed\n")
 			lines = append(lines, version.Removed...)
 			lines = append(lines, "")
 		}
 		if len(version.Notes) != 0 {
-			header := "### Notes\n"
-			lines = append(lines, header)
+			lines = append(lines, "### Notes\n")
 			lines = append(lines, version.Notes...)
 			lines = append(lines, "")
 		}
 		if len(version.BreakingChanges) != 0 {
-			header := "### Breaking Changes\n"
-			lines = append(lines, header)
+			lines = append(lines, "### Breaking Changes\n")
 			lines = append(lines, version.BreakingChanges...)
 			lines = append(lines, "")
 		}
@@ -118,9 +150,24 @@ func writeChangelogFile(newChangelog Changelog, path string) error {
 
 	newFile := strings.Join(lines, "\n")
 
-	err := os.WriteFile(path, []byte(newFile), 0666)
+	// Atomic write: write to a temp file in the same directory, then rename
+	dir := filepath.Dir(path)
+	tmp, err := os.CreateTemp(dir, ".changelog-*.tmp")
+	if err != nil {
+		return err
+	}
+	tmpName := tmp.Name()
+	defer os.Remove(tmpName) // no-op if rename succeeded
 
-	return err
+	if _, err = tmp.WriteString(newFile); err != nil {
+		tmp.Close()
+		return err
+	}
+	if err = tmp.Close(); err != nil {
+		return err
+	}
+
+	return os.Rename(tmpName, path)
 }
 
 func parseMarkdown(markdown []string) Changelog {
@@ -143,8 +190,10 @@ func parseMarkdown(markdown []string) Changelog {
 				newChangelog.Versions = append(newChangelog.Versions, newVersion)
 			} else if header[0] == "###" {
 				populateVersion = true
-				currentlyPopulating = header[1]
-			} else if strings.Contains(header[1], "https://") {
+				if len(header) > 1 {
+					currentlyPopulating = strings.Join(header[1:], " ")
+				}
+			} else if len(header) > 1 && strings.Contains(header[1], "https://") {
 				populateVersion = false
 				newChangelog.Refs = append(newChangelog.Refs, line)
 			} else {
@@ -169,7 +218,7 @@ func parseMarkdown(markdown []string) Changelog {
 						currentVersion.Removed = append(currentVersion.Removed, line)
 					case "Notes":
 						currentVersion.Notes = append(currentVersion.Notes, line)
-					case "Breaking":
+					case "Breaking Changes":
 						currentVersion.BreakingChanges = append(currentVersion.BreakingChanges, line)
 					default:
 						continue
@@ -184,6 +233,6 @@ func parseMarkdown(markdown []string) Changelog {
 
 func checkError(e error) {
 	if e != nil {
-		logger.Panic(e)
+		logger.Fatal(e)
 	}
 }
