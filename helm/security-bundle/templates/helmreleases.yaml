@@ -13,7 +13,7 @@ spec:
   url: oci://gsoci.azurecr.io/charts/giantswarm/{{ .chartName }}
   ref:
     tag: "{{ .version }}"
-  interval: 1h
+  interval: 24h
   timeout: 60s
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
