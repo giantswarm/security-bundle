@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Migrate sub-apps from App CRs to Flux HelmRelease CRs.
 - Update `falco` (app) to v0.11.2.
 - Update `kyverno` (app) to v0.24.1.
   - This release includes a new Kyverno minor version. Please refer to the upstream release notes for the latest changes:
