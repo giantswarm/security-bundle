@@ -57,10 +57,6 @@ spec:
     remediation:
       retries: -1
   valuesFrom:
-  - kind: ConfigMap
-    name: {{ $.Values.clusterID }}-cluster-values
-    valuesKey: values
-    optional: false
   {{- range $extraConfig := .extraConfigs }}
   {{- $kind := $extraConfig.kind }}
   {{- if eq $kind "configMap" }}{{ $kind = "ConfigMap" }}{{ else if eq $kind "secret" }}{{ $kind = "Secret" }}{{ end }}
