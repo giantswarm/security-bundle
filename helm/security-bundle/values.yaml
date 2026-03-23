@@ -100,7 +100,7 @@ apps:
     dependsOn:
       - kyverno-crds
       - prometheus-operator-crd
-      - alloy-logs
+      - alloy-podlogs-crds
     enabled: true
     namespace: kyverno
     createNamespace: true
@@ -132,7 +132,7 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-crds
-      - alloy-logs
+      - alloy-podlogs-crds
     enabled: true
     createNamespace: true
     # namespace: security-bundle
