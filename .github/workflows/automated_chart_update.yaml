@@ -71,6 +71,17 @@ jobs:
           echo "sha=${SHA}" >> $GITHUB_OUTPUT
           echo "sha_short=${sha_short}" >> $GITHUB_OUTPUT
 
+      - name: Fetch source PR URL
+        id: source_pr
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          REPO: ${{ github.event.client_payload.repo || inputs.repo }}
+          SHA: ${{ steps.app_info.outputs.sha }}
+        run: |
+          pr_url=$(gh api "repos/${REPO}/commits/${SHA}/pulls" \
+            --jq '.[0].html_url // ""' 2>/dev/null || echo "")
+          echo "url=${pr_url}" >> $GITHUB_OUTPUT
+
       - name: Create or reuse update branch
         id: create_branch
         run: |
@@ -146,6 +157,7 @@ jobs:
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
           NEW_VERSION: ${{ steps.update_values.outputs.new_version }}
           BRANCH: ${{ steps.create_branch.outputs.branch }}
+          SOURCE_PR_URL: ${{ steps.source_pr.outputs.url }}
         run: |
           # Fetch existing PR body if PR already exists (write to file to avoid quoting issues)
           pr_number=$(gh pr list --head "${BRANCH}" --base main --json number --jq '.[0].number' 2>/dev/null || echo "")
