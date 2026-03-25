@@ -136,7 +136,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.25.0-e2dc88868a46551a97d4f257d9cb068d8c6ea42b
+    version: 0.25.0-93b2da01f525891be49ddbd4b5739b972dff2fea
   policyApiCrds:
     appName: policy-api-crds
     chartName: policy-api-crds
