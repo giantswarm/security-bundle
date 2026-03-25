@@ -111,7 +111,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.17.0-e07321a6acc929a43422fa17f6695e24ee8ebc95
+    version: 1.17.0-994ba7d2a0baa11367586aea16353a9fb733fdb9
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
