@@ -105,16 +105,22 @@ jobs:
           fi
 
           current_version=$(yq e ".apps.${APP_KEY}.version" "${values_file}")
+          current_catalog=$(yq e ".apps.${APP_KEY}.catalog" "${values_file}")
 
           # Strip any existing SHA suffix to get the base semver
           # e.g. 0.24.1-abc1234 -> 0.24.1
           base_version=$(echo "${current_version}" | cut -d'-' -f1)
           new_version="${base_version}-${SHA}"
 
+          # Append -test to the catalog, stripping any existing -test suffix first
+          # e.g. giantswarm -> giantswarm-test (idempotent on re-runs)
+          base_catalog=$(echo "${current_catalog}" | sed 's/-test$//')
+          new_catalog="${base_catalog}-test"
+
           echo "new_version=${new_version}" >> $GITHUB_OUTPUT
 
           # Update version and catalog in one pass
-          yq e ".apps.${APP_KEY}.version = \"${new_version}\" | .apps.${APP_KEY}.catalog = \"default-test\"" \
+          yq e ".apps.${APP_KEY}.version = \"${new_version}\" | .apps.${APP_KEY}.catalog = \"${new_catalog}\"" \
             -i "${values_file}"
 
       - name: Commit and push changes
@@ -157,7 +163,7 @@ jobs:
             gh pr edit "${pr_number}" --body-file /tmp/pr_body.txt
           else
             gh pr create \
-              --title "Update chart references" \
+              --title "[DO NOT MERGE] Update apps testing versions" \
               --body-file /tmp/pr_body.txt \
               --head "${BRANCH}" \
               --base main
