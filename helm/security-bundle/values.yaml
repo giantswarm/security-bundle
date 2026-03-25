@@ -26,12 +26,12 @@ apps:
   cloudnativePG:
     appName: cloudnative-pg
     chartName: cloudnative-pg
-    catalog: giantswarm-operations-platform
+    catalog: giantswarm-operations-platform-test
     enabled: false
     namespace: giantswarm
     # used by renovate
     # repo: giantswarm/cloudnative-pg-app
-    version: 0.0.13
+    version: 0.0.13-83acab6344809e1d6dbf3a53a246b95b1862fc37
   gel:
     appName: gel
     chartName: gel
