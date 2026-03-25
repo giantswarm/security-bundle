@@ -129,14 +129,14 @@ apps:
   kyvernoPolicies:
     appName: kyverno-policies
     chartName: kyverno-policies
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       - kyverno-crds
     enabled: true
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.25.0
+    version: 0.25.0-e2dc88868a46551a97d4f257d9cb068d8c6ea42b
   policyApiCrds:
     appName: policy-api-crds
     chartName: policy-api-crds
