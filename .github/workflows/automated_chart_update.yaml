@@ -63,8 +63,8 @@ jobs:
           sha_short="${SHA:0:7}"
 
           # Convert hyphen-case to camelCase for values.yaml key lookup
-          # e.g. kyverno-crds -> kyvernoCrds
-          app_key=$(echo "${app_name}" | sed -r 's/-([a-z])/\U\1/g')
+          # e.g. kyverno-crds -> kyvernoCrds, cloudnative-pg -> cloudnativePG
+          app_key=$(echo "${app_name}" | sed -r 's/-([a-z])/\U\1/g' | sed 's/Pg$/PG/')
 
           echo "app_name=${app_name}" >> $GITHUB_OUTPUT
           echo "app_key=${app_key}" >> $GITHUB_OUTPUT
