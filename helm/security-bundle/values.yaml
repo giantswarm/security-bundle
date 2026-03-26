@@ -31,7 +31,7 @@ apps:
     namespace: giantswarm
     # used by renovate
     # repo: giantswarm/cloudnative-pg-app
-    version: 0.0.13-83acab6344809e1d6dbf3a53a246b95b1862fc37
+    version: 0.0.13-daad704de3c9847d392886ec9b8b131b452f2f56
   gel:
     appName: gel
     chartName: gel
