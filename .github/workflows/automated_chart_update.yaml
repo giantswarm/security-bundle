@@ -143,13 +143,20 @@ jobs:
           SHA_SHORT: ${{ steps.app_info.outputs.sha_short }}
         run: |
           git add helm/security-bundle/values.yaml
+          # Keep at most 5 commits on the branch: squash the oldest if we're at the limit
+          max_commits=5
+          commit_count=$(git rev-list --count origin/main..HEAD)
+          if [ "${commit_count}" -ge "${max_commits}" ]; then
+            squash_count=$((commit_count - max_commits + 1))
+            git reset --soft HEAD~${squash_count}
+          fi
           if git diff-index --quiet HEAD; then
             echo "No changes to commit"
           else
             git commit -m "Update ${APP_NAME} to ${SHA_SHORT}"
           fi
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPOSITORY}.git"
-          git push origin HEAD:"${BRANCH}"
+          git push --force-with-lease origin HEAD:"${BRANCH}"
 
       - name: Create or update PR
         env:
