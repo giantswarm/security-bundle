@@ -167,8 +167,9 @@ jobs:
             touch /tmp/existing_body.txt
           fi
 
-          # Generate updated PR body via helper script (reads APP_NAME/NEW_VERSION from env)
-          python3 hack/update_pr_body.py < /tmp/existing_body.txt > /tmp/pr_body.txt
+          # Run the script to update the PR body
+          git show origin/main:hack/update_pr_body.py > /tmp/update_pr_body.py
+          python3 /tmp/update_pr_body.py < /tmp/existing_body.txt > /tmp/pr_body.txt
 
           # Create PR or update the body of the existing one
           if [ -n "${pr_number}" ] && [ "${pr_number}" != "null" ]; then
