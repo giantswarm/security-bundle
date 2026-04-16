@@ -1,0 +1,90 @@
+name: Handle Chart Status Update
+
+on:
+  repository_dispatch:
+    types: [update-chart-status]
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: "Source repository (e.g. giantswarm/kyverno-app)"
+        required: true
+        type: string
+      sha:
+        description: "Head commit SHA from the source repository"
+        required: true
+        type: string
+      status:
+        description: "Workflow conclusion (waiting, failure, or success)"
+        required: true
+        type: choice
+        options:
+          - waiting
+          - failure
+          - success
+
+jobs:
+  update_status:
+    name: Update chart status
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.HERALD_APP_ID }}
+          private-key: ${{ secrets.HERALD_APP_KEY }}
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          persist-credentials: false
+
+      - name: Derive and validate app info
+        id: app_info
+        env:
+          REPO:   ${{ github.event.client_payload.repo   || inputs.repo   }}
+          SHA:    ${{ github.event.client_payload.sha    || inputs.sha    }}
+          STATUS: ${{ github.event.client_payload.status || inputs.status }}
+        run: |
+          app_name=$(echo "${REPO}" | sed 's|giantswarm/||' | sed 's|-app$||')
+
+          if ! [[ "${app_name}" =~ ^[a-z][a-z0-9-]*$ ]]; then
+            echo "Invalid app name '${app_name}'"
+            exit 1
+          fi
+          if ! [[ "${SHA}" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "Invalid SHA '${SHA}'"
+            exit 1
+          fi
+          if ! [[ "${STATUS}" =~ ^(waiting|failure|success)$ ]]; then
+            echo "Invalid status '${STATUS}': must be 'waiting', 'failure', or 'success'"
+            exit 1
+          fi
+
+          echo "app_name=${app_name}" >> $GITHUB_OUTPUT
+          echo "sha=${SHA}"           >> $GITHUB_OUTPUT
+          echo "status=${STATUS}"     >> $GITHUB_OUTPUT
+
+      - name: Update PR status
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          APP_NAME: ${{ steps.app_info.outputs.app_name }}
+          SHA:      ${{ steps.app_info.outputs.sha }}
+          STATUS:   ${{ steps.app_info.outputs.status }}
+        run: |
+          pr_number=$(gh pr list --head "automated-chart-updates" --base main \
+            --json number --jq '.[0].number' 2>/dev/null || echo "")
+
+          if [ -z "${pr_number}" ] || [ "${pr_number}" == "null" ]; then
+            echo "No open PR found for automated-chart-updates, skipping"
+            exit 0
+          fi
+
+          gh pr view "${pr_number}" --json body --jq '.body' > /tmp/existing_body.txt
+
+          # Always load the script from main — this branch only updates PR bodies
+          git show origin/main:hack/update_pr_body.py > /tmp/update_pr_body.py
+          python3 /tmp/update_pr_body.py < /tmp/existing_body.txt > /tmp/pr_body.txt
+
+          gh pr edit "${pr_number}" --body-file /tmp/pr_body.txt

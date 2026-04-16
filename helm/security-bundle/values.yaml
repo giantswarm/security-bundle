@@ -26,12 +26,12 @@ apps:
   cloudnativePG:
     appName: cloudnative-pg
     chartName: cloudnative-pg
-    catalog: giantswarm-operations-platform
+    catalog: giantswarm-operations-platform-test
     enabled: false
     namespace: giantswarm
     # used by renovate
     # repo: giantswarm/cloudnative-pg-app
-    version: 0.0.13
+    version: 0.0.13-fbb07cede6a757681c2d3a5fdc1c5ac7cc13e02b
   gel:
     appName: gel
     chartName: gel
@@ -57,12 +57,12 @@ apps:
   falco:
     appName: falco
     chartName: falco
-    catalog: giantswarm
+    catalog: giantswarm-test
     enabled: false
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
-    version: 0.11.2
+    version: 0.11.2-83510c73bbc11005449395c907f1e71c24c835ef
   jiralert:
     appName: jiralert
     chartName: jiralert
@@ -75,14 +75,14 @@ apps:
   kubescape:
     appName: kubescape
     chartName: kubescape
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       - kyverno-crds
     enabled: false
     namespace: kubescape
     # used by renovate
     # repo: giantswarm/kubescape-app
-    version: 0.0.6
+    version: 0.0.6-6ff930f33e2ceea6df8a8202df9da01ed46b094b
   kyverno:
     appName: kyverno
     chartName: kyverno
@@ -102,7 +102,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.24.1-8806f914b71d379a38ee42ec761bb26c1e599123
+    version: 0.24.1-f0e6d2db0b03901c04d838cb86753747ef9036a5
   kyvernoCrds:
     appName: kyverno-crds
     chartName: kyverno-crds
@@ -111,7 +111,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.17.0-994ba7d2a0baa11367586aea16353a9fb733fdb9
+    version: 1.17.0-558bb65b68f4faa995e1f88bbb884e1927263581
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
@@ -136,7 +136,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.25.0-e2dc88868a46551a97d4f257d9cb068d8c6ea42b
+    version: 0.25.0-8ab971f4a10b3a8142685aaee059f3f7b36a4779
   policyApiCrds:
     appName: policy-api-crds
     chartName: policy-api-crds
@@ -182,9 +182,9 @@ apps:
   trivyOperator:
     appName: trivy-operator
     chartName: trivy-operator
-    catalog: giantswarm
+    catalog: giantswarm-test
     enabled: false
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.12.2
+    version: 0.12.2-6a3b57b4e75d5a29d2d28dc6bebc549927c5883a
