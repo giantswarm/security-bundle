@@ -158,7 +158,8 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/reports-server-app
-    version: 0.1.0
+    version: 0.1.1
+
   starboardExporter:
     appName: starboard-exporter
     chartName: starboard-exporter
