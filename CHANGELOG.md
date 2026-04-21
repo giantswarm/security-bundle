@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `starboard-exporter` (app) to v1.0.3.
 - Migrate chart annotations to OCI-compatible format.
 - Update `reports-server` (app) to v0.1.2.
+- Update `reports-server` (app) to v0.1.3.
 
 ## [1.17.0] - 2026-01-29
 
