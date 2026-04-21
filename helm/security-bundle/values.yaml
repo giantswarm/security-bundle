@@ -1,13 +1,10 @@
 clusterID: ""
 organization: ""
-
 global:
   # All Apps will be installed in this namespace unless overridden below.
   namespace: "security-bundle"
-
 # User values can be provided via a ConfigMap or Secret for each individual app
 # using the structure shown below.
-
 userConfig:
   jiralert:
     configMap:
@@ -25,18 +22,16 @@ userConfig:
       values:
         crds:
           install: true
-
 apps:
   cloudnativePG:
     appName: cloudnative-pg
     chartName: cloudnative-pg
-    catalog: giantswarm-operations-platform
+    catalog: giantswarm-operations-platform-test
     enabled: false
     namespace: giantswarm
     # used by renovate
     # repo: giantswarm/cloudnative-pg-app
-    version: 0.0.13
-
+    version: 0.0.13-fbb07cede6a757681c2d3a5fdc1c5ac7cc13e02b
   gel:
     appName: gel
     chartName: gel
@@ -48,7 +43,6 @@ apps:
     # used by renovate
     # repo: giantswarm/gel-app
     version: 1.0.1
-
   exceptionRecommender:
     appName: exception-recommender
     chartName: exception-recommender
@@ -60,17 +54,15 @@ apps:
     # used by renovate
     # repo: giantswarm/exception-recommender
     version: 0.1.1
-
   falco:
     appName: falco
     chartName: falco
-    catalog: giantswarm
+    catalog: giantswarm-test
     enabled: false
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
-    version: 0.11.2
-
+    version: 0.11.2-83510c73bbc11005449395c907f1e71c24c835ef
   jiralert:
     appName: jiralert
     chartName: jiralert
@@ -80,23 +72,21 @@ apps:
     # used by renovate
     # repo: giantswarm/jiralert-app
     version: 0.1.3
-
   kubescape:
     appName: kubescape
     chartName: kubescape
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       - kyverno-crds
     enabled: false
     namespace: kubescape
     # used by renovate
     # repo: giantswarm/kubescape-app
-    version: 0.0.6
-
+    version: 0.0.6-6ff930f33e2ceea6df8a8202df9da01ed46b094b
   kyverno:
     appName: kyverno
     chartName: kyverno
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       - kyverno-crds
       - prometheus-operator-crd
@@ -112,18 +102,16 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.24.1
-
+    version: 0.24.1-f0e6d2db0b03901c04d838cb86753747ef9036a5
   kyvernoCrds:
     appName: kyverno-crds
     chartName: kyverno-crds
-    catalog: giantswarm
+    catalog: giantswarm-test
     enabled: true
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.17.0
-
+    version: 1.17.0-558bb65b68f4faa995e1f88bbb884e1927263581
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
@@ -136,21 +124,19 @@ apps:
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
     version: 0.2.2
-
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
   kyvernoPolicies:
     appName: kyverno-policies
     chartName: kyverno-policies
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       - kyverno-crds
     enabled: true
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.25.0
-
+    version: 0.25.0-8ab971f4a10b3a8142685aaee059f3f7b36a4779
   policyApiCrds:
     appName: policy-api-crds
     chartName: policy-api-crds
@@ -162,7 +148,6 @@ apps:
     # used by renovate
     # repo: giantswarm/policy-api
     version: 0.0.6
-
   reportsServer:
     appName: reports-server
     chartName: reports-server
@@ -186,7 +171,6 @@ apps:
     # used by renovate
     # repo: giantswarm/starboard-exporter
     version: 1.0.3
-
   trivy:
     appName: trivy
     chartName: trivy
@@ -196,13 +180,12 @@ apps:
     # used by renovate
     # repo: giantswarm/trivy-app
     version: 0.14.2
-
   trivyOperator:
     appName: trivy-operator
     chartName: trivy-operator
-    catalog: giantswarm
+    catalog: giantswarm-test
     enabled: false
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.12.2
+    version: 0.12.2-6a3b57b4e75d5a29d2d28dc6bebc549927c5883a
