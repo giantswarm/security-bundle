@@ -13,7 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Migrate chart annotations to OCI-compatible format (change `application.giantswarm.io/team` to `io.giantswarm.application.team`, `application.giantswarm.io/app-type` to `io.giantswarm.application.app-type`).
+- Update `falco` (app) to v0.11.2.
+- Update `gel` (app) to v1.0.2.
+- Update `kubescape` (app) to v0.0.6.
+- Update `reports-server` (app) to v0.1.3.
+- Update `starboard-exporter` (app) to v1.0.3.
+- Update `trivy` (app) to v0.14.2.
+- Update `trivy-operator` (app) to v0.12.2.
+- Migrate chart annotations to OCI-compatible format.
 
 ## [1.17.0] - 2026-01-29
 
