@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update `falco` (app) to v0.11.2.
+- Update `gel` (app) to v1.0.2.
 - Update `kyverno` (app) to v0.24.1.
   - This release includes a new Kyverno minor version. Please refer to the upstream release notes for the latest changes:
     - https://github.com/kyverno/kyverno/releases/tag/v1.17.0
