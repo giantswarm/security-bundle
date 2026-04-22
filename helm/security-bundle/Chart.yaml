@@ -6,8 +6,10 @@ engine: gotpl
 home: https://github.com/giantswarm/security-bundle
 sources:
   - https://github.com/giantswarm/security-bundle
-version: 1.16.1
+version: 1.17.0
 annotations:
   application.giantswarm.io/in-cluster-app: "true"
-  application.giantswarm.io/team: "shield"
-  application.giantswarm.io/app-type: "bundle"
+  io.giantswarm.application.app-type: bundle
+  io.giantswarm.application.audience: all
+  io.giantswarm.application.managed: "true"
+  io.giantswarm.application.team: shield

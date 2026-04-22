@@ -47,7 +47,7 @@ apps:
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/gel-app
-    version: 1.0.1
+    version: 1.0.2
 
   exceptionRecommender:
     appName: exception-recommender
@@ -69,7 +69,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
-    version: 0.11.0
+    version: 0.11.2
 
   jiralert:
     appName: jiralert
@@ -91,7 +91,7 @@ apps:
     namespace: kubescape
     # used by renovate
     # repo: giantswarm/kubescape-app
-    version: 0.0.5
+    version: 0.0.6
 
   kyverno:
     appName: kyverno
@@ -173,7 +173,7 @@ apps:
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/reports-server-app
-    version: 0.1.0
+    version: 0.1.3
 
   starboardExporter:
     appName: starboard-exporter
@@ -185,7 +185,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 1.0.2
+    version: 1.0.3
 
   trivy:
     appName: trivy
@@ -195,7 +195,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
-    version: 0.14.1
+    version: 0.14.2
 
   trivyOperator:
     appName: trivy-operator
@@ -205,4 +205,4 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.12.1
+    version: 0.12.2
