@@ -35,5 +35,6 @@ giantswarm.io/managed-by: {{ .Release.Name | quote }}
 giantswarm.io/cluster: {{ .Values.clusterID | quote }}
 giantswarm.io/organization: {{ .Values.organization | quote }}
 application.giantswarm.io/team: {{ index .Chart.Annotations "io.giantswarm.application.team" | quote }}
+cluster.x-k8s.io/cluster-name: {{ .Values.clusterID | quote }}
 helm.sh/chart: {{ include "chart" . | quote }}
 {{- end -}}

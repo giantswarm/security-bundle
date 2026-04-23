@@ -100,9 +100,10 @@ apps:
     dependsOn:
       - kyverno-crds
       - prometheus-operator-crd
-      - alloy-logs
+      - alloy-podlogs-crds
     enabled: true
     namespace: kyverno
+    createNamespace: true
     # Options allow to configure timeouts:
     # https://docs.giantswarm.io/getting-started/app-platform/installation-configuration/
     options:
@@ -120,6 +121,7 @@ apps:
     catalog: giantswarm
     enabled: true
     namespace: kyverno
+    createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-crds
     version: 1.17.0
@@ -130,8 +132,9 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-crds
-      - alloy-logs
+      - alloy-podlogs-crds
     enabled: true
+    createNamespace: true
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
@@ -147,6 +150,7 @@ apps:
       - kyverno-crds
     enabled: true
     namespace: kyverno
+    createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-policies
     version: 0.25.0

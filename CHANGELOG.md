@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Migrate sub-apps from App CRs to Flux HelmRelease CRs.
+- No longer pass the 'cluster-values' ConfigMap to the applications inside the bundle.
 - Update `falco` (app) to v0.11.2.
 - Update `gel` (app) to v1.0.2.
 - Update `kubescape` (app) to v0.0.6.
