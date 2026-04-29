@@ -132,6 +132,7 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-crds
+      - kyverno
       - alloy-podlogs-crds
     enabled: true
     createNamespace: true

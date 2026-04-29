@@ -42,18 +42,19 @@ spec:
     secretRef:
       name: {{ $.Values.clusterID }}-kubeconfig
   interval: 5m
-  {{- if .options }}
-  timeout: {{ (.options.install).timeout | default (.options.upgrade).timeout | default "10m" }}
-  {{- else }}
-  timeout: 10m
-  {{- end }}
   install:
     {{- if .createNamespace }}
     createNamespace: true
     {{- end }}
+    {{- if (.options).install }}
+    timeout: {{ .options.install.timeout | default "10m" }}
+    {{- end }}
     remediation:
       retries: -1
   upgrade:
+    {{- if (.options).upgrade }}
+    timeout: {{ .options.upgrade.timeout | default "10m" }}
+    {{- end }}
     remediation:
       retries: -1
   {{- $hasExtraConfigs := gt (len (.extraConfigs | default list)) 0 }}
