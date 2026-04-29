@@ -111,6 +111,12 @@ apps:
         timeout: 15m
       upgrade:
         timeout: 15m
+        # kyverno's webhook validates its own ClusterPolicy resources during
+        # upgrade. If the webhook isn't ready (e.g. during migration), the
+        # upgrade fails immediately. Without a rollback target (first Flux
+        # adoption), the HR stalls with MissingRollbackTarget. Uninstall
+        # strategy breaks this cycle by reinstalling kyverno cleanly.
+        remediationStrategy: uninstall
     # used by renovate
     # repo: giantswarm/kyverno-app
     version: 0.24.1

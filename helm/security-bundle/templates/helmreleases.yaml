@@ -57,6 +57,12 @@ spec:
     {{- end }}
     remediation:
       retries: -1
+      {{- if (.options).upgrade }}
+      {{- if (.options.upgrade).remediationStrategy }}
+      remediateLastFailure: true
+      strategy: {{ .options.upgrade.remediationStrategy }}
+      {{- end }}
+      {{- end }}
   {{- $hasExtraConfigs := gt (len (.extraConfigs | default list)) 0 }}
   {{- $hasUserConfigMap := false }}
   {{- $hasUserSecret := false }}
