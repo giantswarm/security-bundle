@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Generate a token
         id: generate_token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.HERALD_APP_ID }}
           private-key: ${{ secrets.HERALD_APP_KEY }}
@@ -63,13 +63,24 @@ jobs:
           sha_short="${SHA:0:7}"
 
           # Convert hyphen-case to camelCase for values.yaml key lookup
-          # e.g. kyverno-crds -> kyvernoCrds
-          app_key=$(echo "${app_name}" | sed -r 's/-([a-z])/\U\1/g')
+          # e.g. kyverno-crds -> kyvernoCrds, cloudnative-pg -> cloudnativePG
+          app_key=$(echo "${app_name}" | sed -r 's/-([a-z])/\U\1/g' | sed 's/Pg$/PG/')
 
           echo "app_name=${app_name}" >> $GITHUB_OUTPUT
           echo "app_key=${app_key}" >> $GITHUB_OUTPUT
           echo "sha=${SHA}" >> $GITHUB_OUTPUT
           echo "sha_short=${sha_short}" >> $GITHUB_OUTPUT
+
+      - name: Fetch source PR URL
+        id: source_pr
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          REPO: ${{ github.event.client_payload.repo || inputs.repo }}
+          SHA: ${{ steps.app_info.outputs.sha }}
+        run: |
+          pr_url=$(gh api "repos/${REPO}/commits/${SHA}/pulls" \
+            --jq '.[0].html_url // ""' 2>/dev/null || echo "")
+          echo "url=${pr_url}" >> $GITHUB_OUTPUT
 
       - name: Create or reuse update branch
         id: create_branch
@@ -132,13 +143,20 @@ jobs:
           SHA_SHORT: ${{ steps.app_info.outputs.sha_short }}
         run: |
           git add helm/security-bundle/values.yaml
+          # Keep at most 5 commits on the branch: squash the oldest if we're at the limit
+          max_commits=5
+          commit_count=$(git rev-list --count origin/main..HEAD)
+          if [ "${commit_count}" -ge "${max_commits}" ]; then
+            squash_count=$((commit_count - max_commits + 1))
+            git reset --soft HEAD~${squash_count}
+          fi
           if git diff-index --quiet HEAD; then
             echo "No changes to commit"
           else
             git commit -m "Update ${APP_NAME} to ${SHA_SHORT}"
           fi
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPOSITORY}.git"
-          git push origin HEAD:"${BRANCH}"
+          git push --force-with-lease origin HEAD:"${BRANCH}"
 
       - name: Create or update PR
         env:
@@ -146,6 +164,7 @@ jobs:
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
           NEW_VERSION: ${{ steps.update_values.outputs.new_version }}
           BRANCH: ${{ steps.create_branch.outputs.branch }}
+          SOURCE_PR_URL: ${{ steps.source_pr.outputs.url }}
         run: |
           # Fetch existing PR body if PR already exists (write to file to avoid quoting issues)
           pr_number=$(gh pr list --head "${BRANCH}" --base main --json number --jq '.[0].number' 2>/dev/null || echo "")
@@ -155,8 +174,9 @@ jobs:
             touch /tmp/existing_body.txt
           fi
 
-          # Generate updated PR body via helper script (reads APP_NAME/NEW_VERSION from env)
-          python3 hack/update_pr_body.py < /tmp/existing_body.txt > /tmp/pr_body.txt
+          # Run the script to update the PR body
+          git show origin/main:hack/update_pr_body.py > /tmp/update_pr_body.py
+          python3 /tmp/update_pr_body.py < /tmp/existing_body.txt > /tmp/pr_body.txt
 
           # Create PR or update the body of the existing one
           if [ -n "${pr_number}" ] && [ "${pr_number}" != "null" ]; then

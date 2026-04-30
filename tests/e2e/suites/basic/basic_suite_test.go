@@ -3,152 +3,219 @@ package basic
 import (
 	"context"
 	"fmt"
+	"os"
 	"testing"
 	"time"
 
-	"github.com/giantswarm/apptest-framework/v3/pkg/state"
-	"github.com/giantswarm/apptest-framework/v3/pkg/suite"
-	"github.com/giantswarm/clustertest/v3/pkg/wait"
+	"github.com/giantswarm/apiextensions-application/api/v1alpha1"
+	"github.com/giantswarm/apptest-framework/v4/pkg/state"
+	"github.com/giantswarm/apptest-framework/v4/pkg/suite"
+	clusterclient "github.com/giantswarm/clustertest/v4/pkg/client"
+	"github.com/giantswarm/clustertest/v4/pkg/logger"
+	"github.com/giantswarm/clustertest/v4/pkg/wait"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	admissionregistrationv1 "k8s.io/api/admissionregistration/v1"
-	batchv1 "k8s.io/api/batch/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
 	appsv1 "k8s.io/api/apps/v1"
+	"k8s.io/apimachinery/pkg/types"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/yaml"
 )
 
 const (
-	isUpgrade        = false
-	appReadyTimeout  = 10 * time.Minute
-	appReadyInterval = 5 * time.Second
+	isUpgrade            = false
+	parentReadyTimeout   = 5 * time.Minute
+	childrenReadyTimeout = 10 * time.Minute
+	deploymentsTimeout   = 10 * time.Minute
+	pollingInterval      = 10 * time.Second
+	instanceLabel        = "app.kubernetes.io/instance"
+	valuesFile           = "./values.yaml"
 )
 
-var components = []string{
-	"security-bundle",
-	"exception-recommender",
-	"falco",
-	"kyverno-crds",
-	"kyverno",
-	"kyverno-policy-operator",
-	"kyverno-policies",
-	"starboard-exporter",
-	"trivy",
-	"trivy-operator",
+type resourceKind string
+
+const (
+	deploymentKind  resourceKind = "Deployment"
+	statefulSetKind resourceKind = "StatefulSet"
+	daemonSetKind   resourceKind = "DaemonSet"
+)
+
+type appCheck struct {
+	appKey   string // key under .apps in values.yaml
+	instance string // app.kubernetes.io/instance label value
+	kind     resourceKind
+}
+
+var appChecks = []appCheck{
+	{appKey: "kyverno", instance: "kyverno", kind: deploymentKind},
+	{appKey: "kubescape", instance: "kubescape", kind: deploymentKind},
+	{appKey: "trivy", instance: "trivy", kind: statefulSetKind},
+	{appKey: "trivyOperator", instance: "trivy-operator", kind: deploymentKind},
+	{appKey: "starboardExporter", instance: "starboard-exporter", kind: deploymentKind},
+	{appKey: "falco", instance: "falco", kind: daemonSetKind},
 }
 
 func TestBasic(t *testing.T) {
+	enabled := mustReadEnabledApps(t, valuesFile)
+
 	suite.New().
 		WithIsUpgrade(isUpgrade).
-		WithValuesFile("./values.yaml").
+		WithValuesFile(valuesFile).
 		Tests(func() {
-			It("should deploy all security bundle App CRs successfully", func() {
-				Expect(state.GetCluster()).NotTo(BeNil(), "cluster state should be initialized")
-				Expect(state.GetCluster().Organization).NotTo(BeNil(), "organization should be available")
+			It("should deploy security-bundle and all enabled child Apps", func() {
+				ctx := context.Background()
+				mc := state.GetFramework().MC()
+				cluster := state.GetCluster()
+				orgNamespace := cluster.GetNamespace()
+				parentName := fmt.Sprintf("%s-security-bundle", cluster.Name)
 
-				namespace := state.GetCluster().Organization.GetNamespace()
+				By(fmt.Sprintf("Waiting for parent App %s to be deployed", parentName))
+				Eventually(wait.IsAppDeployed(ctx, mc, parentName, orgNamespace)).
+					WithTimeout(parentReadyTimeout).
+					WithPolling(pollingInterval).
+					Should(BeTrue())
 
-				By("Verifying all App CRs are deployed")
-				for _, component := range components {
-					appName := fmt.Sprintf("%s-%s", state.GetCluster().Name, component)
-					Eventually(wait.IsAppDeployed(context.Background(),
-						state.GetFramework().MC(),
-						appName,
-						namespace)).
-						WithTimeout(appReadyTimeout).
-						WithPolling(appReadyInterval).
-						Should(BeTrue(), fmt.Sprintf("%s should be deployed", component))
+				By("Listing child Apps managed by the security-bundle")
+				appList := &v1alpha1.AppList{}
+				err := mc.List(ctx, appList,
+					client.InNamespace(orgNamespace),
+					client.MatchingLabels{"giantswarm.io/managed-by": parentName},
+				)
+				Expect(err).NotTo(HaveOccurred())
+				Expect(appList.Items).NotTo(BeEmpty(), "expected at least one child App managed by %s", parentName)
+
+				children := make([]types.NamespacedName, 0, len(appList.Items))
+				for _, app := range appList.Items {
+					children = append(children, types.NamespacedName{Name: app.Name, Namespace: app.Namespace})
 				}
+
+				By(fmt.Sprintf("Waiting for %d child Apps to be deployed", len(children)))
+				Eventually(wait.IsAllAppDeployed(ctx, mc, children)).
+					WithTimeout(childrenReadyTimeout).
+					WithPolling(pollingInterval).
+					Should(BeTrue())
 			})
-			It("should have all components running and ready", func() {
-				wcClient, err := state.GetFramework().WC(state.GetCluster().Name)
-				Expect(err).NotTo(HaveOccurred(), "should get workload cluster client")
 
-				componentConfigs := map[string]struct {
-					namespace string
-					kind      string
-					name      string
-				}{
-					// security-bundle namespace
-					"exception-recommender":   {namespace: "security-bundle", kind: "Deployment", name: "exception-recommender"},
-					"falco":                   {namespace: "security-bundle", kind: "DaemonSet", name: "falco"},
-					"falco-exporter":          {namespace: "security-bundle", kind: "DaemonSet", name: "falco-falco-exporter"},
-					"falco-sidekick":          {namespace: "security-bundle", kind: "Deployment", name: "falco-falcosidekick"},
-					"falco-metacollector":     {namespace: "security-bundle", kind: "Deployment", name: "falco-k8s-metacollector"},
-					"kyverno-policy-operator": {namespace: "security-bundle", kind: "Deployment", name: "kyverno-policy-operator"},
-					"starboard-exporter":      {namespace: "security-bundle", kind: "Deployment", name: "starboard-exporter"},
-					"trivy":                   {namespace: "security-bundle", kind: "StatefulSet", name: "trivy"},
-					"trivy-operator":          {namespace: "security-bundle", kind: "Deployment", name: "trivy-operator"},
-
-					// kyverno namespace
-					"kyverno-admission-controller":  {namespace: "kyverno", kind: "Deployment", name: "kyverno-admission-controller"},
-					"kyverno-background-controller": {namespace: "kyverno", kind: "Deployment", name: "kyverno-background-controller"},
-					"kyverno-cleanup-controller":    {namespace: "kyverno", kind: "Deployment", name: "kyverno-cleanup-controller"},
-					"kyverno-kyverno-plugin":        {namespace: "kyverno", kind: "Deployment", name: "kyverno-kyverno-plugin"},
-					"kyverno-policy-reporter":       {namespace: "kyverno", kind: "Deployment", name: "kyverno-policy-reporter"},
-					"kyverno-reports-controller":    {namespace: "kyverno", kind: "Deployment", name: "kyverno-reports-controller"},
-					"kyverno-ui":                    {namespace: "kyverno", kind: "Deployment", name: "kyverno-ui"},
-
-					// kyverno-webhook
-					"kyverno-mutating-webhook":                  {namespace: "", kind: "MutatingWebhookConfiguration", name: "kyverno-policy-mutating-webhook-cfg"},
-					"kyverno-policy-validating-webhook":         {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-policy-validating-webhook-cfg"},
-					"kyverno-resource-validating-webhook":       {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-resource-validating-webhook-cfg"},
-					"kyverno-global-context-validating-webhook": {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-global-context-validating-webhook-cfg"},
-					"kyverno-exception-validating-webhook":      {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-exception-validating-webhook-cfg"},
-					"kyverno-cleanup-validating-webhook":        {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-cleanup-validating-webhook-cfg"},
-					"kyverno-ttl-validating-webhook":            {namespace: "", kind: "ValidatingWebhookConfiguration", name: "kyverno-ttl-validating-webhook-cfg"},
+			for _, check := range appChecks {
+				if !enabled[check.appKey] {
+					continue
 				}
+				It(fmt.Sprintf("should have all %s %ss running and ready on the workload cluster", check.instance, check.kind), func() {
+					ctx := context.Background()
+					cluster := state.GetCluster()
 
-				for component, config := range componentConfigs {
-					By(fmt.Sprintf("Checking %s %s", component, config.kind))
-					Eventually(func() bool {
-						var ready, replicas int32
-						switch config.kind {
-						case "Deployment":
-							deployment := &appsv1.Deployment{}
-							err := wcClient.Get(context.Background(), client.ObjectKey{Namespace: config.namespace, Name: config.name}, deployment)
-							if err != nil {
-								return false
-							}
-							ready = deployment.Status.ReadyReplicas
-							replicas = deployment.Status.Replicas
-						case "DaemonSet":
-							ds := &appsv1.DaemonSet{}
-							err := wcClient.Get(context.Background(), client.ObjectKey{Namespace: config.namespace, Name: config.name}, ds)
-							if err != nil {
-								return false
-							}
-							ready = ds.Status.NumberReady
-							replicas = ds.Status.DesiredNumberScheduled
-						case "StatefulSet":
-							sts := &appsv1.StatefulSet{}
-							err := wcClient.Get(context.Background(), client.ObjectKey{Namespace: config.namespace, Name: config.name}, sts)
-							if err != nil {
-								return false
-							}
-							ready = sts.Status.ReadyReplicas
-							replicas = sts.Status.Replicas
-						case "MutatingWebhookConfiguration":
-							mutatingWebhook := &admissionregistrationv1.MutatingWebhookConfiguration{}
-							err := wcClient.Get(context.Background(), client.ObjectKey{Name: config.name}, mutatingWebhook)
-							return err == nil
-						case "ValidatingWebhookConfiguration":
-							validatingWebhook := &admissionregistrationv1.ValidatingWebhookConfiguration{}
-							err := wcClient.Get(context.Background(), client.ObjectKey{Name: config.name}, validatingWebhook)
-							return err == nil
-						case "CronJob":
-							cj := &batchv1.CronJob{}
-							err := wcClient.Get(context.Background(), client.ObjectKey{Namespace: config.namespace, Name: config.name}, cj)
-							return err == nil
-						}
-						return ready == replicas && replicas > 0
+					wcClient, err := state.GetFramework().WC(cluster.Name)
+					Expect(err).NotTo(HaveOccurred())
 
-					}).
-						WithTimeout(appReadyTimeout).
-						WithPolling(appReadyInterval).
-						Should(BeTrue(), fmt.Sprintf("%s %s should be ready", component, config.kind))
-				}
-			})
+					selector := client.MatchingLabels{instanceLabel: check.instance}
+
+					By(fmt.Sprintf("Waiting for all %ss matching %s=%s to be ready", check.kind, instanceLabel, check.instance))
+					Eventually(func() error {
+						return checkResourceReady(ctx, wcClient, check.instance, check.kind, selector)
+					}).WithTimeout(deploymentsTimeout).WithPolling(pollingInterval).Should(Succeed())
+				})
+			}
 		}).
 		Run(t, "Basic Test")
+}
+
+func checkResourceReady(ctx context.Context, c *clusterclient.Client, app string, kind resourceKind, selector client.MatchingLabels) error {
+	switch kind {
+	case deploymentKind:
+		return deploymentsReady(ctx, c, app, selector)
+	case statefulSetKind:
+		return statefulSetsReady(ctx, c, app, selector)
+	case daemonSetKind:
+		return daemonSetsReady(ctx, c, app, selector)
+	default:
+		return fmt.Errorf("unsupported resource kind %q", kind)
+	}
+}
+
+func deploymentsReady(ctx context.Context, c *clusterclient.Client, app string, selector client.MatchingLabels) error {
+	list := &appsv1.DeploymentList{}
+	if err := c.List(ctx, list, selector); err != nil {
+		return err
+	}
+	if len(list.Items) == 0 {
+		return fmt.Errorf("no deployments found for app %q matching %v", app, selector)
+	}
+	for _, d := range list.Items {
+		desired := int32(1)
+		if d.Spec.Replicas != nil {
+			desired = *d.Spec.Replicas
+		}
+		if d.Status.AvailableReplicas != desired {
+			logger.Log("deployment %s/%s from app %s is not yet ready: %d/%d available replicas",
+				d.Namespace, d.Name, app, d.Status.AvailableReplicas, desired)
+			return fmt.Errorf("deployment %s/%s has %d/%d available replicas",
+				d.Namespace, d.Name, d.Status.AvailableReplicas, desired)
+		}
+		logger.Log("deployment %s/%s from app %s is ready", d.Namespace, d.Name, app)
+	}
+	return nil
+}
+
+func statefulSetsReady(ctx context.Context, c *clusterclient.Client, app string, selector client.MatchingLabels) error {
+	list := &appsv1.StatefulSetList{}
+	if err := c.List(ctx, list, selector); err != nil {
+		return err
+	}
+	if len(list.Items) == 0 {
+		return fmt.Errorf("no statefulsets found for app %q matching %v", app, selector)
+	}
+	for _, s := range list.Items {
+		desired := int32(1)
+		if s.Spec.Replicas != nil {
+			desired = *s.Spec.Replicas
+		}
+		if s.Status.AvailableReplicas != desired {
+			logger.Log("statefulset %s/%s from app %s is not yet ready: %d/%d available replicas",
+				s.Namespace, s.Name, app, s.Status.AvailableReplicas, desired)
+			return fmt.Errorf("statefulset %s/%s has %d/%d available replicas",
+				s.Namespace, s.Name, s.Status.AvailableReplicas, desired)
+		}
+		logger.Log("statefulset %s/%s from app %s is ready", s.Namespace, s.Name, app)
+	}
+	return nil
+}
+
+func daemonSetsReady(ctx context.Context, c *clusterclient.Client, app string, selector client.MatchingLabels) error {
+	list := &appsv1.DaemonSetList{}
+	if err := c.List(ctx, list, selector); err != nil {
+		return err
+	}
+	if len(list.Items) == 0 {
+		return fmt.Errorf("no daemonsets found for app %q matching %v", app, selector)
+	}
+	for _, d := range list.Items {
+		if d.Status.NumberReady != d.Status.DesiredNumberScheduled {
+			logger.Log("daemonset %s/%s from app %s is not yet ready: %d/%d pods ready",
+				d.Namespace, d.Name, app, d.Status.NumberReady, d.Status.DesiredNumberScheduled)
+			return fmt.Errorf("daemonset %s/%s has %d/%d ready pods",
+				d.Namespace, d.Name, d.Status.NumberReady, d.Status.DesiredNumberScheduled)
+		}
+		logger.Log("daemonset %s/%s from app %s is ready", d.Namespace, d.Name, app)
+	}
+	return nil
+}
+
+func mustReadEnabledApps(t *testing.T, path string) map[string]bool {
+	t.Helper()
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatalf("read %s: %v", path, err)
+	}
+	var v struct {
+		Apps map[string]struct {
+			Enabled bool `json:"enabled"`
+		} `json:"apps"`
+	}
+	if err := yaml.Unmarshal(data, &v); err != nil {
+		t.Fatalf("parse %s: %v", path, err)
+	}
+	enabled := make(map[string]bool, len(v.Apps))
+	for k, a := range v.Apps {
+		enabled[k] = a.Enabled
+	}
+	return enabled
 }
