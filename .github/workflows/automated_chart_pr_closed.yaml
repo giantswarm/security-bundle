@@ -1,22 +1,22 @@
-name: Handle Chart Update
+name: Handle Chart Update PR Closed
 
 on:
   repository_dispatch:
-    types: [update-chart]
+    types: [update-chart-pr-closed]
   workflow_dispatch:
     inputs:
       repo:
         description: "Source repository (e.g. giantswarm/kyverno-app)"
         required: true
         type: string
-      sha:
-        description: "Head commit SHA from the source repository"
+      head_sha:
+        description: "Head commit SHA on the source PR branch at close time"
         required: true
         type: string
 
 jobs:
-  update_chart:
-    name: Update chart reference
+  revert_chart:
+    name: Revert chart reference
     runs-on: ubuntu-24.04
     steps:
       - name: Generate a token
@@ -42,7 +42,7 @@ jobs:
         id: app_info
         env:
           REPO: ${{ github.event.client_payload.repo || inputs.repo }}
-          SHA: ${{ github.event.client_payload.sha || inputs.sha }}
+          HEAD_SHA: ${{ github.event.client_payload.head_sha || inputs.head_sha }}
         run: |
           # Strip giantswarm/ prefix and -app suffix
           # e.g. giantswarm/kyverno-app -> kyverno
@@ -55,60 +55,48 @@ jobs:
           fi
 
           # Validate SHA is a 40-character hex string
-          if ! [[ "${SHA}" =~ ^[0-9a-f]{40}$ ]]; then
-            echo "Invalid SHA '${SHA}': must be a 40-character lowercase hex string"
+          if ! [[ "${HEAD_SHA}" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "Invalid head_sha '${HEAD_SHA}': must be a 40-character lowercase hex string"
             exit 1
           fi
 
-          sha_short="${SHA:0:7}"
-
           # Convert hyphen-case to camelCase for values.yaml key lookup
-          # e.g. kyverno-crds -> kyvernoCrds, cloudnative-pg -> cloudnativePG
           app_key=$(echo "${app_name}" | sed -r 's/-([a-z])/\U\1/g' | sed 's/Pg$/PG/')
 
           echo "app_name=${app_name}" >> $GITHUB_OUTPUT
           echo "app_key=${app_key}" >> $GITHUB_OUTPUT
-          echo "sha=${SHA}" >> $GITHUB_OUTPUT
-          echo "sha_short=${sha_short}" >> $GITHUB_OUTPUT
+          echo "head_sha=${HEAD_SHA}" >> $GITHUB_OUTPUT
 
-      - name: Fetch source PR URL
-        id: source_pr
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-          REPO: ${{ github.event.client_payload.repo || inputs.repo }}
-          SHA: ${{ steps.app_info.outputs.sha }}
-        run: |
-          pr_url=$(gh api "repos/${REPO}/commits/${SHA}/pulls" \
-            --jq '.[0].html_url // ""' 2>/dev/null || echo "")
-          echo "url=${pr_url}" >> $GITHUB_OUTPUT
-
-      - name: Create or reuse update branch
-        id: create_branch
+      - name: Check out update branch
+        id: checkout_branch
         run: |
           branch="automated-chart-updates"
 
           git fetch origin
 
           if [ -z "$(git rev-parse --verify origin/${branch} 2>/dev/null)" ]; then
-            git checkout -b "${branch}"
-          else
-            git checkout "${branch}"
-            git pull origin "${branch}"
+            echo "No ${branch} branch found, nothing to do"
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
           fi
 
-          echo "branch=${branch}" >> $GITHUB_OUTPUT
+          git checkout "${branch}"
+          git pull origin "${branch}"
 
-      - name: Update version and catalog in values.yaml
-        id: update_values
+          echo "branch=${branch}" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
+
+      - name: Revert version and catalog in values.yaml
+        if: steps.checkout_branch.outputs.skip != 'true'
+        id: revert_values
         env:
           APP_KEY: ${{ steps.app_info.outputs.app_key }}
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
-          SHA: ${{ steps.app_info.outputs.sha }}
+          HEAD_SHA: ${{ steps.app_info.outputs.head_sha }}
         run: |
           values_file="helm/security-bundle/values.yaml"
 
           # Allowlist check: confirm app_key is a key that actually exists in values.yaml
-          # This prevents any unsanitised value from reaching the yq expression
           valid_keys=$(yq e '.apps | keys | .[]' "${values_file}")
           if ! echo "${valid_keys}" | grep -qx "${APP_KEY}"; then
             echo "App '${APP_NAME}' (key: '${APP_KEY}') not found in values.yaml"
@@ -118,66 +106,61 @@ jobs:
           current_version=$(yq e ".apps.${APP_KEY}.version" "${values_file}")
           current_catalog=$(yq e ".apps.${APP_KEY}.catalog" "${values_file}")
 
-          # Strip any existing SHA suffix to get the base semver
-          # e.g. 0.24.1-abc1234 -> 0.24.1
+          # Only revert if the branch's version still references this PR's head_sha.
+          # If a newer update-chart event has overwritten it, leave it alone.
+          if [[ "${current_version}" != *"-${HEAD_SHA}" ]]; then
+            echo "Version '${current_version}' does not match head_sha '${HEAD_SHA}', skipping values revert"
+            echo "reverted=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Strip SHA suffix to restore base semver
           base_version=$(echo "${current_version}" | cut -d'-' -f1)
-          new_version="${base_version}-${SHA}"
-
-          # Append -test to the catalog, stripping any existing -test suffix first
-          # e.g. giantswarm -> giantswarm-test (idempotent on re-runs)
+          # Strip -test suffix to restore base catalog
           base_catalog=$(echo "${current_catalog}" | sed 's/-test$//')
-          new_catalog="${base_catalog}-test"
 
-          echo "new_version=${new_version}" >> $GITHUB_OUTPUT
-
-          # Update version and catalog in one pass
-          yq e ".apps.${APP_KEY}.version = \"${new_version}\" | .apps.${APP_KEY}.catalog = \"${new_catalog}\"" \
+          yq e ".apps.${APP_KEY}.version = \"${base_version}\" | .apps.${APP_KEY}.catalog = \"${base_catalog}\"" \
             -i "${values_file}"
 
+          echo "reverted=true" >> $GITHUB_OUTPUT
+
       - name: Commit and push changes
+        if: steps.revert_values.outputs.reverted == 'true'
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-          BRANCH: ${{ steps.create_branch.outputs.branch }}
+          BRANCH: ${{ steps.checkout_branch.outputs.branch }}
           REPOSITORY: ${{ github.repository }}
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
-          SHA_SHORT: ${{ steps.app_info.outputs.sha_short }}
         run: |
           git add helm/security-bundle/values.yaml
           if git diff-index --quiet HEAD; then
             echo "No changes to commit"
           else
-            git commit -m "Update ${APP_NAME} to ${SHA_SHORT}"
+            git commit -m "Revert ${APP_NAME} after upstream PR closed"
           fi
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPOSITORY}.git"
           git push origin HEAD:"${BRANCH}"
 
-      - name: Create or update PR
+      - name: Remove app row from PR body
+        if: steps.checkout_branch.outputs.skip != 'true'
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
-          NEW_VERSION: ${{ steps.update_values.outputs.new_version }}
-          BRANCH: ${{ steps.create_branch.outputs.branch }}
-          SOURCE_PR_URL: ${{ steps.source_pr.outputs.url }}
+          BRANCH: ${{ steps.checkout_branch.outputs.branch }}
+          SHA: ${{ steps.app_info.outputs.head_sha }}
+          REMOVE: "1"
         run: |
-          # Fetch existing PR body if PR already exists (write to file to avoid quoting issues)
           pr_number=$(gh pr list --head "${BRANCH}" --base main --json number --jq '.[0].number' 2>/dev/null || echo "")
-          if [ -n "${pr_number}" ] && [ "${pr_number}" != "null" ]; then
-            gh pr view "${pr_number}" --json body --jq '.body' > /tmp/existing_body.txt
-          else
-            touch /tmp/existing_body.txt
+
+          if [ -z "${pr_number}" ] || [ "${pr_number}" == "null" ]; then
+            echo "No open PR found for ${BRANCH}, skipping body update"
+            exit 0
           fi
 
-          # Run the script to update the PR body
+          gh pr view "${pr_number}" --json body --jq '.body' > /tmp/existing_body.txt
+
+          # Always load the script from main — this branch only updates PR bodies
           git show origin/main:hack/update_pr_body.py > /tmp/update_pr_body.py
           python3 /tmp/update_pr_body.py < /tmp/existing_body.txt > /tmp/pr_body.txt
 
-          # Create PR or update the body of the existing one
-          if [ -n "${pr_number}" ] && [ "${pr_number}" != "null" ]; then
-            gh pr edit "${pr_number}" --body-file /tmp/pr_body.txt
-          else
-            gh pr create \
-              --title "[DO NOT MERGE] Update apps testing versions" \
-              --body-file /tmp/pr_body.txt \
-              --head "${BRANCH}" \
-              --base main
-          fi
+          gh pr edit "${pr_number}" --body-file /tmp/pr_body.txt
