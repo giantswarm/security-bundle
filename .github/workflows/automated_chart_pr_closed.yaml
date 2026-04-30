@@ -1,0 +1,166 @@
+name: Handle Chart Update PR Closed
+
+on:
+  repository_dispatch:
+    types: [update-chart-pr-closed]
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: "Source repository (e.g. giantswarm/kyverno-app)"
+        required: true
+        type: string
+      head_sha:
+        description: "Head commit SHA on the source PR branch at close time"
+        required: true
+        type: string
+
+jobs:
+  revert_chart:
+    name: Revert chart reference
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.HERALD_APP_ID }}
+          private-key: ${{ secrets.HERALD_APP_KEY }}
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up git identity
+        run: |
+          git config --local user.email "149080493+heraldbot[bot]@users.noreply.github.com"
+          git config --local user.name "HeraldBot[bot]"
+
+      - name: Derive app name and values.yaml key from repo
+        id: app_info
+        env:
+          REPO: ${{ github.event.client_payload.repo || inputs.repo }}
+          HEAD_SHA: ${{ github.event.client_payload.head_sha || inputs.head_sha }}
+        run: |
+          # Strip giantswarm/ prefix and -app suffix
+          # e.g. giantswarm/kyverno-app -> kyverno
+          app_name=$(echo "${REPO}" | sed 's|giantswarm/||' | sed 's|-app$||')
+
+          # Validate: only lowercase letters, digits, hyphens — no injection possible
+          if ! [[ "${app_name}" =~ ^[a-z][a-z0-9-]*$ ]]; then
+            echo "Invalid app name '${app_name}': must match ^[a-z][a-z0-9-]*$"
+            exit 1
+          fi
+
+          # Validate SHA is a 40-character hex string
+          if ! [[ "${HEAD_SHA}" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "Invalid head_sha '${HEAD_SHA}': must be a 40-character lowercase hex string"
+            exit 1
+          fi
+
+          # Convert hyphen-case to camelCase for values.yaml key lookup
+          app_key=$(echo "${app_name}" | sed -r 's/-([a-z])/\U\1/g' | sed 's/Pg$/PG/')
+
+          echo "app_name=${app_name}" >> $GITHUB_OUTPUT
+          echo "app_key=${app_key}" >> $GITHUB_OUTPUT
+          echo "head_sha=${HEAD_SHA}" >> $GITHUB_OUTPUT
+
+      - name: Check out update branch
+        id: checkout_branch
+        run: |
+          branch="automated-chart-updates"
+
+          git fetch origin
+
+          if [ -z "$(git rev-parse --verify origin/${branch} 2>/dev/null)" ]; then
+            echo "No ${branch} branch found, nothing to do"
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          git checkout "${branch}"
+          git pull origin "${branch}"
+
+          echo "branch=${branch}" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
+
+      - name: Revert version and catalog in values.yaml
+        if: steps.checkout_branch.outputs.skip != 'true'
+        id: revert_values
+        env:
+          APP_KEY: ${{ steps.app_info.outputs.app_key }}
+          APP_NAME: ${{ steps.app_info.outputs.app_name }}
+          HEAD_SHA: ${{ steps.app_info.outputs.head_sha }}
+        run: |
+          values_file="helm/security-bundle/values.yaml"
+
+          # Allowlist check: confirm app_key is a key that actually exists in values.yaml
+          valid_keys=$(yq e '.apps | keys | .[]' "${values_file}")
+          if ! echo "${valid_keys}" | grep -qx "${APP_KEY}"; then
+            echo "App '${APP_NAME}' (key: '${APP_KEY}') not found in values.yaml"
+            exit 1
+          fi
+
+          current_version=$(yq e ".apps.${APP_KEY}.version" "${values_file}")
+          current_catalog=$(yq e ".apps.${APP_KEY}.catalog" "${values_file}")
+
+          # Only revert if the branch's version still references this PR's head_sha.
+          # If a newer update-chart event has overwritten it, leave it alone.
+          if [[ "${current_version}" != *"-${HEAD_SHA}" ]]; then
+            echo "Version '${current_version}' does not match head_sha '${HEAD_SHA}', skipping values revert"
+            echo "reverted=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Strip SHA suffix to restore base semver
+          base_version=$(echo "${current_version}" | cut -d'-' -f1)
+          # Strip -test suffix to restore base catalog
+          base_catalog=$(echo "${current_catalog}" | sed 's/-test$//')
+
+          yq e ".apps.${APP_KEY}.version = \"${base_version}\" | .apps.${APP_KEY}.catalog = \"${base_catalog}\"" \
+            -i "${values_file}"
+
+          echo "reverted=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.revert_values.outputs.reverted == 'true'
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          BRANCH: ${{ steps.checkout_branch.outputs.branch }}
+          REPOSITORY: ${{ github.repository }}
+          APP_NAME: ${{ steps.app_info.outputs.app_name }}
+        run: |
+          git add helm/security-bundle/values.yaml
+          if git diff-index --quiet HEAD; then
+            echo "No changes to commit"
+          else
+            git commit -m "Revert ${APP_NAME} after upstream PR closed"
+          fi
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPOSITORY}.git"
+          git push origin HEAD:"${BRANCH}"
+
+      - name: Remove app row from PR body
+        if: steps.checkout_branch.outputs.skip != 'true'
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          APP_NAME: ${{ steps.app_info.outputs.app_name }}
+          BRANCH: ${{ steps.checkout_branch.outputs.branch }}
+          SHA: ${{ steps.app_info.outputs.head_sha }}
+          REMOVE: "1"
+        run: |
+          pr_number=$(gh pr list --head "${BRANCH}" --base main --json number --jq '.[0].number' 2>/dev/null || echo "")
+
+          if [ -z "${pr_number}" ] || [ "${pr_number}" == "null" ]; then
+            echo "No open PR found for ${BRANCH}, skipping body update"
+            exit 0
+          fi
+
+          gh pr view "${pr_number}" --json body --jq '.body' > /tmp/existing_body.txt
+
+          # Always load the script from main — this branch only updates PR bodies
+          git show origin/main:hack/update_pr_body.py > /tmp/update_pr_body.py
+          python3 /tmp/update_pr_body.py < /tmp/existing_body.txt > /tmp/pr_body.txt
+
+          gh pr edit "${pr_number}" --body-file /tmp/pr_body.txt
