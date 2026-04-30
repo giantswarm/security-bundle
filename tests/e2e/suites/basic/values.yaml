@@ -1,17 +1,38 @@
 apps:
+  cloudnativePG:
+    enabled: true
+
+  gel:
+    enabled: true
+
   exceptionRecommender:
     enabled: true
 
   falco:
+    enabled: false
+
+  jiralert:
+    enabled: false
+
+  kubescape:
     enabled: true
 
   kyverno:
+    enabled: true
+
+  kyvernoCrds:
     enabled: true
 
   kyvernoPolicyOperator:
     enabled: true
 
   kyvernoPolicies:
+    enabled: true
+
+  policyApiCrds:
+    enabled: false
+
+  reportsServer:
     enabled: true
 
   starboardExporter:
