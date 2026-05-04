@@ -106,12 +106,12 @@ apps:
   kyvernoCrds:
     appName: kyverno-crds
     chartName: kyverno-crds
-    catalog: giantswarm-test
+    catalog: giantswarm
     enabled: true
     namespace: kyverno
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.17.0-ae23b8946433d29b27f870453fad7df6c25ab6cb
+    version: 1.17.0
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
