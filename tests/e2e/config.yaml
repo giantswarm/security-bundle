@@ -1,6 +1,6 @@
 appName: "security-bundle"
 repoName: "security-bundle"
-appCatalog: "giantswarm"
+appCatalog: "default"
 
 # CAPI providers to test against when triggering `/run app-test-suites` from a PR
 providers:

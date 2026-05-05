@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 """Update the app table in a PR body.
 
-Operates in two modes depending on which env vars are set:
+Operates in three modes depending on which env vars are set:
 
 Full update (NEW_VERSION is set):
   Inserts or replaces the entire row for APP_NAME.
   Status is always initialised to ⏳ Waiting.
   Env: APP_NAME, NEW_VERSION, SOURCE_PR_URL (optional)
 
-Status-only update (NEW_VERSION is empty, STATUS is set):
+Remove (REMOVE is set):
+  Drops the row for APP_NAME. If SHA is provided, only the row that
+  references that SHA is removed (other rows for APP_NAME are left alone).
+  Env: APP_NAME, REMOVE, SHA (optional)
+
+Status-only update (NEW_VERSION and REMOVE are empty, STATUS is set):
   Finds the row for APP_NAME and patches only the status cell.
   Env: APP_NAME, STATUS, SHA
 
-In both modes the existing PR body is read from stdin and the result is written to stdout.
+In all modes the existing PR body is read from stdin and the result is written to stdout.
 """
 
 import os
@@ -23,6 +28,7 @@ new_version = os.environ.get("NEW_VERSION", "")
 source_pr_url = os.environ.get("SOURCE_PR_URL", "")
 status     = os.environ.get("STATUS", "")
 sha        = os.environ.get("SHA", "")
+remove     = os.environ.get("REMOVE", "")
 
 existing_body = sys.stdin.read()
 
@@ -36,7 +42,19 @@ STATUS_DISPLAY = {
     "":        "⏳ Waiting",
 }
 
-if new_version:
+if remove:
+    # ── Remove mode ─────────────────────────────────────────────────────────────
+    lines = existing_body.split("\n")
+    new_lines = []
+    for line in lines:
+        if line.startswith(f"| `{app_name}` |"):
+            if sha and sha not in line:
+                new_lines.append(line)
+            continue
+        new_lines.append(line)
+    print("\n".join(new_lines))
+
+elif new_version:
     # ── Full update mode ────────────────────────────────────────────────────────
     if source_pr_url:
         pr_number = source_pr_url.rstrip("/").split("/")[-1]
