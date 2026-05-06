@@ -98,8 +98,8 @@ jobs:
 
           echo "branch=${branch}" >> $GITHUB_OUTPUT
 
-      - name: Update version and catalog in values.yaml
-        id: update_values
+      - name: Resolve chart version from catalog entries
+        id: resolve_version
         env:
           APP_KEY: ${{ steps.app_info.outputs.app_key }}
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
@@ -115,23 +115,74 @@ jobs:
             exit 1
           fi
 
-          current_version=$(yq e ".apps.${APP_KEY}.version" "${values_file}")
+          chart_name=$(yq e ".apps.${APP_KEY}.chartName" "${values_file}")
           current_catalog=$(yq e ".apps.${APP_KEY}.catalog" "${values_file}")
 
-          # Strip any existing SHA suffix to get the base semver
-          # e.g. 0.24.1-abc1234 -> 0.24.1
-          base_version=$(echo "${current_version}" | cut -d'-' -f1)
-          new_version="${base_version}-${SHA}"
+          # Derive the test catalog repo from the app's catalog field
+          # e.g. giantswarm -> giantswarm-test-catalog
+          base_catalog=$(echo "${current_catalog}" | sed 's/-test$//')
+          catalog_repo="${base_catalog}-test-catalog"
+          index_url="https://raw.githubusercontent.com/giantswarm/${catalog_repo}/master/index.yaml"
+
+          fetch_index() {
+            curl -sfL "${index_url}" -o /tmp/index.yaml
+          }
+
+          lookup_sha() {
+            CHART="${chart_name}" SHA="${SHA}" yq e \
+              '.entries[env(CHART)] // [] | .[] | select(.version | test("-" + env(SHA) + "$")) | .version' \
+              /tmp/index.yaml | head -n1
+          }
+
+          fetch_index
+          new_version=$(lookup_sha)
+
+          for i in 1 2 3 4 5; do
+            if [ -n "${new_version}" ]; then
+              break
+            fi
+            echo "SHA ${SHA} not found in ${catalog_repo}, waiting 1 minute before retry ${i}/5..."
+            sleep 60
+            fetch_index
+            new_version=$(lookup_sha)
+          done
+
+          if [ -z "${new_version}" ]; then
+            echo "SHA still not found, falling back to latest version in ${catalog_repo}"
+            latest=$(CHART="${chart_name}" yq e \
+              '.entries[env(CHART)] // [] | sort_by(.created) | reverse | .[0].version // ""' \
+              /tmp/index.yaml)
+            if [ -n "${latest}" ]; then
+              base_version=$(echo "${latest}" | sed -E 's/-[0-9a-f]{40}$//')
+              new_version="${base_version}-${SHA}"
+            fi
+          fi
+
+          if [ -z "${new_version}" ]; then
+            echo "No versions found for chart '${chart_name}' in ${catalog_repo}"
+            exit 1
+          fi
+
+          echo "Resolved version: ${new_version}"
+          echo "new_version=${new_version}" >> $GITHUB_OUTPUT
+
+      - name: Update version and catalog in values.yaml
+        id: update_values
+        env:
+          APP_KEY: ${{ steps.app_info.outputs.app_key }}
+          NEW_VERSION: ${{ steps.resolve_version.outputs.new_version }}
+        run: |
+          values_file="helm/security-bundle/values.yaml"
+
+          current_catalog=$(yq e ".apps.${APP_KEY}.catalog" "${values_file}")
 
           # Append -test to the catalog, stripping any existing -test suffix first
           # e.g. giantswarm -> giantswarm-test (idempotent on re-runs)
           base_catalog=$(echo "${current_catalog}" | sed 's/-test$//')
           new_catalog="${base_catalog}-test"
 
-          echo "new_version=${new_version}" >> $GITHUB_OUTPUT
-
           # Update version and catalog in one pass
-          yq e ".apps.${APP_KEY}.version = \"${new_version}\" | .apps.${APP_KEY}.catalog = \"${new_catalog}\"" \
+          yq e ".apps.${APP_KEY}.version = \"${NEW_VERSION}\" | .apps.${APP_KEY}.catalog = \"${new_catalog}\"" \
             -i "${values_file}"
 
       - name: Commit and push changes
@@ -155,7 +206,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
-          NEW_VERSION: ${{ steps.update_values.outputs.new_version }}
+          NEW_VERSION: ${{ steps.resolve_version.outputs.new_version }}
           BRANCH: ${{ steps.create_branch.outputs.branch }}
           SOURCE_PR_URL: ${{ steps.source_pr.outputs.url }}
         run: |
