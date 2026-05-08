@@ -14,6 +14,10 @@ on:
         required: true
         type: string
 
+concurrency:
+  group: update-chart-${{ github.event.client_payload.repo || inputs.repo }}
+  cancel-in-progress: true
+
 jobs:
   update_chart:
     name: Update chart reference
