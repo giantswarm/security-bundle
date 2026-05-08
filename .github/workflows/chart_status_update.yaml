@@ -81,7 +81,21 @@ jobs:
             exit 0
           fi
 
-          gh pr view "${pr_number}" --json body --jq '.body' > /tmp/existing_body.txt
+          # The description-update workflow may still be running; poll until
+          # the row for this app+SHA appears before patching the status.
+          for i in $(seq 1 10); do
+            gh pr view "${pr_number}" --json body --jq '.body' > /tmp/existing_body.txt
+            if grep -F "| \`${APP_NAME}\` |" /tmp/existing_body.txt | grep -qF "${SHA}"; then
+              echo "Row for ${APP_NAME}+${SHA} found in PR body"
+              break
+            fi
+            if [ "${i}" -eq 10 ]; then
+              echo "Row for ${APP_NAME}+${SHA} not found after 5 minutes, skipping status update"
+              exit 0
+            fi
+            echo "Row for ${APP_NAME}+${SHA} not yet in PR body, waiting 30s before retry ${i}/10..."
+            sleep 30
+          done
 
           # Always load the script from main — this branch only updates PR bodies
           git show origin/main:hack/update_pr_body.py > /tmp/update_pr_body.py
