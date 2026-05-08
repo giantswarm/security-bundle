@@ -98,7 +98,16 @@ jobs:
 
           echo "branch=${branch}" >> $GITHUB_OUTPUT
 
-      - name: Resolve chart version from catalog entries
+      - name: Install crane
+        uses: giantswarm/install-binary-action@e2730babbc89f02ef1559b042d33cbe24f5c3547 # v4.0.2
+        with:
+          binary: "crane"
+          version: "0.21.5"
+          download_url: "https://github.com/google/go-containerregistry/releases/download/v${version}/go-containerregistry_Linux_x86_64.tar.gz"
+          tarball_binary_path: "${binary}"
+          smoke_test: "${binary} version"
+
+      - name: Resolve chart version from OCI registry
         id: resolve_version
         env:
           APP_KEY: ${{ steps.app_info.outputs.app_key }}
@@ -115,59 +124,44 @@ jobs:
             exit 1
           fi
 
-          chart_name=$(yq e ".apps.${APP_KEY}.chartName" "${values_file}")
-          current_catalog=$(yq e ".apps.${APP_KEY}.catalog" "${values_file}")
+          oci_repo="gsoci.azurecr.io/charts/giantswarm/${APP_NAME}"
 
-          # Derive the test catalog repo from the app's catalog field
-          # e.g. giantswarm -> giantswarm-test-catalog
-          base_catalog=$(echo "${current_catalog}" | sed 's/-test$//')
-          catalog_repo="${base_catalog}-test-catalog"
-          index_url="https://raw.githubusercontent.com/giantswarm/${catalog_repo}/master/index.yaml"
-
-          fetch_index() {
-            curl -sfL "${index_url}" -o /tmp/index.yaml
+          list_tags() {
+            crane ls "${oci_repo}" > /tmp/tags.txt 2>/dev/null || true
           }
 
           lookup_sha() {
-            CHART="${chart_name}" SHA="${SHA}" yq e \
-              '.entries[env(CHART)] // [] | .[] | select(.version | test("-" + env(SHA) + "$")) | .version' \
-              /tmp/index.yaml | head -n1
+            grep -E -- "-${SHA}$" /tmp/tags.txt | head -n1 || true
           }
 
-          fetch_index
+          list_tags
           new_version=$(lookup_sha)
 
-          for i in 1 2 3 4 5; do
+          for i in $(seq 1 40); do
             if [ -n "${new_version}" ]; then
               break
             fi
-            echo "SHA ${SHA} not found in ${catalog_repo}, waiting 1 minute before retry ${i}/5..."
-            sleep 60
-            fetch_index
+            echo "SHA ${SHA} not found in ${oci_repo}, waiting 15s before retry ${i}/40..."
+            sleep 15
+            list_tags
             new_version=$(lookup_sha)
           done
 
           if [ -z "${new_version}" ]; then
-            echo "SHA still not found, falling back to latest version in ${catalog_repo}"
-            latest=$(CHART="${chart_name}" yq e \
-              '.entries[env(CHART)] // [] | sort_by(.created) | reverse | .[0].version // ""' \
-              /tmp/index.yaml)
-            if [ -n "${latest}" ]; then
-              base_version=$(echo "${latest}" | sed -E 's/-[0-9a-f]{40}$//')
-              new_version="${base_version}-${SHA}"
-            fi
-          fi
-
-          if [ -z "${new_version}" ]; then
-            echo "No versions found for chart '${chart_name}' in ${catalog_repo}"
-            exit 1
+            current_version=$(yq e ".apps.${APP_KEY}.version" "${values_file}")
+            echo "SHA ${SHA} not found in ${oci_repo} after 10 minutes, falling back to current values.yaml version: ${current_version}"
+            echo "new_version=${current_version}" >> $GITHUB_OUTPUT
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
           fi
 
           echo "Resolved version: ${new_version}"
           echo "new_version=${new_version}" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
 
       - name: Update version and catalog in values.yaml
         id: update_values
+        if: steps.resolve_version.outputs.skip != 'true'
         env:
           APP_KEY: ${{ steps.app_info.outputs.app_key }}
           NEW_VERSION: ${{ steps.resolve_version.outputs.new_version }}
@@ -186,6 +180,7 @@ jobs:
             -i "${values_file}"
 
       - name: Commit and push changes
+        if: steps.resolve_version.outputs.skip != 'true'
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           BRANCH: ${{ steps.create_branch.outputs.branch }}
@@ -209,6 +204,7 @@ jobs:
           NEW_VERSION: ${{ steps.resolve_version.outputs.new_version }}
           BRANCH: ${{ steps.create_branch.outputs.branch }}
           SOURCE_PR_URL: ${{ steps.source_pr.outputs.url }}
+          STATUS: ${{ steps.resolve_version.outputs.skip == 'true' && 'failure' || '' }}
         run: |
           # Fetch existing PR body if PR already exists (write to file to avoid quoting issues)
           pr_number=$(gh pr list --head "${BRANCH}" --base main --json number --jq '.[0].number' 2>/dev/null || echo "")
