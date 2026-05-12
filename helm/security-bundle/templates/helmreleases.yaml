@@ -51,15 +51,16 @@ spec:
     {{- end }}
     remediation:
       retries: -1
+      remediateLastFailure: false
   upgrade:
     {{- if (.options).upgrade }}
     timeout: {{ .options.upgrade.timeout | default "10m" }}
     {{- end }}
     remediation:
       retries: -1
+      remediateLastFailure: false
       {{- if (.options).upgrade }}
       {{- if (.options.upgrade).remediationStrategy }}
-      remediateLastFailure: true
       strategy: {{ .options.upgrade.remediationStrategy }}
       {{- end }}
       {{- end }}

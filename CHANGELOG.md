@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- HelmReleases: add `remediation.remediateLastFailure: false` to install and upgrade blocks so Flux helm-controller skips rollback on failure and re-attempts the upgrade on its next reconcile interval. Avoids the wedge that occurs when adopting chart-operator-installed v1 releases (helm-controller refuses to roll back to a release it didn't create, which gates retries in the default behaviour).
 - Update `kyverno` (app) to v0.24.1.
   - This release includes a new Kyverno minor version. Please refer to the upstream release notes for the latest changes:
     - https://github.com/kyverno/kyverno/releases/tag/v1.17.0
