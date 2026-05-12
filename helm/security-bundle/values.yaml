@@ -62,7 +62,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
-    version: 0.11.2-c88907ed1b7c47715d9c330d1f06bceaf270e793
+    version: 0.11.2-43ad68d108b5cb6f7c86edaa816452fb1f5c37e7
   jiralert:
     appName: jiralert
     chartName: jiralert
