@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Add `kyverno` to the `dependsOn` list of `kyverno-policies` so Flux holds the policies upgrade until the kyverno admission controller is Ready, avoiding `connection refused` against the validating webhook during concurrent self-upgrade.
 - Update `kyverno` (app) to v0.24.1.
   - This release includes a new Kyverno minor version. Please refer to the upstream release notes for the latest changes:
     - https://github.com/kyverno/kyverno/releases/tag/v1.17.0

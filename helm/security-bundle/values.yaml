@@ -149,7 +149,6 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-crds
-      - kyverno
     enabled: true
     namespace: kyverno
     createNamespace: true
