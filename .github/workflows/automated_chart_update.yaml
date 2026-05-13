@@ -103,7 +103,7 @@ jobs:
           echo "branch=${branch}" >> $GITHUB_OUTPUT
 
       - name: Install crane
-        uses: giantswarm/install-binary-action@e2730babbc89f02ef1559b042d33cbe24f5c3547 # v4.0.2
+        uses: giantswarm/install-binary-action@5bef88f65012037dd836117c8d344b21bb559854 # v4.1.0
         with:
           binary: "crane"
           version: "0.21.5"
