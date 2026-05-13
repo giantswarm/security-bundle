@@ -5,8 +5,9 @@ Operates in three modes depending on which env vars are set:
 
 Full update (NEW_VERSION is set):
   Inserts or replaces the entire row for APP_NAME.
-  Status is always initialised to ⏳ Waiting.
-  Env: APP_NAME, NEW_VERSION, SOURCE_PR_URL (optional)
+  Status defaults to ⏳ Waiting; pass STATUS to override (e.g. failure when
+  the chart never materialised in the registry).
+  Env: APP_NAME, NEW_VERSION, SOURCE_PR_URL (optional), STATUS (optional)
 
 Remove (REMOVE is set):
   Drops the row for APP_NAME. If SHA is provided, only the row that
@@ -62,7 +63,8 @@ elif new_version:
     else:
         source_link = "—"
 
-    new_row = f"| `{app_name}` | `{new_version}` | {source_link} | ⏳ Waiting |"
+    status_display = STATUS_DISPLAY.get(status.lower(), STATUS_DISPLAY[""])
+    new_row = f"| `{app_name}` | `{new_version}` | {source_link} | {status_display} |"
 
     if table_header in existing_body:
         lines = existing_body.split("\n")
