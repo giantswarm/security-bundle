@@ -122,4 +122,4 @@ jobs:
           > This PR was created by the **Update Changelog** workflow and triggered by a **Renovate** change on the \`values.yaml\` file.
           "
           # TODO: Check if PR exists instead
-          gh pr create --title "Bump App versions on changelog" --body "${body}" --head ${{ steps.create_branch.outputs.branch }} --base "${{ github.event.ref }}" || true
+          gh pr create --title "chore(changelog): update with new App versions" --body "${body}" --head ${{ steps.create_branch.outputs.branch }} --base "${{ github.event.ref }}" || true
