@@ -9,13 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Update `kyverno` (app) to v0.24.1.
+- Update `kyverno` (app) to v0.24.2.
   - This release includes a new Kyverno minor version. Please refer to the upstream release notes for the latest changes:
     - https://github.com/kyverno/kyverno/releases/tag/v1.17.0
 - Update `kyverno-crds` (app) to v1.17.0.
 - Update `kyverno-policies` (app) to v0.25.0.
 - Update `kyverno-policy-operator` (app) to v0.2.2.
-- Update `kyverno` (app) to v0.24.2.
 
 ## [1.17.1] - 2026-04-22
 
