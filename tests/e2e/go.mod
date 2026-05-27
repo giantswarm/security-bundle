@@ -8,9 +8,9 @@ replace github.com/alessio/shellescape => github.com/alessio/shellescape v1.6.0
 
 require (
 	github.com/giantswarm/apiextensions-application v0.6.2
-	github.com/giantswarm/apptest-framework/v4 v4.2.0
 	github.com/giantswarm/apptest-framework/v5 v5.0.1
-	github.com/giantswarm/clustertest/v4 v4.3.1
+	github.com/giantswarm/apptest-framework/v5 v5.0.1
+	github.com/giantswarm/clustertest/v5 v5.1.0
 	github.com/giantswarm/clustertest/v5 v5.1.0
 	github.com/onsi/ginkgo/v2 v2.29.0
 	github.com/onsi/gomega v1.41.0
