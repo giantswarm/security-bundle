@@ -75,14 +75,14 @@ apps:
   kubescape:
     appName: kubescape
     chartName: kubescape
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       - kyverno-crds
     enabled: false
     namespace: kubescape
     # used by renovate
     # repo: giantswarm/kubescape-app
-    version: 0.0.6
+    version: 0.0.6-f431443d27927277f51008c4ed1e97bdc861d6a6
   kyverno:
     appName: kyverno
     chartName: kyverno
