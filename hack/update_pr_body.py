@@ -10,13 +10,14 @@ Full update (NEW_VERSION is set):
   Env: APP_NAME, NEW_VERSION, SOURCE_PR_URL (optional), STATUS (optional)
 
 Remove (REMOVE is set):
-  Drops the row for APP_NAME. If SHA is provided, only the row that
-  references that SHA is removed (other rows for APP_NAME are left alone).
-  Env: APP_NAME, REMOVE, SHA (optional)
+  Drops the row for APP_NAME. If COMMIT_DATETIME is provided, only the row that
+  references that gitsemver dev-build datetime is removed (other rows for
+  APP_NAME are left alone).
+  Env: APP_NAME, REMOVE, COMMIT_DATETIME (optional)
 
 Status-only update (NEW_VERSION and REMOVE are empty, STATUS is set):
   Finds the row for APP_NAME and patches only the status cell.
-  Env: APP_NAME, STATUS, SHA
+  Env: APP_NAME, STATUS, COMMIT_DATETIME
 
 In all modes the existing PR body is read from stdin and the result is written to stdout.
 """
@@ -28,7 +29,7 @@ app_name   = os.environ["APP_NAME"]
 new_version = os.environ.get("NEW_VERSION", "")
 source_pr_url = os.environ.get("SOURCE_PR_URL", "")
 status     = os.environ.get("STATUS", "")
-sha        = os.environ.get("SHA", "")
+commit_datetime = os.environ.get("COMMIT_DATETIME", "")
 remove     = os.environ.get("REMOVE", "")
 
 existing_body = sys.stdin.read()
@@ -49,7 +50,7 @@ if remove:
     new_lines = []
     for line in lines:
         if line.startswith(f"| `{app_name}` |"):
-            if sha and sha not in line:
+            if commit_datetime and commit_datetime not in line:
                 new_lines.append(line)
             continue
         new_lines.append(line)
@@ -103,7 +104,7 @@ else:
     new_lines = []
     for line in lines:
         if line.startswith(f"| `{app_name}` |"):
-            if sha and sha not in line:
+            if commit_datetime and commit_datetime not in line:
                 new_lines.append(line)
                 continue
             parts = line.rstrip(" |").split(" | ")

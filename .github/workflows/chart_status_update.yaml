@@ -13,6 +13,14 @@ on:
         description: "Head commit SHA from the source repository"
         required: true
         type: string
+      branch:
+        description: "Sanitized source branch name embedded in the gitsemver dev-build tag"
+        required: true
+        type: string
+      commit_datetime:
+        description: "Committer datetime (UTC) embedded in the gitsemver dev-build tag, as YYYY-MM-DD.HH-MM-SS"
+        required: true
+        type: string
       status:
         description: "Workflow conclusion (waiting, failure, or success)"
         required: true
@@ -45,6 +53,8 @@ jobs:
         env:
           REPO:   ${{ github.event.client_payload.repo   || inputs.repo   }}
           SHA:    ${{ github.event.client_payload.sha    || inputs.sha    }}
+          BRANCH: ${{ github.event.client_payload.branch || inputs.branch }}
+          COMMIT_DATETIME: ${{ github.event.client_payload.commit_datetime || inputs.commit_datetime }}
           STATUS: ${{ github.event.client_payload.status || inputs.status }}
         run: |
           app_name=$(echo "${REPO}" | sed 's|giantswarm/||' | sed 's|-app$||')
@@ -57,20 +67,25 @@ jobs:
             echo "Invalid SHA '${SHA}'"
             exit 1
           fi
+          if ! [[ "${COMMIT_DATETIME}" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}\.[0-9]{2}-[0-9]{2}-[0-9]{2}$ ]]; then
+            echo "Invalid commit_datetime '${COMMIT_DATETIME}': must match YYYY-MM-DD.HH-MM-SS"
+            exit 1
+          fi
           if ! [[ "${STATUS}" =~ ^(waiting|failure|success)$ ]]; then
             echo "Invalid status '${STATUS}': must be 'waiting', 'failure', or 'success'"
             exit 1
           fi
 
-          echo "app_name=${app_name}" >> $GITHUB_OUTPUT
-          echo "sha=${SHA}"           >> $GITHUB_OUTPUT
-          echo "status=${STATUS}"     >> $GITHUB_OUTPUT
+          echo "app_name=${app_name}"               >> $GITHUB_OUTPUT
+          echo "sha=${SHA}"                          >> $GITHUB_OUTPUT
+          echo "commit_datetime=${COMMIT_DATETIME}"  >> $GITHUB_OUTPUT
+          echo "status=${STATUS}"                    >> $GITHUB_OUTPUT
 
       - name: Update PR status
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
-          SHA:      ${{ steps.app_info.outputs.sha }}
+          COMMIT_DATETIME: ${{ steps.app_info.outputs.commit_datetime }}
           STATUS:   ${{ steps.app_info.outputs.status }}
         run: |
           pr_number=$(gh pr list --head "automated-chart-updates" --base main \
@@ -81,19 +96,20 @@ jobs:
             exit 0
           fi
 
-          # The description-update workflow may still be running; poll until
-          # the row for this app+SHA appears before patching the status.
+          # The description-update workflow may still be running; poll until the
+          # row for this app's build (matched on the gitsemver dev-build datetime,
+          # which is part of the version cell) appears before patching the status.
           for i in $(seq 1 10); do
             gh pr view "${pr_number}" --json body --jq '.body' > /tmp/existing_body.txt
-            if grep -F "| \`${APP_NAME}\` |" /tmp/existing_body.txt | grep -qF "${SHA}"; then
-              echo "Row for ${APP_NAME}+${SHA} found in PR body"
+            if grep -F "| \`${APP_NAME}\` |" /tmp/existing_body.txt | grep -qF "${COMMIT_DATETIME}"; then
+              echo "Row for ${APP_NAME}+${COMMIT_DATETIME} found in PR body"
               break
             fi
             if [ "${i}" -eq 10 ]; then
-              echo "Row for ${APP_NAME}+${SHA} not found after 5 minutes, skipping status update"
+              echo "Row for ${APP_NAME}+${COMMIT_DATETIME} not found after 5 minutes, skipping status update"
               exit 0
             fi
-            echo "Row for ${APP_NAME}+${SHA} not yet in PR body, waiting 30s before retry ${i}/10..."
+            echo "Row for ${APP_NAME}+${COMMIT_DATETIME} not yet in PR body, waiting 30s before retry ${i}/10..."
             sleep 30
           done
 
