@@ -9,13 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- HelmReleases: add `remediation.remediateLastFailure: false` to install and upgrade blocks so Flux helm-controller skips rollback on failure and re-attempts the upgrade on its next reconcile interval. Avoids the wedge that occurs when adopting chart-operator-installed v1 releases (helm-controller refuses to roll back to a release it didn't create, which gates retries in the default behaviour).
-- Update `kyverno` (app) to v0.24.1.
+- Migrate sub-apps from App CRs to Flux HelmRelease CRs.
+- No longer pass the 'cluster-values' ConfigMap to the applications inside the bundle.
+- Update `kyverno` (app) to v0.24.2.
   - This release includes a new Kyverno minor version. Please refer to the upstream release notes for the latest changes:
     - https://github.com/kyverno/kyverno/releases/tag/v1.17.0
 - Update `kyverno-crds` (app) to v1.17.0.
 - Update `kyverno-policies` (app) to v0.25.0.
 - Update `kyverno-policy-operator` (app) to v0.2.2.
+- Update `kubescape` (app) to v0.1.0.
 
 ## [1.17.1] - 2026-04-22
 
@@ -25,8 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Migrate sub-apps from App CRs to Flux HelmRelease CRs.
-- No longer pass the 'cluster-values' ConfigMap to the applications inside the bundle.
 - Update `falco` (app) to v0.11.2.
 - Update `gel` (app) to v1.0.2.
 - Update `kubescape` (app) to v0.0.6.

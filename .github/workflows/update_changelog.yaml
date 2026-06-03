@@ -20,12 +20,12 @@ jobs:
     steps:
       - name: Generate a token
         id: generate_token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           client-id: ${{ secrets.HERALD_CLIENT_ID }}
           private-key: ${{ secrets.HERALD_APP_KEY }}
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           token: ${{ steps.generate_token.outputs.token }}
           persist-credentials: true
@@ -122,4 +122,4 @@ jobs:
           > This PR was created by the **Update Changelog** workflow and triggered by a **Renovate** change on the \`values.yaml\` file.
           "
           # TODO: Check if PR exists instead
-          gh pr create --title "Bump App versions on changelog" --body "${body}" --head ${{ steps.create_branch.outputs.branch }} --base "${{ github.event.ref }}" || true
+          gh pr create --title "chore(changelog): update with new App versions" --body "${body}" --head ${{ steps.create_branch.outputs.branch }} --base "${{ github.event.ref }}" || true

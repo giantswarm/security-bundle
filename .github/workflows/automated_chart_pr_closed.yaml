@@ -9,10 +9,6 @@ on:
         description: "Source repository (e.g. giantswarm/kyverno-app)"
         required: true
         type: string
-      head_sha:
-        description: "Head commit SHA on the source PR branch at close time"
-        required: true
-        type: string
 
 jobs:
   revert_chart:
@@ -21,13 +17,13 @@ jobs:
     steps:
       - name: Generate a token
         id: generate_token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           client-id: ${{ secrets.HERALD_CLIENT_ID }}
           private-key: ${{ secrets.HERALD_APP_KEY }}
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           token: ${{ steps.generate_token.outputs.token }}
           persist-credentials: false
@@ -42,7 +38,6 @@ jobs:
         id: app_info
         env:
           REPO: ${{ github.event.client_payload.repo || inputs.repo }}
-          HEAD_SHA: ${{ github.event.client_payload.head_sha || inputs.head_sha }}
         run: |
           # Strip giantswarm/ prefix and -app suffix
           # e.g. giantswarm/kyverno-app -> kyverno
@@ -54,18 +49,11 @@ jobs:
             exit 1
           fi
 
-          # Validate SHA is a 40-character hex string
-          if ! [[ "${HEAD_SHA}" =~ ^[0-9a-f]{40}$ ]]; then
-            echo "Invalid head_sha '${HEAD_SHA}': must be a 40-character lowercase hex string"
-            exit 1
-          fi
-
           # Convert hyphen-case to camelCase for values.yaml key lookup
           app_key=$(echo "${app_name}" | sed -r 's/-([a-z])/\U\1/g' | sed 's/Pg$/PG/')
 
           echo "app_name=${app_name}" >> $GITHUB_OUTPUT
           echo "app_key=${app_key}" >> $GITHUB_OUTPUT
-          echo "head_sha=${HEAD_SHA}" >> $GITHUB_OUTPUT
 
       - name: Check out update branch
         id: checkout_branch
@@ -92,7 +80,6 @@ jobs:
         env:
           APP_KEY: ${{ steps.app_info.outputs.app_key }}
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
-          HEAD_SHA: ${{ steps.app_info.outputs.head_sha }}
         run: |
           values_file="helm/security-bundle/values.yaml"
 
@@ -103,21 +90,15 @@ jobs:
             exit 1
           fi
 
-          current_version=$(yq e ".apps.${APP_KEY}.version" "${values_file}")
-          current_catalog=$(yq e ".apps.${APP_KEY}.catalog" "${values_file}")
+          git show origin/main:"${values_file}" > /tmp/main_values.yaml
+          base_version=$(yq e ".apps.${APP_KEY}.version" /tmp/main_values.yaml)
+          base_catalog=$(yq e ".apps.${APP_KEY}.catalog" /tmp/main_values.yaml)
 
-          # Only revert if the branch's version still references this PR's head_sha.
-          # If a newer update-chart event has overwritten it, leave it alone.
-          if [[ "${current_version}" != *"-${HEAD_SHA}" ]]; then
-            echo "Version '${current_version}' does not match head_sha '${HEAD_SHA}', skipping values revert"
+          if [ "${base_version}" == "null" ] || [ "${base_catalog}" == "null" ]; then
+            echo "App '${APP_NAME}' (key: '${APP_KEY}') not found on main, skipping values revert"
             echo "reverted=false" >> $GITHUB_OUTPUT
             exit 0
           fi
-
-          # Strip SHA suffix to restore base semver
-          base_version=$(echo "${current_version}" | cut -d'-' -f1)
-          # Strip -test suffix to restore base catalog
-          base_catalog=$(echo "${current_catalog}" | sed 's/-test$//')
 
           yq e ".apps.${APP_KEY}.version = \"${base_version}\" | .apps.${APP_KEY}.catalog = \"${base_catalog}\"" \
             -i "${values_file}"
@@ -147,7 +128,6 @@ jobs:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
           BRANCH: ${{ steps.checkout_branch.outputs.branch }}
-          SHA: ${{ steps.app_info.outputs.head_sha }}
           REMOVE: "1"
         run: |
           pr_number=$(gh pr list --head "${BRANCH}" --base main --json number --jq '.[0].number' 2>/dev/null || echo "")
