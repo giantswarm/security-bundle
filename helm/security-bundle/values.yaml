@@ -82,7 +82,8 @@ apps:
     namespace: kubescape
     # used by renovate
     # repo: giantswarm/kubescape-app
-    version: 0.0.6
+    version: 0.1.0
+
   kyverno:
     appName: kyverno
     chartName: kyverno
@@ -90,9 +91,10 @@ apps:
     dependsOn:
       - kyverno-crds
       - prometheus-operator-crd
-      - alloy-logs
+      - alloy-podlogs-crds
     enabled: true
     namespace: kyverno
+    createNamespace: true
     # Options allow to configure timeouts:
     # https://docs.giantswarm.io/getting-started/app-platform/installation-configuration/
     options:
@@ -109,6 +111,7 @@ apps:
     catalog: giantswarm-test
     enabled: true
     namespace: kyverno
+    createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-crds
     version: 1.17.1-dev.main-update-chart.2026-06-04.15-31-36
@@ -118,8 +121,10 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-crds
-      - alloy-logs
+      - kyverno
+      - alloy-podlogs-crds
     enabled: true
+    createNamespace: true
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
@@ -134,6 +139,7 @@ apps:
       - kyverno-crds
     enabled: true
     namespace: kyverno
+    createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-policies
     version: 0.25.1-dev.main-update-chart.2026-06-04.15-45-09

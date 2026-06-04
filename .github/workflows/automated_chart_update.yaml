@@ -13,6 +13,18 @@ on:
         description: "Head commit SHA from the source repository"
         required: true
         type: string
+      branch:
+        description: "Sanitized source branch name embedded in the gitsemver dev-build tag"
+        required: true
+        type: string
+      commit_datetime:
+        description: "Committer datetime (UTC) embedded in the gitsemver dev-build tag, as YYYY-MM-DD.HH-MM-SS"
+        required: true
+        type: string
+
+concurrency:
+  group: update-chart-${{ github.event.client_payload.repo || inputs.repo }}
+  cancel-in-progress: true
 
 jobs:
   update_chart:
@@ -21,13 +33,13 @@ jobs:
     steps:
       - name: Generate a token
         id: generate_token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          app-id: ${{ secrets.HERALD_APP_ID }}
+          client-id: ${{ secrets.HERALD_CLIENT_ID }}
           private-key: ${{ secrets.HERALD_APP_KEY }}
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           token: ${{ steps.generate_token.outputs.token }}
           persist-credentials: false
@@ -43,6 +55,8 @@ jobs:
         env:
           REPO: ${{ github.event.client_payload.repo || inputs.repo }}
           SHA: ${{ github.event.client_payload.sha || inputs.sha }}
+          BRANCH: ${{ github.event.client_payload.branch || inputs.branch }}
+          COMMIT_DATETIME: ${{ github.event.client_payload.commit_datetime || inputs.commit_datetime }}
         run: |
           # Strip giantswarm/ prefix and -app suffix
           # e.g. giantswarm/kyverno-app -> kyverno
@@ -60,6 +74,18 @@ jobs:
             exit 1
           fi
 
+          # Validate the gitsemver dev-build identifiers — only characters that
+          # appear in a sanitized branch / formatted datetime, so they are safe
+          # to interpolate into the tag-matching glob below.
+          if ! [[ "${BRANCH}" =~ ^[a-zA-Z0-9-]+$ ]]; then
+            echo "Invalid branch '${BRANCH}': must match ^[a-zA-Z0-9-]+$"
+            exit 1
+          fi
+          if ! [[ "${COMMIT_DATETIME}" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}\.[0-9]{2}-[0-9]{2}-[0-9]{2}$ ]]; then
+            echo "Invalid commit_datetime '${COMMIT_DATETIME}': must match YYYY-MM-DD.HH-MM-SS"
+            exit 1
+          fi
+
           sha_short="${SHA:0:7}"
 
           # Convert hyphen-case to camelCase for values.yaml key lookup
@@ -70,6 +96,8 @@ jobs:
           echo "app_key=${app_key}" >> $GITHUB_OUTPUT
           echo "sha=${SHA}" >> $GITHUB_OUTPUT
           echo "sha_short=${sha_short}" >> $GITHUB_OUTPUT
+          echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
+          echo "commit_datetime=${COMMIT_DATETIME}" >> $GITHUB_OUTPUT
 
       - name: Fetch source PR URL
         id: source_pr
@@ -99,7 +127,7 @@ jobs:
           echo "branch=${branch}" >> $GITHUB_OUTPUT
 
       - name: Install crane
-        uses: giantswarm/install-binary-action@e2730babbc89f02ef1559b042d33cbe24f5c3547 # v4.0.2
+        uses: giantswarm/install-binary-action@5bef88f65012037dd836117c8d344b21bb559854 # v4.1.0
         with:
           binary: "crane"
           version: "0.21.5"
@@ -112,7 +140,8 @@ jobs:
         env:
           APP_KEY: ${{ steps.app_info.outputs.app_key }}
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
-          SHA: ${{ steps.app_info.outputs.sha }}
+          BRANCH: ${{ steps.app_info.outputs.branch }}
+          COMMIT_DATETIME: ${{ steps.app_info.outputs.commit_datetime }}
         run: |
           values_file="helm/security-bundle/values.yaml"
 
@@ -126,30 +155,41 @@ jobs:
 
           oci_repo="gsoci.azurecr.io/charts/giantswarm/${APP_NAME}"
 
+          # gitsemver dev-build tags end in "-dev.<branch>.<YYYY-MM-DD>.<HH-MM-SS>".
+          # Match that exact suffix literally so the date's dots are not treated
+          # as regex wildcards and the match is anchored to the end of the tag.
+          suffix="-dev.${BRANCH}.${COMMIT_DATETIME}"
+
           list_tags() {
             crane ls "${oci_repo}" > /tmp/tags.txt 2>/dev/null || true
           }
 
-          lookup_sha() {
-            grep -E -- "-${SHA}$" /tmp/tags.txt | head -n1 || true
+          lookup_tag() {
+            local tag
+            while IFS= read -r tag; do
+              if [[ "${tag}" == *"${suffix}" ]]; then
+                printf '%s\n' "${tag}"
+                return
+              fi
+            done < /tmp/tags.txt
           }
 
           list_tags
-          new_version=$(lookup_sha)
+          new_version=$(lookup_tag)
 
           for i in $(seq 1 40); do
             if [ -n "${new_version}" ]; then
               break
             fi
-            echo "SHA ${SHA} not found in ${oci_repo}, waiting 15s before retry ${i}/40..."
+            echo "Tag ending in '${suffix}' not found in ${oci_repo}, waiting 15s before retry ${i}/40..."
             sleep 15
             list_tags
-            new_version=$(lookup_sha)
+            new_version=$(lookup_tag)
           done
 
           if [ -z "${new_version}" ]; then
             current_version=$(yq e ".apps.${APP_KEY}.version" "${values_file}")
-            echo "SHA ${SHA} not found in ${oci_repo} after 10 minutes, falling back to current values.yaml version: ${current_version}"
+            echo "Tag ending in '${suffix}' not found in ${oci_repo} after 10 minutes, falling back to current values.yaml version: ${current_version}"
             echo "new_version=${current_version}" >> $GITHUB_OUTPUT
             echo "skip=true" >> $GITHUB_OUTPUT
             exit 0
