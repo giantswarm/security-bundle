@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-06-04
+
 ### Changed
 
 - Migrate sub-apps from App CRs to Flux HelmRelease CRs.
@@ -599,7 +601,8 @@ This release includes a Kyverno upstream update. Please refer to the following R
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v1.17.1...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/giantswarm/security-bundle/compare/v1.17.1...v2.0.0
 [1.17.1]: https://github.com/giantswarm/security-bundle/compare/v1.17.0...v1.17.1
 [1.17.0]: https://github.com/giantswarm/security-bundle/compare/v1.16.1...v1.17.0
 [1.16.1]: https://github.com/giantswarm/security-bundle/compare/v1.16.0...v1.16.1
