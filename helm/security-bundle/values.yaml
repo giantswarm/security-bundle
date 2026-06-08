@@ -83,7 +83,6 @@ apps:
     # used by renovate
     # repo: giantswarm/kubescape-app
     version: 0.1.0
-
   kyverno:
     appName: kyverno
     chartName: kyverno
