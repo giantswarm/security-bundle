@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update `cloudnative-pg` (app) to v0.1.0.
 - Update `trivy` (app) to v0.15.0.
+- Update `falco` (app) to v0.12.0.
 
 ## [2.0.0] - 2026-06-04
 
