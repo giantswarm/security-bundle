@@ -63,7 +63,6 @@ apps:
     # used by renovate
     # repo: giantswarm/falco-app
     version: 0.12.1
-
   jiralert:
     appName: jiralert
     chartName: jiralert
@@ -104,7 +103,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.24.3-dev.main-update-chart.2026-06-04.15-41-35
+    version: 0.24.3-dev.main-update-chart.2026-06-11.16-20-03.h734de81
   kyvernoCrds:
     appName: kyverno-crds
     chartName: kyverno-crds
@@ -185,7 +184,6 @@ apps:
     # used by renovate
     # repo: giantswarm/trivy-app
     version: 0.15.0
-
   trivyOperator:
     appName: trivy-operator
     chartName: trivy-operator
