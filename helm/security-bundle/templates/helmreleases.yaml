@@ -64,7 +64,25 @@ spec:
       strategy: {{ .options.upgrade.remediationStrategy }}
       {{- end }}
       {{- end }}
-  {{- $hasExtraConfigs := gt (len (.extraConfigs | default list)) 0 }}
+  {{- /* extraConfigs carry the App platform `priority` (1-150, default 25): entries with
+         priority <= 100 merge before user config and entries above 100 after it, regardless
+         of their position in the list. Flux merges valuesFrom strictly in list order, so
+         emit the entries stably sorted by priority, split around the user config references. */}}
+  {{- $extraConfigs := .extraConfigs | default list }}
+  {{- $extraConfigsBeforeUser := list }}
+  {{- $extraConfigsAfterUser := list }}
+  {{- range $priority := untilStep 1 151 1 }}
+  {{- range $extraConfig := $extraConfigs }}
+  {{- if eq (int ($extraConfig.priority | default 25)) $priority }}
+  {{- if le $priority 100 }}
+  {{- $extraConfigsBeforeUser = append $extraConfigsBeforeUser $extraConfig }}
+  {{- else }}
+  {{- $extraConfigsAfterUser = append $extraConfigsAfterUser $extraConfig }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- $hasExtraConfigs := gt (len $extraConfigs) 0 }}
   {{- $hasUserConfigMap := false }}
   {{- $hasUserSecret := false }}
   {{- if $.Values.userConfig }}
@@ -75,7 +93,7 @@ spec:
   {{- end }}
   {{- if or $hasExtraConfigs $hasUserConfigMap $hasUserSecret }}
   valuesFrom:
-  {{- range $extraConfig := (.extraConfigs | default list) }}
+  {{- range $extraConfig := $extraConfigsBeforeUser }}
   {{- $kind := $extraConfig.kind }}
   {{- if eq $kind "configMap" }}{{ $kind = "ConfigMap" }}{{ else if eq $kind "secret" }}{{ $kind = "Secret" }}{{ end }}
   - kind: {{ $kind }}
@@ -92,6 +110,14 @@ spec:
   {{- if $hasUserSecret }}
   - kind: Secret
     name: {{ $appName }}-user-secrets
+    valuesKey: values
+    optional: false
+  {{- end }}
+  {{- range $extraConfig := $extraConfigsAfterUser }}
+  {{- $kind := $extraConfig.kind }}
+  {{- if eq $kind "configMap" }}{{ $kind = "ConfigMap" }}{{ else if eq $kind "secret" }}{{ $kind = "Secret" }}{{ end }}
+  - kind: {{ $kind }}
+    name: {{ tpl $extraConfig.name $ }}
     valuesKey: values
     optional: false
   {{- end }}
