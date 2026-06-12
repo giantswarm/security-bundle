@@ -14,7 +14,7 @@ on:
         description: "Changelog line to add. For now, this supports adding Changed lines only."
 jobs:
   update_changelog:
-    if: ${{ (github.actor == 'renovate[bot]') || (inputs.line != '') }} 
+    if: ${{ (github.actor == 'renovate[bot]') || (inputs.line != '') }}
     name: Add Changelog entry
     runs-on: ubuntu-24.04
     steps:
@@ -39,7 +39,7 @@ jobs:
         id: create_branch
         run: |
           branch="automated-changelog-update"
-          
+
           # Fetch origin
           git fetch origin
 
@@ -52,7 +52,7 @@ jobs:
             # Branch exists, use existing
             git checkout $branch
           fi
-          
+
           # Output branch
           echo "branch=${branch}" >> $GITHUB_OUTPUT
       - name: Run Changelogger
@@ -118,8 +118,8 @@ jobs:
 
 
           ---
-          > [!NOTE]  
+          > [!NOTE]
           > This PR was created by the **Update Changelog** workflow and triggered by a **Renovate** change on the \`values.yaml\` file.
           "
           # TODO: Check if PR exists instead
-          gh pr create --title "chore(changelog): update with new App versions" --body "${body}" --head ${{ steps.create_branch.outputs.branch }} --base "${{ github.event.ref }}" || true
+          gh pr create --title "docs(changelog): update with new App versions" --body "${body}" --head ${{ steps.create_branch.outputs.branch }} --base "${{ github.event.ref }}" || true
