@@ -142,6 +142,7 @@ jobs:
           APP_NAME: ${{ steps.app_info.outputs.app_name }}
           BRANCH: ${{ steps.app_info.outputs.branch }}
           COMMIT_DATETIME: ${{ steps.app_info.outputs.commit_datetime }}
+          SHA_SHORT: ${{ steps.app_info.outputs.sha_short }}
         run: |
           values_file="helm/security-bundle/values.yaml"
 
@@ -155,10 +156,13 @@ jobs:
 
           oci_repo="gsoci.azurecr.io/charts/giantswarm/${APP_NAME}"
 
-          # gitsemver dev-build tags end in "-dev.<branch>.<YYYY-MM-DD>.<HH-MM-SS>".
-          # Match that exact suffix literally so the date's dots are not treated
-          # as regex wildcards and the match is anchored to the end of the tag.
+          # gitsemver dev-build tags end in
+          # "-dev.<branch>.<YYYY-MM-DD>.<HH-MM-SS>.h<short-sha>".
+          # Match the branch+datetime suffix as the primary signal, and fall back
+          # to the short-SHA suffix so a tag still resolves if the dispatch
+          # payload's branch/datetime drift from what gitsemver embedded.
           suffix="-dev.${BRANCH}.${COMMIT_DATETIME}"
+          sha_suffix=".h${SHA_SHORT}"
 
           list_tags() {
             crane ls "${oci_repo}" > /tmp/tags.txt 2>/dev/null || true
@@ -167,7 +171,7 @@ jobs:
           lookup_tag() {
             local tag
             while IFS= read -r tag; do
-              if [[ "${tag}" == *"${suffix}" ]]; then
+              if [[ "${tag}" == *"${suffix}"* ]] || [[ "${tag}" == *"${sha_suffix}" ]]; then
                 printf '%s\n' "${tag}"
                 return
               fi
@@ -181,7 +185,7 @@ jobs:
             if [ -n "${new_version}" ]; then
               break
             fi
-            echo "Tag ending in '${suffix}' not found in ${oci_repo}, waiting 15s before retry ${i}/40..."
+            echo "No tag matching '${suffix}' or '${sha_suffix}' in ${oci_repo}, waiting 15s before retry ${i}/40..."
             sleep 15
             list_tags
             new_version=$(lookup_tag)
@@ -189,7 +193,7 @@ jobs:
 
           if [ -z "${new_version}" ]; then
             current_version=$(yq e ".apps.${APP_KEY}.version" "${values_file}")
-            echo "Tag ending in '${suffix}' not found in ${oci_repo} after 10 minutes, falling back to current values.yaml version: ${current_version}"
+            echo "No tag matching '${suffix}' or '${sha_suffix}' found in ${oci_repo} after 10 minutes, falling back to current values.yaml version: ${current_version}"
             echo "new_version=${current_version}" >> $GITHUB_OUTPUT
             echo "skip=true" >> $GITHUB_OUTPUT
             exit 0
@@ -263,7 +267,7 @@ jobs:
             gh pr edit "${pr_number}" --body-file /tmp/pr_body.txt
           else
             gh pr create \
-              --title "[DO NOT MERGE] Update apps testing versions" \
+              --title "test(apps): [DO NOT MERGE] Update apps testing versions" \
               --body-file /tmp/pr_body.txt \
               --head "${BRANCH}" \
               --base main
