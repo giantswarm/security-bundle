@@ -64,34 +64,26 @@ spec:
       strategy: {{ .options.upgrade.remediationStrategy }}
       {{- end }}
       {{- end }}
-  {{- $hasExtraConfigs := gt (len (.extraConfigs | default list)) 0 }}
-  {{- $hasUserConfigMap := false }}
-  {{- $hasUserSecret := false }}
+  {{- /* extraConfigs carry the App platform `priority` (1-150, default 25). App platform
+         merges all configMaps then all secrets (secret always overrides configMap), ordering
+         each kind by priority around the user-config slot (100). Flux merges valuesFrom in
+         list order, so emit a single list sorted to reproduce that — see the
+         `sortedValuesFrom` helper. */}}
+  {{- $extraConfigs := .extraConfigs | default list }}
+  {{- $userConfigMapName := "" }}
+  {{- $userSecretName := "" }}
   {{- if $.Values.userConfig }}
   {{- with (get $.Values.userConfig $key) }}
-  {{- if .configMap }}{{ $hasUserConfigMap = true }}{{ end }}
-  {{- if .secret }}{{ $hasUserSecret = true }}{{ end }}
+  {{- if .configMap }}{{ $userConfigMapName = printf "%s-user-values" $appName }}{{ end }}
+  {{- if .secret }}{{ $userSecretName = printf "%s-user-secrets" $appName }}{{ end }}
   {{- end }}
   {{- end }}
-  {{- if or $hasExtraConfigs $hasUserConfigMap $hasUserSecret }}
+  {{- $sorted := include "sortedValuesFrom" (dict "extraConfigs" $extraConfigs "userConfigMapName" $userConfigMapName "userSecretName" $userSecretName "root" $) | fromYamlArray }}
+  {{- if $sorted }}
   valuesFrom:
-  {{- range $extraConfig := (.extraConfigs | default list) }}
-  {{- $kind := $extraConfig.kind }}
-  {{- if eq $kind "configMap" }}{{ $kind = "ConfigMap" }}{{ else if eq $kind "secret" }}{{ $kind = "Secret" }}{{ end }}
-  - kind: {{ $kind }}
-    name: {{ tpl $extraConfig.name $ }}
-    valuesKey: values
-    optional: false
-  {{- end }}
-  {{- if $hasUserConfigMap }}
-  - kind: ConfigMap
-    name: {{ $appName }}-user-values
-    valuesKey: values
-    optional: false
-  {{- end }}
-  {{- if $hasUserSecret }}
-  - kind: Secret
-    name: {{ $appName }}-user-secrets
+  {{- range $entry := $sorted }}
+  - kind: {{ $entry.kind }}
+    name: {{ $entry.name }}
     valuesKey: values
     optional: false
   {{- end }}
