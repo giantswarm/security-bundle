@@ -107,10 +107,14 @@ github.com/fluxcd/cli-utils v1.2.0 h1:1o07pXTMxJ/XJ1GpAbLtjdXwfCUMq4Ku1OcnvJHLoh
 github.com/fluxcd/cli-utils v1.2.0/go.mod h1:d5HdTDdR5sCbsIbgtOQ7x7srKYwYeZORU6CD2yn4j/M=
 github.com/fluxcd/helm-controller/api v1.5.5 h1:xQA/9gbifMvZPGhSNKHsrkq829dI/yTBASVdYp9/s4Y=
 github.com/fluxcd/helm-controller/api v1.5.5/go.mod h1:lTgeUmtVYExMKp7mRDncsr4JwHTz3LFtLjRJZeR98lI=
+github.com/fluxcd/helm-controller/api v1.6.0 h1:s0IZ+pA9IyyWc6E6DzOJPvQqunmnqU3W66RimXSYUTY=
+github.com/fluxcd/helm-controller/api v1.6.0/go.mod h1:oKuRQYGJVS87HLybfpgYbu1X1anigFpRsVLLjPXufTA=
 github.com/fluxcd/pkg/apis/acl v0.10.0 h1:KPfAmELNvtvaz8wixnm/MYXqa+MJf7ntVVMUU93Aenk=
 github.com/fluxcd/pkg/apis/acl v0.10.0/go.mod h1:a87i2A7AlFO5N2J8CxtzaUCCDmuLLWOHwkKu3eJF5fY=
 github.com/fluxcd/pkg/apis/kustomize v1.18.0 h1:FCNjViCLyKYj6lddpnjXybKBTC2eK6eXK9YOaNwLVTM=
 github.com/fluxcd/pkg/apis/kustomize v1.18.0/go.mod h1:mvtMtM4NNLipdCna6DYPC6Bd42xeaF15N+tNO+F6kxY=
+github.com/fluxcd/pkg/apis/kustomize v1.19.0 h1:DKiRUwS/8HaePXUF+JUShbBe/HAClnJwm2tdiUnPMiY=
+github.com/fluxcd/pkg/apis/kustomize v1.19.0/go.mod h1:BYPKRhf3MQKPtSsaNcOs44BigF0q8Fzza5iuOHTd26U=
 github.com/fluxcd/pkg/apis/meta v1.27.0 h1:EspByEk5j8w3rs1cGbEh9AjSmpDwQIz7DFG/zzqf6uI=
 github.com/fluxcd/pkg/apis/meta v1.27.0/go.mod h1:2t6JyrRfvIBhx6EBnXfFh/6sCCJ1db9WGaqko0JmNOE=
 github.com/fluxcd/pkg/apis/meta v1.28.0 h1:eJjMlLnfObnh23cyUB6xiIwDbgJaRU2MgfzzuilLFxI=
@@ -137,6 +141,8 @@ github.com/giantswarm/apptest-framework/v5 v5.0.1 h1:zYQoh7ugEXrKZWS7JNc0OpE6N68
 github.com/giantswarm/apptest-framework/v5 v5.0.1/go.mod h1:t1QjcAXN00w9Q3qhnE/r+5qbZ042VQKdnKIqTt28x5I=
 github.com/giantswarm/apptest-framework/v5 v5.1.0 h1:9DwIVcnrL8K+UWYny1jyZulZskdBXFam73aESYC8YkU=
 github.com/giantswarm/apptest-framework/v5 v5.1.0/go.mod h1:SC5OpjKMGGDmktRcIPgSa8oEqa8/twP6opO4QcFjqAE=
+github.com/giantswarm/apptest-framework/v5 v5.2.0 h1:6/P38AloLWfRPU1HaUjDQN4ZNQZbXHmJn07ayS5/9QE=
+github.com/giantswarm/apptest-framework/v5 v5.2.0/go.mod h1:nXs+GnZLd5Xje1yGKQlTOGmA90afkjZ9ooUCp/5kRVI=
 github.com/giantswarm/cluster-standup-teardown/v6 v6.0.1 h1:ElldQMFe02zlSHxbV1n2B+9xlwhR8cEKGe1XDIWu28w=
 github.com/giantswarm/cluster-standup-teardown/v6 v6.0.1/go.mod h1:ZWF1n73ButDUKW6uH0+GI4/iYOu4wlVonr0PiuUgt7o=
 github.com/giantswarm/clustertest/v5 v5.1.0 h1:B5EFecXSk1ZFdywlFPEB+WvMdLxs8jFcU58PVSjmNhA=
