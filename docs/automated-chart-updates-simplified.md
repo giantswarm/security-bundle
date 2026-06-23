@@ -11,11 +11,14 @@ sequenceDiagram
     participant SB as security-bundle
 
     Renovate->>App: pushes vendir.yml update to renovate/vendir/{APP}
-    App->>App: pushes to main#update-chart
+    App->>App: pushes to "main#update-chart"
     App->>App: calls sync-from-upstream
     App->>App: updates schema / changelog / values
-    App->>SB: dispatches
+    App->>SB: dispatches PR status
     SB->>SB: creates testing PR
-    SB->>SB: updates PR with testing version
+    SB->>SB: updates PR with testing versions
     SB->>SB: runs e2e testing
+    App->>App: merges/closes PR
+    App->>SB: dispatches PR closed
+    SB->>SB: removes App from testing PR
 ```
