@@ -5,21 +5,17 @@ A high-level view of how an upstream bump flows from Renovate into a testing PR 
 [automated-chart-updates.md](./automated-chart-updates.md).
 
 ```mermaid
-flowchart TD
-    renovate(["👤 Renovate"])
+sequenceDiagram
+    actor Renovate
+    participant App as App repo automation
+    participant SB as security-bundle
 
-    renovate -->|"pushes vendir.yml update"| branch["renovate/vendir/{APP}"]
-
-    subgraph apprepo["App repo automation"]
-        branch -->|"pushes to"| update["main#update-chart"]
-        update -->|"calls"| sync["sync-from-upstream"]
-        sync --> changes["updates schema / changelog / values"]
-    end
-
-    changes -->|"dispatches to security-bundle"| pr["creates testing PR"]
-
-    subgraph sb["security-bundle"]
-        pr --> version["updates PR with testing version"]
-        version --> e2e["runs e2e testing"]
-    end
+    Renovate->>App: pushes vendir.yml update to renovate/vendir/{APP}
+    App->>App: pushes to main#update-chart
+    App->>App: calls sync-from-upstream
+    App->>App: updates schema / changelog / values
+    App->>SB: dispatches
+    SB->>SB: creates testing PR
+    SB->>SB: updates PR with testing version
+    SB->>SB: runs e2e testing
 ```
