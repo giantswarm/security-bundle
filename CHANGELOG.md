@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update `starboard-exporter` (app) to v1.1.0.
+- Update `kyverno-policies` (app) to v0.26.0.
 
 ## [2.1.0] - 2026-06-18
 
