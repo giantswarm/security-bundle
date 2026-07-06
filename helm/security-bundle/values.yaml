@@ -178,12 +178,12 @@ apps:
   trivy:
     appName: trivy
     chartName: trivy
-    catalog: giantswarm-test
+    catalog: giantswarm
     enabled: false
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
-    version: 0.15.1-dev.main-update-chart.2026-07-06.18-36-12.h1c8610a
+    version: 0.15.0
   trivyOperator:
     appName: trivy-operator
     chartName: trivy-operator
