@@ -139,7 +139,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
-    version: 0.2.2
+    version: 0.2.3
 
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
@@ -166,7 +166,7 @@ apps:
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/policy-api
-    version: 0.0.6
+    version: 0.0.9
 
   reportsServer:
     appName: reports-server
@@ -190,7 +190,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 1.1.6
+    version: 1.1.7
 
   trivy:
     appName: trivy
