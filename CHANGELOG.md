@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `trivy-operator` (app) to v0.13.3.
+- Update `kyverno-policy-operator` (app) to v0.2.3.
+- Update `starboard-exporter` (app) to v1.1.7.
+- Update `policy-api` (app) to v0.0.9.
+- Update `starboard-exporter` (app) to v1.1.8.
+- Update `trivy` (app) to v0.17.0.
+
 ## [2.2.0] - 2026-07-24
 
 ### Changed
