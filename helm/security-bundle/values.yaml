@@ -98,6 +98,7 @@ apps:
     chartName: kyverno
     catalog: giantswarm
     dependsOn:
+      - cilium
       - kyverno-crds
       - prometheus-operator-crd
       - alloy-podlogs-crds
@@ -131,6 +132,7 @@ apps:
     chartName: kyverno-policy-operator
     catalog: giantswarm
     dependsOn:
+      - cilium
       - kyverno-crds
       - kyverno
       - alloy-podlogs-crds
