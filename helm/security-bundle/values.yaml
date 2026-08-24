@@ -187,9 +187,9 @@ apps:
   trivyOperator:
     appName: trivy-operator
     chartName: trivy-operator
-    catalog: giantswarm-test
+    catalog: giantswarm
     enabled: false
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.13.4-dev.main-update-chart.2026-08-04.15-33-00.h22a8b10
+    version: 0.13.3
