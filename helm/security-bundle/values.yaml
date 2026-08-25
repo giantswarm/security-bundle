@@ -86,7 +86,7 @@ apps:
   kyverno:
     appName: kyverno
     chartName: kyverno
-    catalog: giantswarm-test
+    catalog: giantswarm
     dependsOn:
       - kyverno-crds
       - prometheus-operator-crd
@@ -103,7 +103,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.24.3-dev.main-update-chart.2026-08-04.16-54-33.hda26301
+    version: 0.24.2
   kyvernoCrds:
     appName: kyverno-crds
     chartName: kyverno-crds
