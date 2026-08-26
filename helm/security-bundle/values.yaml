@@ -133,7 +133,7 @@ apps:
   kyvernoPolicies:
     appName: kyverno-policies
     chartName: kyverno-policies
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       - kyverno-crds
     enabled: true
@@ -141,7 +141,7 @@ apps:
     createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.26.1
+    version: 0.27.1-dev.main-update-chart.2026-08-26.21-03-21.h5cd05b4
   policyApiCrds:
     appName: policy-api-crds
     chartName: policy-api-crds
