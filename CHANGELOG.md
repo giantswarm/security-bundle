@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update `exception-recommender` (app) to v0.3.0.
 - Update `trivy-operator` (app) to v0.14.0.
+- Update `kubescape` (app) to v0.1.1.
 
 ## [2.3.0] - 2026-08-21
 
