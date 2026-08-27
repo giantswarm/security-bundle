@@ -91,7 +91,7 @@ apps:
     namespace: kubescape
     # used by renovate
     # repo: giantswarm/kubescape-app
-    version: 0.1.0
+    version: 0.1.1
 
   kyverno:
     appName: kyverno
@@ -156,7 +156,7 @@ apps:
     createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.26.1
+    version: 0.27.0
 
   policyApiCrds:
     appName: policy-api-crds
@@ -192,7 +192,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 1.2.3
+    version: 1.2.10
 
   trivy:
     appName: trivy
@@ -202,7 +202,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
-    version: 0.17.0
+    version: 0.18.0
 
   trivyOperator:
     appName: trivy-operator
