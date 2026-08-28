@@ -9,7 +9,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Update `starboard-exporter` (app) to v1.1.0.
+- Update `exception-recommender` (app) to v0.3.0.
+- Update `trivy-operator` (app) to v0.14.0.
+- Update `kubescape` (app) to v0.1.1.
+- Update `starboard-exporter` (app) to v1.2.9.
+- Update `trivy` (app) to v0.18.0.
+- Update `kyverno-policies` (app) to v0.27.0.
+
+## [2.3.0] - 2026-08-21
+
+### Changed
+
+- Update `kyverno-policy-operator` (app) to v0.2.3.
+- Update `policy-api` (app) to v0.0.9.
+- Update `starboard-exporter` (app) to v1.2.3.
+- Update `trivy` (app) to v0.17.0.
+- Update `trivy-operator` (app) to v0.13.3.
+- Run the E2E test suites automatically on release PRs by adding `.github/release-pr-body.md`.
+- Values: Make Kyverno and Kyverno Policy Operator depend on Cilium.
+
+## [2.2.0] - 2026-07-24
+
+### Changed
+
+- Update `kyverno-policies` (app) to v0.26.1.
+- Update `starboard-exporter` (app) to v1.1.4.
+- Update `trivy` (app) to v0.16.0.
+- Update `trivy-operator` (app) to v0.13.2.
 
 ## [2.1.0] - 2026-06-18
 
@@ -614,7 +640,9 @@ This release includes a Kyverno upstream update. Please refer to the following R
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/giantswarm/security-bundle/compare/v2.2.0...v2.3.0
+[2.2.0]: https://github.com/giantswarm/security-bundle/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/giantswarm/security-bundle/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/giantswarm/security-bundle/compare/v1.17.1...v2.0.0
 [1.17.1]: https://github.com/giantswarm/security-bundle/compare/v1.17.0...v1.17.1
