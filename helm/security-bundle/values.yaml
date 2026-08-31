@@ -54,7 +54,6 @@ apps:
     # used by renovate
     # repo: giantswarm/exception-recommender
     version: 0.3.0
-
   falco:
     appName: falco
     chartName: falco
@@ -84,7 +83,6 @@ apps:
     # used by renovate
     # repo: giantswarm/kubescape-app
     version: 0.1.1
-
   kyverno:
     appName: kyverno
     chartName: kyverno
@@ -132,7 +130,6 @@ apps:
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
     version: 0.2.3
-
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
   kyvernoPolicies:
@@ -158,7 +155,6 @@ apps:
     # used by renovate
     # repo: giantswarm/policy-api
     version: 0.0.11
-
   reportsServer:
     appName: reports-server
     chartName: reports-server
@@ -181,7 +177,6 @@ apps:
     # used by renovate
     # repo: giantswarm/starboard-exporter
     version: 1.2.10
-
   trivy:
     appName: trivy
     chartName: trivy
@@ -191,7 +186,6 @@ apps:
     # used by renovate
     # repo: giantswarm/trivy-app
     version: 0.18.0
-
   trivyOperator:
     appName: trivy-operator
     chartName: trivy-operator
@@ -200,4 +194,4 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.14.1-dev.main-update-chart.2026-08-28.13-46-38.h9166f8e
+    version: 0.14.1-dev.main-update-chart.2026-08-31.18-16-46.ha7d1bde
