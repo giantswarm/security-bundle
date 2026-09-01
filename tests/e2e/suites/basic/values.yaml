@@ -1,15 +1,15 @@
 apps:
   cloudnativePG:
-    enabled: true
+    enabled: false
 
   gel:
-    enabled: true
+    enabled: false
 
   exceptionRecommender:
     enabled: true
 
   falco:
-    enabled: false
+    enabled: true
 
   jiralert:
     enabled: false
@@ -33,7 +33,7 @@ apps:
     enabled: false
 
   reportsServer:
-    enabled: true
+    enabled: false
 
   starboardExporter:
     enabled: true
