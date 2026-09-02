@@ -1,3 +1,11 @@
+userConfig:
+  kyvernoCrds:
+    configMap:
+      values:
+        crds:
+          reportsServer:
+            enabled: true
+
 apps:
   cloudnativePG:
     enabled: true
@@ -9,7 +17,7 @@ apps:
     enabled: true
 
   falco:
-    enabled: false
+    enabled: true
 
   jiralert:
     enabled: false
