@@ -23,7 +23,7 @@ apps:
     enabled: false
 
   kubescape:
-    enabled: true
+    enabled: false
 
   kyverno:
     enabled: true
