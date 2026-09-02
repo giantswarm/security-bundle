@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `starboard-exporter` (app) to v1.2.9.
 - Update `trivy` (app) to v0.18.0.
 - Update `kyverno-policies` (app) to v0.27.0.
+- Update `gel` (app) to v1.0.3.
 
 ## [2.3.0] - 2026-08-21
 
