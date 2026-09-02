@@ -9,7 +9,7 @@ apps:
     enabled: true
 
   falco:
-    enabled: false
+    enabled: true
 
   jiralert:
     enabled: false
