@@ -1,9 +1,9 @@
 apps:
   cloudnativePG:
-    enabled: false
+    enabled: true
 
   gel:
-    enabled: false
+    enabled: true
 
   exceptionRecommender:
     enabled: true
@@ -33,7 +33,7 @@ apps:
     enabled: false
 
   reportsServer:
-    enabled: false
+    enabled: true
 
   starboardExporter:
     enabled: true
