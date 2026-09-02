@@ -31,6 +31,9 @@ apps:
     appName: cloudnative-pg
     chartName: cloudnative-pg
     catalog: giantswarm-operations-platform
+    dependsOn:
+      - cilium
+      - prometheus-operator-crd
     enabled: false
     namespace: giantswarm
     # used by renovate
@@ -65,6 +68,9 @@ apps:
     appName: falco
     chartName: falco
     catalog: giantswarm
+    dependsOn:
+      - cilium
+      - kyverno-crds
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -86,7 +92,9 @@ apps:
     chartName: kubescape
     catalog: giantswarm
     dependsOn:
+      - cilium
       - kyverno-crds
+      - kyverno-policy-operator
     enabled: false
     namespace: kubescape
     # used by renovate
@@ -198,6 +206,8 @@ apps:
     appName: trivy
     chartName: trivy
     catalog: giantswarm
+    dependsOn:
+      - kyverno-crds
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -208,6 +218,10 @@ apps:
     appName: trivy-operator
     chartName: trivy-operator
     catalog: giantswarm
+    dependsOn:
+      - cilium
+      - kyverno-crds
+      - trivy
     enabled: false
     # namespace: security-bundle
     # used by renovate
