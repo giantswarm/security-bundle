@@ -46,11 +46,12 @@ apps:
     catalog: giantswarm-operations-platform
     dependsOn:
       - cloudnative-pg
+      - cert-manager
     enabled: false
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/gel-app
-    version: 1.0.2
+    version: 1.0.3
 
   exceptionRecommender:
     appName: exception-recommender
