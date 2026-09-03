@@ -11,7 +11,7 @@ apps:
     enabled: true
 
   gel:
-    enabled: true
+    enabled: false
 
   exceptionRecommender:
     enabled: true
