@@ -7,12 +7,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/giantswarm/apiextensions-application/api/v1alpha1"
+	helmv2 "github.com/fluxcd/helm-controller/api/v2"
 	"github.com/giantswarm/apptest-framework/v5/pkg/state"
 	"github.com/giantswarm/apptest-framework/v5/pkg/suite"
 	clusterclient "github.com/giantswarm/clustertest/v5/pkg/client"
+	"github.com/giantswarm/clustertest/v5/pkg/failurehandler"
+	"github.com/giantswarm/clustertest/v5/pkg/helmrelease"
 	"github.com/giantswarm/clustertest/v5/pkg/logger"
-	"github.com/giantswarm/clustertest/v5/pkg/wait"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	appsv1 "k8s.io/api/apps/v1"
@@ -61,38 +62,39 @@ func TestBasic(t *testing.T) {
 		WithIsUpgrade(isUpgrade).
 		WithValuesFile(valuesFile).
 		Tests(func() {
-			It("should deploy security-bundle and all enabled child Apps", func() {
+			It("should deploy security-bundle and all enabled child HelmReleases", func() {
 				ctx := context.Background()
-				mc := state.GetFramework().MC()
+				framework := state.GetFramework()
+				mc := framework.MC()
 				cluster := state.GetCluster()
 				orgNamespace := cluster.GetNamespace()
 				parentName := fmt.Sprintf("%s-security-bundle", cluster.Name)
 
-				By(fmt.Sprintf("Waiting for parent App %s to be deployed", parentName))
-				Eventually(wait.IsAppDeployed(ctx, mc, parentName, orgNamespace)).
+				By(fmt.Sprintf("Waiting for the security-bundle %s to be deployed", parentName))
+				Eventually(helmrelease.IsAppOrHelmReleaseReady(ctx, mc, parentName, orgNamespace)).
 					WithTimeout(parentReadyTimeout).
 					WithPolling(pollingInterval).
-					Should(BeTrue())
+					Should(BeTrue(), failurehandler.HelmReleasesNotReady(framework, cluster))
 
-				By("Listing child Apps managed by the security-bundle")
-				appList := &v1alpha1.AppList{}
-				err := mc.List(ctx, appList,
+				By("Listing child HelmReleases managed by the security-bundle")
+				hrList := &helmv2.HelmReleaseList{}
+				err := mc.List(ctx, hrList,
 					client.InNamespace(orgNamespace),
 					client.MatchingLabels{"giantswarm.io/managed-by": parentName},
 				)
 				Expect(err).NotTo(HaveOccurred())
-				Expect(appList.Items).NotTo(BeEmpty(), "expected at least one child App managed by %s", parentName)
+				Expect(hrList.Items).NotTo(BeEmpty(), "expected at least one child HelmRelease managed by %s", parentName)
 
-				children := make([]types.NamespacedName, 0, len(appList.Items))
-				for _, app := range appList.Items {
-					children = append(children, types.NamespacedName{Name: app.Name, Namespace: app.Namespace})
+				children := make([]types.NamespacedName, 0, len(hrList.Items))
+				for _, hr := range hrList.Items {
+					children = append(children, types.NamespacedName{Name: hr.Name, Namespace: hr.Namespace})
 				}
 
-				By(fmt.Sprintf("Waiting for %d child Apps to be deployed", len(children)))
-				Eventually(wait.IsAllAppDeployed(ctx, mc, children)).
+				By(fmt.Sprintf("Waiting for %d child HelmReleases to be ready", len(children)))
+				Eventually(helmrelease.AreAllReady(ctx, mc, children)).
 					WithTimeout(childrenReadyTimeout).
 					WithPolling(pollingInterval).
-					Should(BeTrue())
+					Should(Succeed(), failurehandler.HelmReleasesNotReady(framework, cluster))
 			})
 
 			for _, check := range appChecks {
