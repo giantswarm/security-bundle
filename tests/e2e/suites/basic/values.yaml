@@ -4,14 +4,14 @@ userConfig:
       values:
         crds:
           reportsServer:
-            enabled: true
+            enabled: false
 
 apps:
   cloudnativePG:
-    enabled: true
+    enabled: false
 
   gel:
-    enabled: true
+    enabled: false
 
   exceptionRecommender:
     enabled: true
@@ -41,7 +41,7 @@ apps:
     enabled: false
 
   reportsServer:
-    enabled: true
+    enabled: false
 
   starboardExporter:
     enabled: true
