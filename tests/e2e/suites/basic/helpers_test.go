@@ -72,28 +72,40 @@ var (
 	}
 )
 
-// registerScenarioNamespace creates the namespace the scenarios below share and
-// tears it down, along with everything in it, once the suite finishes.
+// registerScenarioNamespace creates the namespace the scenarios below share.
+// Teardown happens in cleanupScenarioResources, not here: a DeferCleanup
+// registered inside an It runs at the end of that spec, which would take the
+// namespace away before any scenario had run.
 func registerScenarioNamespace() {
 	It("should create the scenario namespace on the workload cluster", func() {
 		ctx := context.Background()
-		wc := wcClient()
-
-		namespace := &corev1.Namespace{
-			ObjectMeta: metav1.ObjectMeta{Name: scenarioNamespace},
-		}
 
 		By(fmt.Sprintf("Creating namespace %s", scenarioNamespace))
-		err := wc.Create(ctx, namespace)
+		err := wcClient().Create(ctx, &corev1.Namespace{
+			ObjectMeta: metav1.ObjectMeta{Name: scenarioNamespace},
+		})
 		if apierrors.IsAlreadyExists(err) {
 			err = nil
 		}
 		Expect(err).NotTo(HaveOccurred())
-
-		DeferCleanup(func() {
-			Expect(deleteIfExists(context.Background(), wcClient(), namespace)).To(Succeed())
-		})
 	})
+}
+
+// cleanupScenarioResources removes everything the scenarios create. Deleting
+// the namespace takes the workloads with it; the Giant Swarm PolicyException
+// lives outside it and owns the generated Kyverno one, so deleting it removes
+// both.
+func cleanupScenarioResources() {
+	ctx := context.Background()
+	wc := wcClient()
+
+	gsException := newUnstructured(gsPolicyExceptionGVK)
+	gsException.SetName(policyExceptionName)
+	gsException.SetNamespace(policyExceptionNamespace)
+	Expect(deleteIfExists(ctx, wc, gsException)).To(Succeed())
+
+	namespace := &corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: scenarioNamespace}}
+	Expect(deleteIfExists(ctx, wc, namespace)).To(Succeed())
 }
 
 // wcClient returns a client for the workload cluster under test.

@@ -119,11 +119,16 @@ func TestBasic(t *testing.T) {
 
 			// Functional scenarios exercising the security apps against a real
 			// workload. They share one namespace and one compliant Deployment,
-			// so the order below is load-bearing.
-			registerScenarioNamespace()
-			registerKyvernoPolicyScenarios()
-			registerTrivyScenarios()
-			registerPolicyExceptionScenarios()
+			// so they run Ordered and tear down together in AfterAll rather
+			// than per-spec.
+			Describe("security app scenarios", Ordered, func() {
+				AfterAll(cleanupScenarioResources)
+
+				registerScenarioNamespace()
+				registerKyvernoPolicyScenarios()
+				registerTrivyScenarios()
+				registerPolicyExceptionScenarios()
+			})
 		}).
 		Run(t, "Basic Test")
 }

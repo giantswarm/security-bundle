@@ -40,12 +40,7 @@ func registerKyvernoPolicyScenarios() {
 		wc := wcClient()
 
 		By(fmt.Sprintf("Creating Deployment %s", compliantWorkload))
-		deployment := workloadDeployment(compliantWorkload, true)
-		Expect(wc.Create(ctx, deployment)).To(Succeed())
-
-		DeferCleanup(func() {
-			Expect(deleteIfExists(context.Background(), wcClient(), deployment)).To(Succeed())
-		})
+		Expect(wc.Create(ctx, workloadDeployment(compliantWorkload, true))).To(Succeed())
 
 		By("Waiting for the workload to become available")
 		Eventually(func() error {

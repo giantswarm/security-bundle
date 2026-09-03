@@ -50,12 +50,6 @@ func registerPolicyExceptionScenarios() {
 		By(fmt.Sprintf("Creating Giant Swarm PolicyException %s/%s", policyExceptionNamespace, policyExceptionName))
 		Expect(wc.Create(ctx, gsException)).To(Succeed())
 
-		DeferCleanup(func() {
-			// The Kyverno PolicyException is owned by this one, so deleting it
-			// takes both away.
-			Expect(deleteIfExists(context.Background(), wcClient(), gsException)).To(Succeed())
-		})
-
 		By("Waiting for the operator to create the corresponding Kyverno PolicyException")
 		kyvernoException := newUnstructured(kyvernoPolicyExceptionGVK)
 		Eventually(func() error {
@@ -84,17 +78,13 @@ func registerPolicyExceptionScenarios() {
 		ctx := context.Background()
 		wc := wcClient()
 
-		deployment := workloadDeployment(violatingWorkload, false)
-
-		DeferCleanup(func() {
-			Expect(deleteIfExists(context.Background(), wcClient(), deployment)).To(Succeed())
-		})
-
 		// Retried because kyverno may not have picked the new exception up yet;
-		// a rejected create leaves nothing behind, so retrying is safe.
+		// a rejected create leaves nothing behind, so retrying is safe. Each
+		// attempt builds a fresh object: a failed Create can leave metadata
+		// stamped on the one it was given, which the next attempt would reject.
 		By(fmt.Sprintf("Recreating Deployment %s, now covered by the exception", violatingWorkload))
 		Eventually(func() error {
-			return wc.Create(ctx, deployment)
+			return wc.Create(ctx, workloadDeployment(violatingWorkload, false))
 		}).WithTimeout(exceptionEffectiveTimeout).WithPolling(pollingInterval).Should(Succeed())
 
 		By("Waiting for the exempted workload to become available")
