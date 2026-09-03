@@ -116,6 +116,14 @@ func TestBasic(t *testing.T) {
 					}).WithTimeout(deploymentsTimeout).WithPolling(pollingInterval).Should(Succeed())
 				})
 			}
+
+			// Functional scenarios exercising the security apps against a real
+			// workload. They share one namespace and one compliant Deployment,
+			// so the order below is load-bearing.
+			registerScenarioNamespace()
+			registerKyvernoPolicyScenarios()
+			registerTrivyScenarios()
+			registerPolicyExceptionScenarios()
 		}).
 		Run(t, "Basic Test")
 }
