@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `trivy` (app) to v0.18.0.
 - Update `kyverno-policies` (app) to v0.27.0.
 - Update `policy-api` (app) to v0.0.10.
+- Update `jiralert` (app) to v0.1.4.
 
 ## [2.3.0] - 2026-08-21
 
