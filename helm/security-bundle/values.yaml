@@ -96,6 +96,7 @@ apps:
       - cilium
       - kyverno-crds
       - kyverno-policy-operator
+    createNamespace: true
     enabled: false
     namespace: kubescape
     # used by renovate

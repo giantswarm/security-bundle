@@ -23,9 +23,11 @@ import (
 )
 
 const (
-	isUpgrade            = false
-	parentReadyTimeout   = 5 * time.Minute
-	childrenReadyTimeout = 10 * time.Minute
+	isUpgrade          = false
+	parentReadyTimeout = 5 * time.Minute
+	// kyverno alone has been observed taking ~13 minutes to install on a fresh
+	// cluster, so the budget for the whole set has to be well above that.
+	childrenReadyTimeout = 25 * time.Minute
 	deploymentsTimeout   = 10 * time.Minute
 	pollingInterval      = 10 * time.Second
 	instanceLabel        = "app.kubernetes.io/instance"

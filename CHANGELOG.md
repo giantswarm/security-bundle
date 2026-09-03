@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add e2e scenarios covering trivy-operator `VulnerabilityReport` creation, starboard-exporter metrics for that report, kyverno restricted PSS enforcement, and kyverno-policy-operator `PolicyException` translation.
 
+### Fixed
+
+- Create the `kubescape` namespace when the `kubescape` app is enabled. Without `createNamespace`, its install failed with `namespaces "kubescape" not found`, as no other app in the bundle creates it.
+
 ### Changed
 
 - Update `exception-recommender` (app) to v0.3.0.
