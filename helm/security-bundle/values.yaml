@@ -34,6 +34,7 @@ apps:
     dependsOn:
       - cilium
       - prometheus-operator-crd
+    createNamespace: true
     enabled: false
     namespace: giantswarm
     # used by renovate
@@ -47,6 +48,7 @@ apps:
     dependsOn:
       - cloudnative-pg
       - cert-manager
+    createNamespace: true
     enabled: false
     namespace: policy-system
     # used by renovate
@@ -59,6 +61,7 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-crds
+    createNamespace: true
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -72,6 +75,7 @@ apps:
     dependsOn:
       - cilium
       - kyverno-crds
+    createNamespace: true
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -82,6 +86,7 @@ apps:
     appName: jiralert
     chartName: jiralert
     catalog: giantswarm
+    createNamespace: true
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -174,6 +179,7 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-policy-operator
+    createNamespace: true
     enabled: false
     namespace: policy-system
     # used by renovate
@@ -186,6 +192,7 @@ apps:
     catalog: giantswarm-operations-platform
     dependsOn:
       - cloudnative-pg
+    createNamespace: true
     enabled: false
     namespace: kyverno
     # used by renovate
@@ -198,6 +205,7 @@ apps:
     catalog: giantswarm
     dependsOn:
       - prometheus-operator-crd
+    createNamespace: true
     enabled: false
     namespace: security-bundle
     # used by renovate
@@ -210,6 +218,7 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-crds
+    createNamespace: true
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -224,6 +233,7 @@ apps:
       - cilium
       - kyverno-crds
       - trivy
+    createNamespace: true
     enabled: false
     # namespace: security-bundle
     # used by renovate

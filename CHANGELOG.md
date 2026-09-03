@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Create the `kubescape` namespace when the `kubescape` app is enabled. Without `createNamespace`, its install failed with `namespaces "kubescape" not found`, as no other app in the bundle creates it.
+- Set `createNamespace` on every app in the bundle, so each one creates its target namespace instead of relying on another app to have created it first. Previously `kubescape` failed with `namespaces "kubescape" not found`, and the apps targeting `security-bundle` could only install after `kyverno-policy-operator` had created it.
 
 ### Changed
 
