@@ -104,6 +104,13 @@ apps:
     createNamespace: true
     enabled: false
     namespace: kubescape
+    # kubescape does not finish installing within Flux's 5m default, so it
+    # needs the same kind of override kyverno has.
+    options:
+      install:
+        timeout: 15m
+      upgrade:
+        timeout: 15m
     # used by renovate
     # repo: giantswarm/kubescape-app
     version: 0.1.1

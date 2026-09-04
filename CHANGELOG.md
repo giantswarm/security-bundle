@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Give `kubescape` a 15m install and upgrade timeout. It does not finish installing within Flux's 5m default, so it failed with `context deadline exceeded` and then retried indefinitely.
 - Set `createNamespace` on every app in the bundle, so each one creates its target namespace instead of relying on another app to have created it first. Previously `kubescape` failed with `namespaces "kubescape" not found`, and the apps targeting `security-bundle` could only install after `kyverno-policy-operator` had created it.
 
 ### Changed
