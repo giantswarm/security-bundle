@@ -36,7 +36,6 @@ apps:
     # used by renovate
     # repo: giantswarm/cloudnative-pg-app
     version: 0.1.0
-
   exceptionRecommender:
     appName: exception-recommender
     chartName: exception-recommender
@@ -93,7 +92,6 @@ apps:
     # used by renovate
     # repo: giantswarm/kubescape-app
     version: 0.1.2
-
   kyverno:
     appName: kyverno
     chartName: kyverno
@@ -167,7 +165,6 @@ apps:
     # used by renovate
     # repo: giantswarm/policy-api
     version: 0.0.12
-
   reportsServer:
     appName: reports-server
     chartName: reports-server
@@ -192,7 +189,6 @@ apps:
     # used by renovate
     # repo: giantswarm/starboard-exporter
     version: 1.2.15
-
   trivy:
     appName: trivy
     chartName: trivy
@@ -208,7 +204,7 @@ apps:
   trivyOperator:
     appName: trivy-operator
     chartName: trivy-operator
-    catalog: giantswarm-test
+    catalog: giantswarm
     dependsOn:
       - cilium
       - kyverno-crds
@@ -218,4 +214,4 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.14.1-dev.main-update-chart.2026-09-07.12-30-24.hd1c775b
+    version: 0.14.0
