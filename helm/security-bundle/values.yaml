@@ -51,7 +51,7 @@ apps:
   falco:
     appName: falco
     chartName: falco
-    catalog: giantswarm-test
+    catalog: giantswarm
     dependsOn:
       - cilium
       - kyverno-crds
@@ -60,7 +60,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/falco-app
-    version: 0.12.2-dev.main-update-chart.2026-09-01.17-06-06.h6359fce
+    version: 0.12.1
   jiralert:
     appName: jiralert
     chartName: jiralert
