@@ -34,6 +34,7 @@ apps:
     dependsOn:
       - cilium
       - prometheus-operator-crd
+    createNamespace: true
     enabled: false
     namespace: giantswarm
     # used by renovate
@@ -46,6 +47,7 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-crds
+    createNamespace: true
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -59,6 +61,7 @@ apps:
     dependsOn:
       - cilium
       - kyverno-crds
+    createNamespace: true
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -69,6 +72,7 @@ apps:
     appName: jiralert
     chartName: jiralert
     catalog: giantswarm
+    createNamespace: true
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -83,11 +87,19 @@ apps:
       - cilium
       - kyverno-crds
       - kyverno-policy-operator
+    createNamespace: true
     enabled: false
     namespace: kubescape
+    # kubescape does not finish installing within Flux's 5m default, so it
+    # needs the same kind of override kyverno has.
+    options:
+      install:
+        timeout: 15m
+      upgrade:
+        timeout: 15m
     # used by renovate
     # repo: giantswarm/kubescape-app
-    version: 0.1.1
+    version: 0.1.2
 
   kyverno:
     appName: kyverno
@@ -160,11 +172,12 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-policy-operator
+    createNamespace: true
     enabled: false
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/policy-api
-    version: 0.0.11
+    version: 0.0.12
 
   reportsServer:
     appName: reports-server
@@ -172,6 +185,7 @@ apps:
     catalog: giantswarm-operations-platform
     dependsOn:
       - cloudnative-pg
+    createNamespace: true
     enabled: false
     namespace: kyverno
     # used by renovate
@@ -184,11 +198,12 @@ apps:
     catalog: giantswarm
     dependsOn:
       - prometheus-operator-crd
+    createNamespace: true
     enabled: false
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 1.2.11
+    version: 1.2.15
 
   trivy:
     appName: trivy
@@ -196,6 +211,7 @@ apps:
     catalog: giantswarm
     dependsOn:
       - kyverno-crds
+    createNamespace: true
     enabled: false
     # namespace: security-bundle
     # used by renovate
@@ -210,6 +226,7 @@ apps:
       - cilium
       - kyverno-crds
       - trivy
+    createNamespace: true
     enabled: false
     # namespace: security-bundle
     # used by renovate
