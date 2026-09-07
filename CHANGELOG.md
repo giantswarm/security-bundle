@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add e2e scenarios covering trivy-operator `VulnerabilityReport` creation, starboard-exporter metrics for that report, kyverno restricted PSS enforcement, and kyverno-policy-operator `PolicyException` translation.
+
+### Fixed
+
+- Give `kubescape` a 15m install and upgrade timeout. It does not finish installing within Flux's 5m default, so it failed with `context deadline exceeded` and then retried indefinitely.
+- Set `createNamespace` on every app in the bundle, so each one creates its target namespace instead of relying on another app to have created it first. Previously `kubescape` failed with `namespaces "kubescape" not found`, and the apps targeting `security-bundle` could only install after `kyverno-policy-operator` had created it.
+
 ### Changed
 
 - Update `exception-recommender` (app) to v0.3.0.
@@ -15,7 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `starboard-exporter` (app) to v1.2.9.
 - Update `trivy` (app) to v0.18.0.
 - Update `kyverno-policies` (app) to v0.27.0.
-- Update `gel` (app) to v1.0.3.
+
+### Removed
+
+- Remove `gel` (app).
 
 ## [2.3.0] - 2026-08-21
 
