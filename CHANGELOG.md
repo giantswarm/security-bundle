@@ -19,11 +19,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update `exception-recommender` (app) to v0.3.0.
-- Update `trivy-operator` (app) to v0.14.0.
+- Update `falco` (app) to v0.13.0.
+- Update `jiralert` (app) to v0.1.4.
 - Update `kubescape` (app) to v0.1.1.
-- Update `starboard-exporter` (app) to v1.2.9.
+- Update `kyverno-policies` (app) to v0.27.1.
+- Update `policy-api` (app) to v0.0.12.
+- Update `starboard-exporter` (app) to v1.2.15.
 - Update `trivy` (app) to v0.18.0.
-- Update `kyverno-policies` (app) to v0.27.0.
+- Update `trivy-operator` (app) to v0.15.0.
 
 ### Removed
 
