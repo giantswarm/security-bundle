@@ -6,6 +6,18 @@ userConfig:
           reportsServer:
             enabled: true
 
+  # trivy is the only StatefulSet in the bundle with an RWO PVC. On AWS that is
+  # a zonal EBS volume, which pins the pod to one AZ for good: once that node
+  # fills up the pod is unschedulable, and cluster-autoscaler refuses to help
+  # because a new node would not match the volume's node affinity. The cache is
+  # worthless on a throwaway cluster, so drop the volume entirely.
+  trivy:
+    configMap:
+      values:
+        trivy:
+          persistence:
+            enabled: false
+
 apps:
   cloudnativePG:
     enabled: true
