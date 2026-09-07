@@ -1,15 +1,41 @@
+userConfig:
+  kyvernoCrds:
+    configMap:
+      values:
+        crds:
+          # false means "reports-server is NOT in use, so DO install the
+          # policyreport/ephemeralreport CRDs". With it true and reports-server
+          # absent, kyverno's reports-controller crashloops on its startup
+          # sanity check and the install runs to its 15m timeout.
+          reportsServer:
+            enabled: false
+
+  # trivy is the only StatefulSet in the bundle with an RWO PVC. On AWS that is
+  # a zonal EBS volume, which pins the pod to one AZ for good: once that node
+  # fills up the pod is unschedulable, and cluster-autoscaler refuses to help
+  # because a new node would not match the volume's node affinity. The cache is
+  # worthless on a throwaway cluster, so drop the volume entirely.
+  trivy:
+    configMap:
+      values:
+        trivy:
+          persistence:
+            enabled: false
+
 apps:
+  # Only reports-server used this; orphaned now, and it wedges on a CRD race
+  # roughly half of all runs.
   cloudnativePG:
-    enabled: true
+    enabled: false
 
   gel:
-    enabled: true
+    enabled: false
 
   exceptionRecommender:
     enabled: true
 
   falco:
-    enabled: false
+    enabled: true
 
   jiralert:
     enabled: false
@@ -33,7 +59,7 @@ apps:
     enabled: false
 
   reportsServer:
-    enabled: true
+    enabled: false
 
   starboardExporter:
     enabled: true
