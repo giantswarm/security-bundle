@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `starboard-exporter` (app) to v1.2.11.
 - Update `starboard-exporter` (app) to v1.2.15.
 - Update `policy-api` (app) to v0.0.12.
+- Update `trivy-operator` (app) to v0.15.0.
 
 ## [2.3.0] - 2026-08-21
 
