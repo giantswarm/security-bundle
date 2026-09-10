@@ -74,7 +74,7 @@ apps:
   kubescape:
     appName: kubescape
     chartName: kubescape
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       - cilium
       - kyverno-crds
@@ -91,7 +91,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kubescape-app
-    version: 0.1.2
+    version: 0.1.3-dev.main-update-chart.2026-09-10.22-52-42.h7730ed6
   kyverno:
     appName: kyverno
     chartName: kyverno
