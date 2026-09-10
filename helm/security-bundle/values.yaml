@@ -61,7 +61,6 @@ apps:
     # used by renovate
     # repo: giantswarm/falco-app
     version: 0.13.0
-
   jiralert:
     appName: jiralert
     chartName: jiralert
@@ -153,8 +152,7 @@ apps:
     createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.28.0
-
+    version: 0.28.1-dev.main-update-chart.2026-09-10.10-38-20.h1b59806
   policyApiCrds:
     appName: policy-api-crds
     chartName: policy-api-crds
