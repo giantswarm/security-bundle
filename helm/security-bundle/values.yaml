@@ -123,7 +123,7 @@ apps:
     createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.17.1-dev.main-update-chart.2026-09-08.14-22-21.hbb94323
+    version: 1.17.1-dev.main-update-chart.2026-09-10.13-13-35.h07406cc
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
