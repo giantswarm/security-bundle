@@ -1,13 +1,10 @@
 clusterID: ""
 organization: ""
-
 global:
   # All Apps will be installed in this namespace unless overridden below.
   namespace: "security-bundle"
-
 # User values can be provided via a ConfigMap or Secret for each individual app
 # using the structure shown below.
-
 userConfig:
   jiralert:
     configMap:
@@ -25,7 +22,6 @@ userConfig:
       values:
         crds:
           install: true
-
 apps:
   cloudnativePG:
     appName: cloudnative-pg
@@ -40,7 +36,6 @@ apps:
     # used by renovate
     # repo: giantswarm/cloudnative-pg-app
     version: 0.1.0
-
   exceptionRecommender:
     appName: exception-recommender
     chartName: exception-recommender
@@ -53,7 +48,6 @@ apps:
     # used by renovate
     # repo: giantswarm/exception-recommender
     version: 0.3.0
-
   falco:
     appName: falco
     chartName: falco
@@ -67,7 +61,6 @@ apps:
     # used by renovate
     # repo: giantswarm/falco-app
     version: 0.13.0
-
   jiralert:
     appName: jiralert
     chartName: jiralert
@@ -78,11 +71,10 @@ apps:
     # used by renovate
     # repo: giantswarm/jiralert-app
     version: 0.1.4
-
   kubescape:
     appName: kubescape
     chartName: kubescape
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       - cilium
       - kyverno-crds
@@ -99,12 +91,11 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kubescape-app
-    version: 0.1.2
-
+    version: 0.1.3-dev.main-update-chart.2026-09-10.22-52-42.h7730ed6
   kyverno:
     appName: kyverno
     chartName: kyverno
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       - cilium
       - kyverno-crds
@@ -122,19 +113,17 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.24.2
-
+    version: 0.24.3-dev.main-update-chart.2026-09-07.17-15-33.h2b66e25
   kyvernoCrds:
     appName: kyverno-crds
     chartName: kyverno-crds
-    catalog: giantswarm
+    catalog: giantswarm-test
     enabled: true
     namespace: kyverno
     createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.17.0
-
+    version: 1.17.1-dev.main-update-chart.2026-09-10.13-13-35.h07406cc
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
@@ -150,7 +139,6 @@ apps:
     # used by renovate
     # repo: giantswarm/kyverno-policy-operator
     version: 0.2.3
-
   # Kyverno policies for Kubernetes Pod Security Standards (PSS).
   # From: https://github.com/giantswarm/kyverno-policies/
   kyvernoPolicies:
@@ -165,7 +153,6 @@ apps:
     # used by renovate
     # repo: giantswarm/kyverno-policies
     version: 0.28.0
-
   policyApiCrds:
     appName: policy-api-crds
     chartName: policy-api-crds
@@ -178,7 +165,6 @@ apps:
     # used by renovate
     # repo: giantswarm/policy-api
     version: 0.0.12
-
   reportsServer:
     appName: reports-server
     chartName: reports-server
@@ -191,7 +177,6 @@ apps:
     # used by renovate
     # repo: giantswarm/reports-server-app
     version: 0.1.3
-
   starboardExporter:
     appName: starboard-exporter
     chartName: starboard-exporter
@@ -204,7 +189,6 @@ apps:
     # used by renovate
     # repo: giantswarm/starboard-exporter
     version: 1.2.15
-
   trivy:
     appName: trivy
     chartName: trivy
@@ -217,7 +201,6 @@ apps:
     # used by renovate
     # repo: giantswarm/trivy-app
     version: 0.18.0
-
   trivyOperator:
     appName: trivy-operator
     chartName: trivy-operator

@@ -43,9 +43,7 @@ spec:
       name: {{ $.Values.clusterID }}-kubeconfig
   interval: 5m
   install:
-    {{- if .createNamespace }}
-    createNamespace: true
-    {{- end }}
+    createNamespace: {{ dig "createNamespace" true . }}
     {{- if (.options).install }}
     timeout: {{ .options.install.timeout | default "10m" }}
     {{- end }}
