@@ -33,7 +33,7 @@ on:
 jobs:
   update_status:
     name: Update chart status
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Generate a token
         id: generate_token
