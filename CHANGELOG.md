@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `starboard-exporter` (app) to v1.2.16.
 - Update `falco` (app) to v0.14.0.
 - Update `kyverno-crds` (app) to v1.18.0.
+- Update `kyverno` (app) to v0.25.0.
 
 ## [2.4.0] - 2026-09-07
 
