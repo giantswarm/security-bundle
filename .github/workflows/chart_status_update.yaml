@@ -14,11 +14,11 @@ on:
         required: true
         type: string
       branch:
-        description: "Sanitized source branch name embedded in the gitsemver dev-build tag"
+        description: "Sanitized source branch name, as embedded in pre-v3 gitsemver dev-build tags"
         required: true
         type: string
       commit_datetime:
-        description: "Committer datetime (UTC) embedded in the gitsemver dev-build tag, as YYYY-MM-DD.HH-MM-SS"
+        description: "Committer datetime (UTC) of the gitsemver dev-build, as YYYY-MM-DD.HH-MM-SS"
         required: true
         type: string
       status:
@@ -99,9 +99,10 @@ jobs:
           # The description-update workflow may still be running; poll until the
           # row for this app's build (matched on the gitsemver dev-build datetime,
           # which is part of the version cell) appears before patching the status.
+          # gitsemver v3+ embeds it as "t<YYYYMMDDHHMMSS>h", older versions as-is.
           for i in $(seq 1 10); do
             gh pr view "${pr_number}" --json body --jq '.body' > /tmp/existing_body.txt
-            if grep -F "| \`${APP_NAME}\` |" /tmp/existing_body.txt | grep -qF "${COMMIT_DATETIME}"; then
+            if grep -F "| \`${APP_NAME}\` |" /tmp/existing_body.txt | grep -qF -e "${COMMIT_DATETIME}" -e "t${COMMIT_DATETIME//[-.]/}h"; then
               echo "Row for ${APP_NAME}+${COMMIT_DATETIME} found in PR body"
               break
             fi
