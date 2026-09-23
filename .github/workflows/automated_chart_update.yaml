@@ -14,11 +14,11 @@ on:
         required: true
         type: string
       branch:
-        description: "Sanitized source branch name embedded in the gitsemver dev-build tag"
+        description: "Sanitized source branch name, as embedded in pre-v3 gitsemver dev-build tags"
         required: true
         type: string
       commit_datetime:
-        description: "Committer datetime (UTC) embedded in the gitsemver dev-build tag, as YYYY-MM-DD.HH-MM-SS"
+        description: "Committer datetime (UTC) of the gitsemver dev-build, as YYYY-MM-DD.HH-MM-SS"
         required: true
         type: string
 
@@ -156,13 +156,15 @@ jobs:
 
           oci_repo="gsoci.azurecr.io/charts/giantswarm/${APP_NAME}"
 
-          # gitsemver dev-build tags end in
+          # gitsemver v3+ dev-build tags end in
+          # "-r<branch-crc32>t<YYYYMMDDHHMMSS>h<short-sha>"; older ones in
           # "-dev.<branch>.<YYYY-MM-DD>.<HH-MM-SS>.h<short-sha>".
-          # Match the branch+datetime suffix as the primary signal, and fall back
-          # to the short-SHA suffix so a tag still resolves if the dispatch
-          # payload's branch/datetime drift from what gitsemver embedded.
+          # Match the old branch+datetime suffix as the primary signal, and fall
+          # back to the short-SHA suffix, which both formats end in, so a tag
+          # still resolves if the dispatch payload's branch/datetime drift from
+          # what gitsemver embedded.
           suffix="-dev.${BRANCH}.${COMMIT_DATETIME}"
-          sha_suffix=".h${SHA_SHORT}"
+          sha_suffix="h${SHA_SHORT}"
 
           list_tags() {
             crane ls "${oci_repo}" > /tmp/tags.txt 2>/dev/null || true
