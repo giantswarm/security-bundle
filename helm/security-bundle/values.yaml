@@ -204,7 +204,7 @@ apps:
   trivyOperator:
     appName: trivy-operator
     chartName: trivy-operator
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       - cilium
       - kyverno-crds
@@ -214,4 +214,4 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.15.0
+    version: 0.15.1-rfa2e14a4t20261009103559h313a789
