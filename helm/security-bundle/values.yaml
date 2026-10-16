@@ -200,7 +200,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
-    version: 0.18.2-rfa2e14a4t20261016100738h8f5ca7c
+    version: 0.18.2-rfa2e14a4t20261016222019hd646d0b
   trivyOperator:
     appName: trivy-operator
     chartName: trivy-operator
