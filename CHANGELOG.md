@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `kyverno` (app) to v0.25.1.
 - Update `trivy` (app) to v0.18.1.
 - Update `falco` (app) to v0.14.1.
+- Update `starboard-exporter` (app) to v1.2.20.
 
 ## [2.4.0] - 2026-09-07
 
