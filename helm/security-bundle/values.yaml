@@ -32,8 +32,8 @@ apps:
     chartName: cloudnative-pg
     catalog: giantswarm-operations-platform
     dependsOn:
-      - cilium
-      - prometheus-operator-crd
+      cilium: true
+      prometheus-operator-crd: true
     createNamespace: true
     enabled: false
     namespace: giantswarm
@@ -46,7 +46,7 @@ apps:
     chartName: exception-recommender
     catalog: giantswarm
     dependsOn:
-      - kyverno-crds
+      kyverno-crds: true
     createNamespace: true
     enabled: false
     # namespace: security-bundle
@@ -59,8 +59,8 @@ apps:
     chartName: falco
     catalog: giantswarm
     dependsOn:
-      - cilium
-      - kyverno-crds
+      cilium: true
+      kyverno-crds: true
     createNamespace: true
     enabled: false
     # namespace: security-bundle
@@ -84,9 +84,9 @@ apps:
     chartName: kubescape
     catalog: giantswarm
     dependsOn:
-      - cilium
-      - kyverno-crds
-      - kyverno-policy-operator
+      cilium: true
+      kyverno-crds: true
+      kyverno-policy-operator: true
     createNamespace: true
     enabled: false
     namespace: kubescape
@@ -106,10 +106,10 @@ apps:
     chartName: kyverno
     catalog: giantswarm
     dependsOn:
-      - cilium
-      - kyverno-crds
-      - prometheus-operator-crd
-      - alloy-podlogs-crds
+      cilium: true
+      kyverno-crds: true
+      prometheus-operator-crd: true
+      alloy-podlogs-crds: true
     enabled: true
     namespace: kyverno
     createNamespace: true
@@ -140,10 +140,10 @@ apps:
     chartName: kyverno-policy-operator
     catalog: giantswarm
     dependsOn:
-      - cilium
-      - kyverno-crds
-      - kyverno
-      - alloy-podlogs-crds
+      cilium: true
+      kyverno-crds: true
+      kyverno: true
+      alloy-podlogs-crds: true
     enabled: true
     createNamespace: true
     # namespace: security-bundle
@@ -158,7 +158,7 @@ apps:
     chartName: kyverno-policies
     catalog: giantswarm
     dependsOn:
-      - kyverno-crds
+      kyverno-crds: true
     enabled: true
     namespace: kyverno
     createNamespace: true
@@ -171,7 +171,7 @@ apps:
     chartName: policy-api-crds
     catalog: giantswarm
     dependsOn:
-      - kyverno-policy-operator
+      kyverno-policy-operator: true
     createNamespace: true
     enabled: false
     namespace: policy-system
@@ -184,7 +184,7 @@ apps:
     chartName: reports-server
     catalog: giantswarm-operations-platform
     dependsOn:
-      - cloudnative-pg
+      cloudnative-pg: true
     createNamespace: true
     enabled: false
     namespace: kyverno
@@ -197,7 +197,7 @@ apps:
     chartName: starboard-exporter
     catalog: giantswarm
     dependsOn:
-      - prometheus-operator-crd
+      prometheus-operator-crd: true
     createNamespace: true
     enabled: false
     namespace: security-bundle
@@ -210,7 +210,7 @@ apps:
     chartName: trivy
     catalog: giantswarm
     dependsOn:
-      - kyverno-crds
+      kyverno-crds: true
     createNamespace: true
     enabled: false
     # namespace: security-bundle
@@ -223,9 +223,9 @@ apps:
     chartName: trivy-operator
     catalog: giantswarm
     dependsOn:
-      - cilium
-      - kyverno-crds
-      - trivy
+      cilium: true
+      kyverno-crds: true
+      trivy: true
     createNamespace: true
     enabled: false
     # namespace: security-bundle
