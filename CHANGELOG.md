@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `falco` (app) to v0.14.1.
 - Update `starboard-exporter` (app) to v1.2.20.
 - Update `starboard-exporter` (app) to v1.2.25.
+- Update `policy-api` (app) to v0.1.0.
 
 ### Fixed
 
