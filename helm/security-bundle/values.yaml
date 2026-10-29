@@ -164,7 +164,7 @@ apps:
     createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.28.0
+    version: 0.28.13
 
   policyApiCrds:
     appName: policy-api-crds
@@ -203,7 +203,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 1.2.24
+    version: 1.2.35
 
   trivy:
     appName: trivy
