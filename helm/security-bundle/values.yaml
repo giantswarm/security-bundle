@@ -177,7 +177,7 @@ apps:
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/policy-api
-    version: 0.1.11
+    version: 0.1.13
 
   reportsServer:
     appName: reports-server
