@@ -31,9 +31,15 @@ spec:
   chartRef:
     kind: OCIRepository
     name: {{ $appName }}
-  {{- if .dependsOn }}
+  {{- $dependsOn := list }}
+  {{- range $dependency, $enabled := .dependsOn }}
+  {{- if $enabled }}
+  {{- $dependsOn = append $dependsOn $dependency }}
+  {{- end }}
+  {{- end }}
+  {{- if $dependsOn }}
   dependsOn:
-  {{- range $_, $dependency := .dependsOn }}
+  {{- range $dependency := $dependsOn }}
   - name: {{ $.Values.clusterID }}-{{ $dependency }}
     namespace: {{ $.Release.Namespace }}
   {{- end }}
