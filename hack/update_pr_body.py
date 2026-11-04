@@ -11,8 +11,8 @@ Full update (NEW_VERSION is set):
 
 Remove (REMOVE is set):
   Drops the row for APP_NAME. If COMMIT_DATETIME is provided, only the row that
-  references that gitsemver dev-build datetime is removed (other rows for
-  APP_NAME are left alone).
+  references that gitsemver dev-build datetime (in either tag format) is
+  removed (other rows for APP_NAME are left alone).
   Env: APP_NAME, REMOVE, COMMIT_DATETIME (optional)
 
 Status-only update (NEW_VERSION and REMOVE are empty, STATUS is set):
@@ -30,6 +30,8 @@ new_version = os.environ.get("NEW_VERSION", "")
 source_pr_url = os.environ.get("SOURCE_PR_URL", "")
 status     = os.environ.get("STATUS", "")
 commit_datetime = os.environ.get("COMMIT_DATETIME", "")
+# gitsemver v3+ embeds the datetime as "t<YYYYMMDDHHMMSS>h", older versions as-is.
+commit_datetime_v3 = "t" + commit_datetime.replace("-", "").replace(".", "") + "h"
 remove     = os.environ.get("REMOVE", "")
 
 existing_body = sys.stdin.read()
@@ -50,7 +52,7 @@ if remove:
     new_lines = []
     for line in lines:
         if line.startswith(f"| `{app_name}` |"):
-            if commit_datetime and commit_datetime not in line:
+            if commit_datetime and commit_datetime not in line and commit_datetime_v3 not in line:
                 new_lines.append(line)
             continue
         new_lines.append(line)
@@ -104,7 +106,7 @@ else:
     new_lines = []
     for line in lines:
         if line.startswith(f"| `{app_name}` |"):
-            if commit_datetime and commit_datetime not in line:
+            if commit_datetime and commit_datetime not in line and commit_datetime_v3 not in line:
                 new_lines.append(line)
                 continue
             parts = line.rstrip(" |").split(" | ")

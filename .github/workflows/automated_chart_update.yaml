@@ -14,11 +14,11 @@ on:
         required: true
         type: string
       branch:
-        description: "Sanitized source branch name embedded in the gitsemver dev-build tag"
+        description: "Sanitized source branch name, as embedded in pre-v3 gitsemver dev-build tags"
         required: true
         type: string
       commit_datetime:
-        description: "Committer datetime (UTC) embedded in the gitsemver dev-build tag, as YYYY-MM-DD.HH-MM-SS"
+        description: "Committer datetime (UTC) of the gitsemver dev-build, as YYYY-MM-DD.HH-MM-SS"
         required: true
         type: string
 
@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Generate a token
         id: generate_token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
           client-id: ${{ secrets.HERALD_CLIENT_ID }}
           private-key: ${{ secrets.HERALD_APP_KEY }}
@@ -156,13 +156,15 @@ jobs:
 
           oci_repo="gsoci.azurecr.io/charts/giantswarm/${APP_NAME}"
 
-          # gitsemver dev-build tags end in
+          # gitsemver v3+ dev-build tags end in
+          # "-r<branch-crc32>t<YYYYMMDDHHMMSS>h<short-sha>"; older ones in
           # "-dev.<branch>.<YYYY-MM-DD>.<HH-MM-SS>.h<short-sha>".
-          # Match the branch+datetime suffix as the primary signal, and fall back
-          # to the short-SHA suffix so a tag still resolves if the dispatch
-          # payload's branch/datetime drift from what gitsemver embedded.
+          # Match the old branch+datetime suffix as the primary signal, and fall
+          # back to the short-SHA suffix, which both formats end in, so a tag
+          # still resolves if the dispatch payload's branch/datetime drift from
+          # what gitsemver embedded.
           suffix="-dev.${BRANCH}.${COMMIT_DATETIME}"
-          sha_suffix=".h${SHA_SHORT}"
+          sha_suffix="h${SHA_SHORT}"
 
           list_tags() {
             crane ls "${oci_repo}" > /tmp/tags.txt 2>/dev/null || true

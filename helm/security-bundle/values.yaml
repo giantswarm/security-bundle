@@ -164,7 +164,8 @@ apps:
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/policy-api
-    version: 0.0.12
+    version: 0.1.11
+
   reportsServer:
     appName: reports-server
     chartName: reports-server
@@ -188,7 +189,8 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 1.2.19
+    version: 1.2.41
+
   trivy:
     appName: trivy
     chartName: trivy
