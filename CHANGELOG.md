@@ -9,18 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Update `kyverno-policies` (app) to v0.28.0.
-- Update `starboard-exporter` (app) to v1.2.16.
-- Update `falco` (app) to v0.14.0.
-- Update `kyverno-crds` (app) to v1.18.0.
-- Update `kyverno` (app) to v0.25.0.
-- Update `kyverno` (app) to v0.25.1.
 - Update `trivy` (app) to v0.18.1.
 - Update `falco` (app) to v0.14.1.
-- Update `starboard-exporter` (app) to v1.2.20.
-- Update `starboard-exporter` (app) to v1.2.25.
 - Update `policy-api` (app) to v0.1.0.
-- Update `starboard-exporter` (app) to v1.2.36.
 - Update `kyverno-policies` (app) to v0.28.14.
 - Update `starboard-exporter` (app) to v1.2.42.
 
