@@ -117,13 +117,13 @@ apps:
   kyvernoCrds:
     appName: kyverno-crds
     chartName: kyverno-crds
-    catalog: giantswarm-test
+    catalog: giantswarm
     enabled: true
     namespace: kyverno
     createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.18.1-rfa2e14a4t20261103081932h9b450da
+    version: 1.18.0
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
     chartName: kyverno-policy-operator
