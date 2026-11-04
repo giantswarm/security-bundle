@@ -113,7 +113,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.25.4-rfa2e14a4t20261104134949h6b523ec
+    version: 0.25.4-rfa2e14a4t20261104144035h0832b9f
   kyvernoCrds:
     appName: kyverno-crds
     chartName: kyverno-crds
@@ -165,7 +165,6 @@ apps:
     # used by renovate
     # repo: giantswarm/policy-api
     version: 0.1.11
-
   reportsServer:
     appName: reports-server
     chartName: reports-server
@@ -190,7 +189,6 @@ apps:
     # used by renovate
     # repo: giantswarm/starboard-exporter
     version: 1.2.41
-
   trivy:
     appName: trivy
     chartName: trivy
