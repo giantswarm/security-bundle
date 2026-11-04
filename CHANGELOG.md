@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `starboard-exporter` (app) to v1.2.25.
 - Update `policy-api` (app) to v0.1.0.
 - Update `starboard-exporter` (app) to v1.2.36.
+- Update `kyverno-policies` (app) to v0.28.14.
 
 ### Fixed
 
