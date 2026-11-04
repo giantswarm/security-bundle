@@ -95,7 +95,7 @@ apps:
   kyverno:
     appName: kyverno
     chartName: kyverno
-    catalog: giantswarm-test
+    catalog: giantswarm
     dependsOn:
       - cilium
       - kyverno-crds
@@ -113,7 +113,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.25.4-rfa2e14a4t20261104144035h0832b9f
+    version: 0.25.3
   kyvernoCrds:
     appName: kyverno-crds
     chartName: kyverno-crds
