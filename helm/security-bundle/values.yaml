@@ -189,7 +189,6 @@ apps:
     # used by renovate
     # repo: giantswarm/starboard-exporter
     version: 1.2.42
-
   trivy:
     appName: trivy
     chartName: trivy
@@ -201,7 +200,7 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-app
-    version: 0.18.2-rfa2e14a4t20261103053910h7c71867
+    version: 0.18.2-rfa2e14a4t20261105214005h0bc4e81
   trivyOperator:
     appName: trivy-operator
     chartName: trivy-operator
