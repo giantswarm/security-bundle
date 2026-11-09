@@ -122,7 +122,7 @@ apps:
         timeout: 15m
     # used by renovate
     # repo: giantswarm/kyverno-app
-    version: 0.25.3
+    version: 0.26.0
 
   kyvernoCrds:
     appName: kyverno-crds
@@ -133,7 +133,7 @@ apps:
     createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-crds
-    version: 1.18.0
+    version: 1.19.2
 
   kyvernoPolicyOperator:
     appName: kyverno-policy-operator
@@ -164,7 +164,7 @@ apps:
     createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.28.13
+    version: 0.28.18
 
   policyApiCrds:
     appName: policy-api-crds
@@ -177,7 +177,7 @@ apps:
     namespace: policy-system
     # used by renovate
     # repo: giantswarm/policy-api
-    version: 0.0.12
+    version: 0.1.18
 
   reportsServer:
     appName: reports-server
@@ -203,7 +203,7 @@ apps:
     namespace: security-bundle
     # used by renovate
     # repo: giantswarm/starboard-exporter
-    version: 1.2.35
+    version: 1.2.42
 
   trivy:
     appName: trivy
