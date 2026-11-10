@@ -13,10 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `trivy` (app) to v0.18.1.
 - Update `falco` (app) to v0.14.1.
 - Update `policy-api` (app) to v0.1.0.
-- Update `kyverno-policies` (app) to v0.28.14.
-- Update `starboard-exporter` (app) to v1.2.42.
 - Update `kyverno-crds` (app) to v1.19.2.
-- Update `kyverno` (app) to v0.26.0.
+- Update `kyverno` (app) to v0.26.1.
+  - This release includes a new Kyverno minor version. Please refer to the upstream release notes for the latest changes:
+    - https://github.com/kyverno/kyverno/releases/tag/v1.19.0
+    - https://github.com/kyverno/kyverno/releases/tag/v1.19.1
+    - https://github.com/kyverno/kyverno/releases/tag/v1.19.2
 - Update `kyverno-policies` (app) to v0.28.19.
 - Update `starboard-exporter` (app) to v1.2.43.
 
