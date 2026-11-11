@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.0] - 2026-11-10
+
 ### Changed
 
 - *!Breaking change*: Turn `apps.<appName>.dependsOn` from a list into a map from dependency name to `true`/`false`, so that a provider can turn off a single dependency (for example `cilium` on clusters where the provider manages the CNI) instead of overriding the whole list.
@@ -677,7 +679,8 @@ This release includes a Kyverno upstream update. Please refer to the following R
 
 - Initial release containing (Giant Swarm apps) Falco 0.3.1, Kyverno 0.9.1, Starboard 0.6.0, Starboard exporter 0.3.1, and Trivy 0.2.0.
 
-[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/giantswarm/security-bundle/compare/v2.5.0...HEAD
+[2.5.0]: https://github.com/giantswarm/security-bundle/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/giantswarm/security-bundle/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/giantswarm/security-bundle/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/giantswarm/security-bundle/compare/v2.1.0...v2.2.0
