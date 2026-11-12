@@ -19,7 +19,74 @@ userConfig:
     configMap:
       values:
         kyverno-policies:
+          policyType: ValidatingPolicy
+          podSecurityStandard: restricted
+          includeOtherPolicies:
+            - require-non-root-groups
           validationFailureAction: Enforce
+        bestPracticesPolicies:
+          policies:
+            check-resources-request-and-limits-ratio:
+              enabled: true
+              mode: Enforce
+            disallow-latest-tag:
+              enabled: true
+              mode: Enforce
+            prevent-bare-pods:
+              enabled: true
+              mode: Enforce
+            require-container-requests-and-limits:
+              enabled: true
+              mode: Enforce
+            require-emptydir-requests-and-limits:
+              enabled: true
+              mode: Enforce
+            require-pod-probes:
+              enabled: true
+              mode: Enforce
+        supplementalSecurityPolicies:
+          policies:
+            audit-event-on-exec:
+              enabled: true
+              policyType: GeneratingPolicy
+            add-default-deny-network-policy:
+              enabled: true
+              policyType: GeneratingPolicy
+            check-serviceaccount-secrets:
+              enabled: true
+              mode: Enforce
+            disallow-gitrepo-volume:
+              enabled: true
+              mode: Enforce
+            require-ro-rootfs:
+              enabled: true
+              mode: Enforce
+            restrict-binding-clusteradmin:
+              enabled: true
+              mode: Enforce
+            restrict-binding-system-groups:
+              enabled: true
+              mode: Enforce
+            restrict-external-ips:
+              enabled: true
+              mode: Enforce
+            restrict-sa-automount-sa-token:
+              enabled: true
+              mode: Enforce
+        debugAccessPolicies:
+          policies:
+            disallow-ephemeral-containers:
+              enabled: true
+              mode: Enforce
+            disallow-unapproved-debug-access:
+              enabled: true
+              mode: Enforce
+            block-expired-exceptions:
+              enabled: true
+              mode: Enforce
+            purge-expired-exceptions:
+              enabled: true
+              policyType: DeletingPolicy
   kyvernoPolicyOperator:
     configMap:
       values:
@@ -156,7 +223,7 @@ apps:
   kyvernoPolicies:
     appName: kyverno-policies
     chartName: kyverno-policies
-    catalog: giantswarm
+    catalog: giantswarm-test
     dependsOn:
       kyverno-crds: true
     enabled: true
@@ -164,7 +231,7 @@ apps:
     createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.28.19
+    version: 0.28.20-r528bde93t20261112142836h74fc01c
 
   policyApiCrds:
     appName: policy-api-crds
