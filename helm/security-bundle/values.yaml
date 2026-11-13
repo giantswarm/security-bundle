@@ -152,7 +152,7 @@ apps:
     createNamespace: true
     # used by renovate
     # repo: giantswarm/kyverno-policies
-    version: 0.28.20-rfa2e14a4t20261111230456h371bbac
+    version: 0.28.20-rfa2e14a4t20261113222117h430a39b
   policyApiCrds:
     appName: policy-api-crds
     chartName: policy-api-crds
