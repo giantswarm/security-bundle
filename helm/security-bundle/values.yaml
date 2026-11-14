@@ -214,4 +214,4 @@ apps:
     # namespace: security-bundle
     # used by renovate
     # repo: giantswarm/trivy-operator-app
-    version: 0.15.1-rfa2e14a4t20261114222843ha24c739
+    version: 0.15.1-rfa2e14a4t20261114222939h5166846
