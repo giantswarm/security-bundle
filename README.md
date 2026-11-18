@@ -96,11 +96,6 @@ The currently recommended way to install the security bundle is:
     app.application.giantswarm.io/security-bundle created
     ```
 
-Support for these methods are not yet officially supported, but may still work:
-
-1. [Using our web interface](https://docs.giantswarm.io/ui-api/web/app-platform/#installing-an-app)
-2. [Using our API](https://docs.giantswarm.io/api/#operation/createClusterAppV5)
-
 ### **Important**
 
 If you are not using `kubectl gs` plugin, plese remember to ensure the correct label: `app-operator.giantswarm.io/version: 0.0.0` is set on the App CR. Missing this configuration will result with stuck deployment of an app.
@@ -166,7 +161,7 @@ metadata:
   namespace: demo1
 ```
 
-See our [full reference page on how to configure applications](https://docs.giantswarm.io/app-platform/app-configuration/) for more details.
+See our [full reference page on how to configure applications](https://docs.giantswarm.io/tutorials/fleet-management/app-platform/app-configuration/) for more details.
 
 [app-bundle]: https://docs.giantswarm.io/getting-started/app-platform/app-bundle/
 [cnpg-app]: https://github.com/giantswarm/cloudnative-pg-app
@@ -178,7 +173,7 @@ See our [full reference page on how to configure applications](https://docs.gian
 [kyverno-policies]: https://github.com/giantswarm/kyverno-policies/
 [kyverno-policy-operator]: https://github.com/giantswarm/kyverno-policy-operator
 [reports-server-app]: https://github.com/giantswarm/reports-server-app
-[security-bundle]: https://docs.giantswarm.io/app-platform/apps/security/
+[security-bundle]: https://docs.giantswarm.io/overview/security/platform-security/
 [starboard-app]: https://github.com/giantswarm/starboard-app
 [starboard-exporter]: https://github.com/giantswarm/starboard-exporter/
 [trivy-app]: https://github.com/giantswarm/trivy-app/
