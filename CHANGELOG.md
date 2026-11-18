@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update `starboard-exporter` (app) to v1.3.0.
+- Update `starboard-exporter` (app) to v1.3.2.
+- Update `kubescape` (app) to v0.2.0.
 
 ## [2.5.0] - 2026-11-10
 
