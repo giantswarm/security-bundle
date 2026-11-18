@@ -57,11 +57,14 @@ jobs:
           echo "branch=${branch}" >> $GITHUB_OUTPUT
       - name: Run Changelogger
         id: run_changelogger
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          LINE: ${{ inputs.line }}
         run: |
-          if [[ ${{ !inputs.line }} == true ]]
+          if [[ -z "${LINE}" ]]
           then
             # Get commit message
-            commit="${{ github.event.head_commit.message }}"
+            commit="${COMMIT_MESSAGE}"
 
             # Extract version
             appVersion=$(echo $commit | grep -oP 'v\d+\.\d+\.\d+')
@@ -76,7 +79,7 @@ jobs:
             newLine="- Update \`${appName}\` (app) to $appVersion."
           else
             # Use line from workflow_dispatch
-            newLine="${{ inputs.line }}"
+            newLine="${LINE}"
           fi
 
           # Output App/Version
@@ -89,28 +92,34 @@ jobs:
 
       - name: Commit new changes
         id: commit_changes
+        env:
+          APP: ${{ steps.run_changelogger.outputs.app }}
+          LINE: ${{ inputs.line }}
         run: |
           git add -A
           if git diff-index --quiet HEAD; then
             echo "No changes found"
           else
-            if [[ ${{ !inputs.line }} == true ]]
+            if [[ -z "${LINE}" ]]
             then
-              git commit -m "Add changelog entry for ${{ steps.run_changelogger.outputs.app }}"
+              git commit -m "Add changelog entry for ${APP}"
             else
               # Use workflow_dispatch line as commit message
-              customEntry=$(echo "${{ inputs.line }}" | sed 's/- //g')
+              customEntry=$(echo "${LINE}" | sed 's/- //g')
               git commit -m "Add custom changelog entry: ${customEntry}"
             fi
           fi
       - name: Push changes
         env:
           remote_repo: "https://${{ github.actor }}:${{ steps.generate_token.outputs.token }}@github.com/${{ github.repository }}.git"
+          BRANCH: ${{ steps.create_branch.outputs.branch }}
         run: |
-          git push "${remote_repo}" HEAD:"${{ steps.create_branch.outputs.branch }}"
+          git push "${remote_repo}" HEAD:"${BRANCH}"
       - name: Create PR
         env:
           GITHUB_TOKEN: "${{ steps.generate_token.outputs.token }}"
+          BRANCH: ${{ steps.create_branch.outputs.branch }}
+          BASE_REF: ${{ github.event.ref }}
         run: |
           body="## Description
 
@@ -122,4 +131,4 @@ jobs:
           > This PR was created by the **Update Changelog** workflow and triggered by a **Renovate** change on the \`values.yaml\` file.
           "
           # TODO: Check if PR exists instead
-          gh pr create --title "docs(changelog): update with new App versions" --body "${body}" --head ${{ steps.create_branch.outputs.branch }} --base "${{ github.event.ref }}" || true
+          gh pr create --title "docs(changelog): update with new App versions" --body "${body}" --head "${BRANCH}" --base "${BASE_REF}" || true
