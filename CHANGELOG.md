@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `policy-api` (app) to v0.1.19.
 - Update `kubescape` (app) to v0.2.1.
 - Update `kyverno` (app) to v0.26.2.
+- Raise the `kubescape` upgrade timeout from 15m to 30m. Its node-agent DaemonSet updates one node at a time, so upgrades on clusters with about 15 nodes or more ran past 15m. Flux then rolled back to kubescape 0.1.x, which can't read the storage data that 0.2.x had already migrated, and every later upgrade attempt failed.
 
 ## [2.5.0] - 2026-11-10
 

@@ -91,12 +91,15 @@ apps:
     enabled: false
     namespace: kubescape
     # kubescape does not finish installing within Flux's 5m default, so it
-    # needs the same kind of override kyverno has.
+    # needs the same kind of override kyverno has. Upgrades take longer,
+    # because the node-agent DaemonSet updates one node at a time. A timed-out
+    # upgrade is rolled back, and kubescape 0.1.x can't read the storage that
+    # 0.2.x has already migrated.
     options:
       install:
         timeout: 15m
       upgrade:
-        timeout: 15m
+        timeout: 30m
     # used by renovate
     # repo: giantswarm/kubescape-app
     version: 0.2.1
