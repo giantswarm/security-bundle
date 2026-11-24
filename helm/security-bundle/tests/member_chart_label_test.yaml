@@ -1,0 +1,65 @@
+suite: member-chart label
+templates:
+  - templates/helmreleases.yaml
+release:
+  name: security-bundle
+  namespace: org-test
+set:
+  clusterID: test
+tests:
+  - it: labels the kyverno OCIRepository with its chart name
+    documentSelector:
+      path: spec.url
+      value: oci://gsoci.azurecr.io/charts/giantswarm/kyverno
+      matchMany: true
+    asserts:
+      - isKind:
+          of: OCIRepository
+      - equal:
+          path: metadata.labels["bundle.giantswarm.io/member-chart"]
+          value: kyverno
+
+  - it: labels the kyverno-crds OCIRepository with its chart name
+    documentSelector:
+      path: spec.url
+      value: oci://gsoci.azurecr.io/charts/giantswarm/kyverno-crds
+      matchMany: true
+    asserts:
+      - isKind:
+          of: OCIRepository
+      - equal:
+          path: metadata.labels["bundle.giantswarm.io/member-chart"]
+          value: kyverno-crds
+
+  - it: labels the kyverno-policies OCIRepository with its chart name
+    documentSelector:
+      path: spec.url
+      value: oci://gsoci.azurecr.io/charts/giantswarm/kyverno-policies
+      matchMany: true
+    asserts:
+      - isKind:
+          of: OCIRepository
+      - equal:
+          path: metadata.labels["bundle.giantswarm.io/member-chart"]
+          value: kyverno-policies
+
+  - it: labels the kyverno-policy-operator OCIRepository with its chart name
+    documentSelector:
+      path: spec.url
+      value: oci://gsoci.azurecr.io/charts/giantswarm/kyverno-policy-operator
+      matchMany: true
+    asserts:
+      - isKind:
+          of: OCIRepository
+      - equal:
+          path: metadata.labels["bundle.giantswarm.io/member-chart"]
+          value: kyverno-policy-operator
+
+  - it: does not label the member HelmReleases
+    documentSelector:
+      path: kind
+      value: HelmRelease
+      matchMany: true
+    asserts:
+      - notExists:
+          path: metadata.labels["bundle.giantswarm.io/member-chart"]

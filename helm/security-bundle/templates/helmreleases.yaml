@@ -7,6 +7,7 @@ kind: OCIRepository
 metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
+    bundle.giantswarm.io/member-chart: {{ .chartName }}
   name: {{ $appName }}
   namespace: {{ $.Release.Namespace }}
 spec:
