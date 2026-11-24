@@ -8,7 +8,7 @@ replace github.com/alessio/shellescape => github.com/alessio/shellescape v1.6.1
 
 require (
 	github.com/fluxcd/helm-controller/api v1.7.2
-	github.com/giantswarm/apptest-framework/v5 v5.4.5
+	github.com/giantswarm/apptest-framework/v5 v5.4.6
 	github.com/giantswarm/clustertest/v5 v5.6.7
 	github.com/onsi/ginkgo/v2 v2.34.0
 	github.com/onsi/gomega v1.44.0
