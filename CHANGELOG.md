@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `trivy-operator` (app) to v0.16.0.
 - Update `kubescape` (app) to v0.3.0.
 - Update `starboard-exporter` (app) to v1.3.4.
+- Update `kyverno` (app) to v0.26.3.
 
 ## [2.5.0] - 2026-11-10
 
