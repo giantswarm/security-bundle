@@ -102,7 +102,7 @@ apps:
         timeout: 30m
     # used by renovate
     # repo: giantswarm/kubescape-app
-    version: 0.2.1
+    version: 0.3.0
 
   kyverno:
     appName: kyverno
